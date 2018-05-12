@@ -1,22 +1,5 @@
 <?php
 
-function file_get_contents_curl($url) {
-    $ch = curl_init();
-
-    curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
-    curl_setopt($ch, CURLOPT_HEADER, 0);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);       
-
-
-    $data["result"] = curl_exec($ch);
-    $data["http_code"] = curl_getinfo($ch)["http_code"];
-    curl_close($ch);
-
-    return $data;
-}
-
 // https://github.com/BitcoinPHP/BitcoinECDSA.php
 require_once 'BitcoinECDSA.php/src/BitcoinPHP/BitcoinECDSA/BitcoinECDSA.php';
 
@@ -69,6 +52,15 @@ class BitcoinECDSADecker extends BitcoinECDSA {
 $bitcoinECDSA = new BitcoinECDSADecker();
 
 $passphrase = "myverysecretandstrongpassphrase_noneabletobrute";
+
+/* available coins, you can add your own with params from src/chainparams.cpp */
+
+$coins = Array(
+	Array("name" => "BTC",  "PUBKEY_ADDRESS" =>  0, "SECRET_KEY" => 128),
+ 	Array("name" => "KMD",  "PUBKEY_ADDRESS" => 60, "SECRET_KEY" => 188),
+ 	Array("name" => "GAME", "PUBKEY_ADDRESS" => 38, "SECRET_KEY" => 166)
+);
+
 $k = hash("sha256", $passphrase);
 $k = pack("H*",$k);
 $k[0] = Chr (Ord($k[0]) & 248); 
@@ -77,35 +69,27 @@ $k[31] = Chr (Ord($k[31]) | 64);
 $k = bin2hex($k);
 
 $bitcoinECDSA->setPrivateKey($k);
-$bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 60)); // 60 - Komodo
+echo "             Passphrase: '" . $passphrase . "'" . PHP_EOL;
+echo PHP_EOL;
 
+
+foreach ($coins as $coin) {
+$bitcoinECDSA->setNetworkPrefix(sprintf("%02X", $coin["PUBKEY_ADDRESS"])); 
 // Returns the compressed public key. The compressed PubKey starts with 0x02 if it's y coordinate is even and 0x03 if it's odd, the next 32 bytes corresponds to the x coordinates.
 $NetworkPrefix = $bitcoinECDSA->getNetworkPrefix();
-echo "             Passphrase: '" . $passphrase . "'" . PHP_EOL;
+
+echo "\x1B[01;37m[\x1B[01;32m "  . $coin["name"] . " \x1B[01;37m]\x1B[0m" . PHP_EOL;
 echo "         Network Prefix: " . $NetworkPrefix . PHP_EOL;
 echo "  Compressed Public Key: " . $bitcoinECDSA->getPubKey() . PHP_EOL;
 echo "Uncompressed Public Key: " . $bitcoinECDSA->getUncompressedPubKey() . PHP_EOL;
 echo "            Private Key: " . $bitcoinECDSA->getPrivateKey() . PHP_EOL;
-echo "         Compressed WIF: " . $bitcoinECDSA->getWIF(true, 188) . PHP_EOL;
-echo "       Uncompressed WIF: " . $bitcoinECDSA->getWIF(false, 188) . PHP_EOL;
+echo "         Compressed WIF: " . $bitcoinECDSA->getWIF( true, $coin["SECRET_KEY"]) . PHP_EOL;
+echo "       Uncompressed WIF: " . $bitcoinECDSA->getWIF(false, $coin["SECRET_KEY"]) . PHP_EOL;
 
 $address = $bitcoinECDSA->getAddress(); //compressed Bitcoin address
 echo "  Compressed Address: " . sprintf("%34s",$address) . PHP_EOL;
 $address = $bitcoinECDSA->getUncompressedAddress();
 echo "Uncompressed Address: " . sprintf("%34s",$address) . PHP_EOL;
-
-// GameCredits
-echo PHP_EOL;
-
-$bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 38)); // 38 - GameCredits
-$NetworkPrefix = $bitcoinECDSA->getNetworkPrefix();
-
-echo "[ GameCredits ]" . PHP_EOL;
-echo "         Compressed WIF: " . $bitcoinECDSA->getWIF(true, 166) . PHP_EOL;
-echo "       Uncompressed WIF: " . $bitcoinECDSA->getWIF(false, 166) . PHP_EOL;
-$address = $bitcoinECDSA->getAddress(); //compressed Bitcoin address
-echo "  Compressed Address: " . sprintf("%34s",$address) . PHP_EOL;
-$address = $bitcoinECDSA->getUncompressedAddress();
-echo "Uncompressed Address: " . sprintf("%34s",$address) . PHP_EOL;
+}
 
 ?>
