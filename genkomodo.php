@@ -89,7 +89,20 @@ echo "            Private Key: " . $bitcoinECDSA->getPrivateKey() . PHP_EOL;
 echo "         Compressed WIF: " . $bitcoinECDSA->getWIF(true, 188) . PHP_EOL;
 echo "       Uncompressed WIF: " . $bitcoinECDSA->getWIF(false, 188) . PHP_EOL;
 
-$balance = 0.0;
+$address = $bitcoinECDSA->getAddress(); //compressed Bitcoin address
+echo "  Compressed Address: " . sprintf("%34s",$address) . PHP_EOL;
+$address = $bitcoinECDSA->getUncompressedAddress();
+echo "Uncompressed Address: " . sprintf("%34s",$address) . PHP_EOL;
+
+// GameCredits
+echo PHP_EOL;
+
+$bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 38)); // 38 - GameCredits
+$NetworkPrefix = $bitcoinECDSA->getNetworkPrefix();
+
+echo "[ GameCredits ]" . PHP_EOL;
+echo "         Compressed WIF: " . $bitcoinECDSA->getWIF(true, 166) . PHP_EOL;
+echo "       Uncompressed WIF: " . $bitcoinECDSA->getWIF(false, 166) . PHP_EOL;
 $address = $bitcoinECDSA->getAddress(); //compressed Bitcoin address
 echo "  Compressed Address: " . sprintf("%34s",$address) . PHP_EOL;
 $address = $bitcoinECDSA->getUncompressedAddress();
