@@ -1,0 +1,4 @@
+[submodule "BitcoinECDSA.php"]
+	path = BitcoinECDSA.php
+	url = https://github.com/DeckerSU/BitcoinECDSA.php
+	branch = master

@@ -1,0 +1,11 @@
+How to generate WIF for GAME?
+-----------------------------
+
+1. git clone git@github.com:DeckerSU/komodo_scripts.git
+2. git submodule init
+3. git submodule update --init --recursive
+4. edit genkomodo.php and fill your passphrase instead of $passphrase = "myverysecretandstrongpassphrase_noneabletobrute";
+5. php genkomodo.php 
+6. delete your passphrase from genkomodo.php for security purposes
+7. import compressed wif in gamecreditsd using `importprivkey`.
+
