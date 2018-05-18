@@ -9,3 +9,12 @@ How to generate WIF for GAME?
 6. delete your passphrase from genkomodo.php for security purposes
 7. import compressed wif in gamecreditsd using `importprivkey`.
 
+Other way is to use marketmaker API:
+------------------------------------
+
+jl777 [9:52 AM]
+yes I had to use calcaddress api in marketmaker to get the GAME wif
+
+source userpass
+curl --url "http://127.0.0.1:7783" --data "{\"userpass\":\"$userpass\",\"method\":\"calcaddress\",\"passphrase\":\"1234default\"}"
+curl --url "http://127.0.0.1:7783" --data "{\"userpass\":\"$userpass\",\"method\":\"calcaddress\",\"passphrase\":\"$password\",\"coin\":\"GAME\"}"
