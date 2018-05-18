@@ -12,6 +12,7 @@ echo '<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.
             <th>Name</th>
             <th>BTC</th>
             <th>KMD</th>
+	    <th>GAME</th>
          </tr>
       </thead>
       <tbody>';
@@ -158,6 +159,9 @@ foreach ($Notaries_elected1 as $key => $value) {
         $btc_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
 	$bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 60)); // 60 - Komodo
         $kmd_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
+	$bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 38)); // 38 - GameCredits
+        $game_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
+
 	//echo "[".sprintf("%02d",$index)."] ". sprintf("%20s",$key) . "" . sprintf("%36s",$address) . PHP_EOL;
 
     echo '
@@ -166,6 +170,9 @@ foreach ($Notaries_elected1 as $key => $value) {
             <td>'.$key.'</td>
             <td><a href="https://blockchain.info/address/'.$btc_address.'" target="_blank">'.$btc_address.'</a></td>
             <td><a href="https://kmd.explorer.supernet.org/address/'.$kmd_address.'" target="_blank">'.$kmd_address.'</a></td>
+	    <!--<td><a href="https://prohashing.com/explorerJson/getAddress?address='.$game_address.'&coin_id=121" target="_blank">'.$game_address.'</a></td>-->
+            <td><a href="https://prohashing.com/explorer/GameCredit/'.$game_address.'" target="_blank">'.$game_address.'</a></td>
+
          </tr>
 ';
 
