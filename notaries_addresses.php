@@ -171,7 +171,7 @@ foreach ($Notaries_elected1 as $key => $value) {
             <td><a href="https://blockchain.info/address/'.$btc_address.'" target="_blank">'.$btc_address.'</a></td>
             <td><a href="https://kmd.explorer.supernet.org/address/'.$kmd_address.'" target="_blank">'.$kmd_address.'</a></td>
 	    <!--<td><a href="https://prohashing.com/explorerJson/getAddress?address='.$game_address.'&coin_id=121" target="_blank">'.$game_address.'</a></td>-->
-            <td><a href="https://prohashing.com/explorer/GameCredit/'.$game_address.'" target="_blank">'.$game_address.'</a></td>
+            <td><a href="https://blockexplorer.gamecredits.com/addresses/'.$game_address.'" target="_blank">'.$game_address.'</a></td>
 
          </tr>
 ';
