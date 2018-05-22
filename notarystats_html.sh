@@ -1,4 +1,3 @@
-cat ./notarystats_html.sh
 #!/bin/bash
 komodo_cli=/home/decker/komodo/src/komodo-cli 
 chips_cli=/home/decker/chips3/src/chips-cli
