@@ -1,7 +1,9 @@
+cat ./notarystats_html.sh
 #!/bin/bash
 komodo_cli=/home/decker/komodo/src/komodo-cli 
 chips_cli=/home/decker/chips3/src/chips-cli
-bitcoin_cli=bitcoin-cli
+bitcoin_cli=/usr/local/bin/bitcoin-cli
+gamecredits_cli=/home/decker/GameCredits/src/gamecredits-cli
 
 # ----------------------
 function getstats_kmd ()
@@ -53,6 +55,18 @@ height=$($chips_cli getinfo | jq .blocks)
 echo "<tr><td class=\"title\">CHIPS</td><td>$ntrz_count</td><td>$utxo_count</td><td>$balance</td><td>$height</td></tr>"
 }
 
+function getstats_game ()
+{
+txcount=1000
+ntrz_count=$($gamecredits_cli listtransactions "" $txcount | grep -- -0.00988000 | wc -l)
+utxo_count=$($gamecredits_cli listunspent | grep .001 | wc -l)
+#balance=$($gamecredits_cli getinfo | grep balance)
+balance=$($gamecredits_cli getinfo | jq .balance)
+height=$($gamecredits_cli getinfo | jq .blocks)
+echo "<tr><td class=\"title\">GAME</td><td>$ntrz_count</td><td>$utxo_count</td><td>$balance</td><td>$height</td></tr>"
+}
+
+
 cat <<EOF
 <style type="text/css">
 <!--
@@ -66,7 +80,8 @@ EOF
 
 getstats_btc
 getstats_chips
-declare -a kmd_coins=(KMD REVS SUPERNET DEX PANGEA JUMBLR BET CRYPTO HODL MSHARK BOTS MGW COQUI WLC KV CEAL MESH MNZ AXO ETOMIC BTCH VOTE2018 PIZZA BEER NINJA OOT BNTN CHAIN PRLPAY)
+getstats_game
+declare -a kmd_coins=(KMD REVS SUPERNET DEX PANGEA JUMBLR BET CRYPTO HODL MSHARK BOTS MGW COQUI WLC KV CEAL MESH MNZ AXO ETOMIC BTCH PIZZA BEER NINJA OOT BNTN CHAIN PRLPAY DSEC)
 for i in "${kmd_coins[@]}"
 do
    getstats_kmd "$i"
