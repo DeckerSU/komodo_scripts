@@ -1,6 +1,20 @@
 #!/bin/bash
 # (c) Decker, 2018 ;)
 
+# Usage instruction:
+#
+# 1. Download it on your NN in any folder.
+# 2. Edit rpc username and pass in script.
+# 3. Let's explain we have 450 KMD on balance, including 0.0001 KMD utxos.
+# 4. Run the script ... it locks all 0.0001 KMD utxos from sending and shows you locked utxos txid + vout num.
+# 5. Send funds from NN via ~/komodo/src/komodo-cli sendtoaddress YOUR_WALLET_ADDRESS 450 "" "" true
+# 6. Now we need to unlock (!) 0.0001 KMD utxos, uncomment last line with curl command execution and launch it again. All your utxos will be unlocked.
+# 7. Additionally check that you haven't locked utxos: ~/komodo/src/komodo-cli listlockunspent
+# ...
+# 777. Bingo! )
+#
+# @kolo You can call it "utxo protector", komodod will never "eat" your utxos during sendtoaddress if they are all locked.
+
 curdir=$(pwd)
 curluser=user
 curlpass=pass
@@ -24,5 +38,7 @@ curl -s --user $curluser:$curlpass --data-binary '{"jsonrpc": "1.0", "id":"curlt
 arg=$(cat $curdir/listlockunspent.txt | jq '.[]' | jq -r -s '. | tostring')
 echo $arg | jq .
 echo "{\"jsonrpc\": \"1.0\", \"id\":\"curltest\", \"method\": \"lockunspent\", \"params\": [true, $arg] }" > $curdir/listlockunspent.curl
+
 # uncomment if u want to unlock locked utxos
-#curl -s --user $curluser:$curlpass --data-binary "@$curdir/listlockunspent.curl" -H 'content-type: text/plain;' http://127.0.0.1:$curlport/
+
+# curl -s --user $curluser:$curlpass --data-binary "@$curdir/listlockunspent.curl" -H 'content-type: text/plain;' http://127.0.0.1:$curlport/
