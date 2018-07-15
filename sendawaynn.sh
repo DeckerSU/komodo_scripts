@@ -46,6 +46,9 @@ echo "{\"jsonrpc\": \"1.0\", \"id\":\"curltest\", \"method\": \"createrawtransac
 # we are using curl here to avoid an error "Argument list too long" with long-long list of utxos if we executing komodo-cli
 
 hex=$(curl -s --user $curluser:$curlpass --data-binary "@$curdir/createrawtx.curl" -H 'content-type: text/plain;' http://127.0.0.1:$curlport/ | jq -r .result)
+# setting of nLockTime
+nlocktime=$(printf "%08x" $(date +%s) | dd conv=swab 2> /dev/null | rev)
+hex=${hex::-8}$nlocktime
 signed=$(curl -s --user $curluser:$curlpass --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "signrawtransaction", "params": ["'$hex'"]}' -H 'content-type: text/plain;' http://127.0.0.1:$curlport/  | jq -r .result.hex)
 
 #curl -s --user $curluser:$curlpass --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "decoderawtransaction", "params": ["'$signed'"]}' -H 'content-type: text/plain;' http://127.0.0.1:$curlport/  | jq 
