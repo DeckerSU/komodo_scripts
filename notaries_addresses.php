@@ -194,6 +194,9 @@ foreach ($Notaries_elected1 as $key => $value) {
 	$bitcoinECDSA->setNetworkPrefix("1cb8"); // Hush
         $hush_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
 
+	$bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 33)); // 33 - EMC2
+        $emc2_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
+
 	//echo "[".sprintf("%02d",$index)."] ". sprintf("%20s",$key) . "" . sprintf("%36s",$address) . PHP_EOL;
 
     echo '
@@ -201,10 +204,11 @@ foreach ($Notaries_elected1 as $key => $value) {
 	    <td>'.sprintf("%02d",$index).'</td>
             <td>'.$key.'</td>
             <td><a href="https://blockchain.info/address/'.$btc_address.'" target="_blank">'.$btc_address.'</a></td>
-            <td><a href="https://kmd.explorer.supernet.org/address/'.$kmd_address.'" target="_blank">'.$kmd_address.'</a></td>
-	    <!--<td><a href="https://prohashing.com/explorerJson/getAddress?address='.$game_address.'&coin_id=121" target="_blank">'.$game_address.'</a></td>-->
-            <td><a href="https://blockexplorer.gamecredits.com/addresses/'.$game_address.'" target="_blank">'.$game_address.'</a></td>
+            <td><a href="https://kmdexplorer.io/address/'.$kmd_address.'" target="_blank">'.$kmd_address.'</a></td>
+	    <td><a href="https://prohashing.com/explorerJson/getAddress?address='.$game_address.'&coin_id=121" target="_blank">'.$game_address.'</a></td>
+            <!--<td><a href="https://blockexplorer.gamecredits.com/addresses/'.$game_address.'" target="_blank">'.$game_address.'</a></td>-->
             <td><a href="https://explorer.myhush.org/address/'.$hush_address.'" target="_blank">'.$hush_address.'</a></td>
+            <td><a href="https://chainz.cryptoid.info/emc2/address.dws?'.$emc2_address.'.htm" target="_blank">'.$emc2_address.'</a></td>
          </tr>
 ';
 
