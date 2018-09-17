@@ -6,6 +6,34 @@ require_once 'BitcoinECDSA.php/src/BitcoinPHP/BitcoinECDSA/BitcoinECDSA.php';
 use BitcoinPHP\BitcoinECDSA\BitcoinECDSA;
 
 class BitcoinECDSADecker extends BitcoinECDSA {
+
+    /***
+     * Tests if the address is valid or not.
+     *
+     * @param string $address (base58)
+     * @return bool
+     */
+    public function validateAddress($address)
+    {
+        $address    = hex2bin($this->base58_decode($address));
+
+        /*
+        if(strlen($address) !== 25)
+            return false;
+        $checksum   = substr($address, 21, 4);
+        $rawAddress = substr($address, 0, 21);
+	*/
+
+	$len = strlen($address);
+        $checksum   = substr($address, $len-4, 4);
+        $rawAddress = substr($address, 0, $len-4);
+
+        if(substr(hex2bin($this->hash256($rawAddress)), 0, 4) === $checksum)
+            return true;
+        else
+            return false;
+    }
+
     /**
      * Returns the current network prefix for WIF, '80' = main network, 'ef' = test network.
      *
@@ -58,7 +86,8 @@ $passphrase = "myverysecretandstrongpassphrase_noneabletobrute";
 $coins = Array(
 	Array("name" => "BTC",  "PUBKEY_ADDRESS" =>  0, "SECRET_KEY" => 128),
  	Array("name" => "KMD",  "PUBKEY_ADDRESS" => 60, "SECRET_KEY" => 188),
- 	Array("name" => "GAME", "PUBKEY_ADDRESS" => 38, "SECRET_KEY" => 166)
+ 	Array("name" => "GAME", "PUBKEY_ADDRESS" => 38, "SECRET_KEY" => 166),
+	Array("name" => "HUSH", "PUBKEY_ADDRESS" => Array(0x1C,0xB8), "SECRET_KEY" => 0x80)
 );
 
 $k = hash("sha256", $passphrase);
@@ -74,7 +103,13 @@ echo PHP_EOL;
 
 
 foreach ($coins as $coin) {
-$bitcoinECDSA->setNetworkPrefix(sprintf("%02X", $coin["PUBKEY_ADDRESS"])); 
+
+if (is_array($coin["PUBKEY_ADDRESS"])) {
+      $NetworkPrefix = bin2hex(implode("",array_map("chr", $coin["PUBKEY_ADDRESS"])));
+      $bitcoinECDSA->setNetworkPrefix($NetworkPrefix);
+} else
+      $bitcoinECDSA->setNetworkPrefix(sprintf("%02X", $coin["PUBKEY_ADDRESS"])); 
+
 // Returns the compressed public key. The compressed PubKey starts with 0x02 if it's y coordinate is even and 0x03 if it's odd, the next 32 bytes corresponds to the x coordinates.
 $NetworkPrefix = $bitcoinECDSA->getNetworkPrefix();
 

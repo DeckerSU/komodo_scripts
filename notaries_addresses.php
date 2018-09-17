@@ -13,6 +13,7 @@ echo '<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.
             <th>BTC</th>
             <th>KMD</th>
 	    <th>GAME</th>
+	    <th>HUSH</th>
          </tr>
       </thead>
       <tbody>';
@@ -106,6 +107,34 @@ require_once 'BitcoinECDSA.php/src/BitcoinPHP/BitcoinECDSA/BitcoinECDSA.php';
 use BitcoinPHP\BitcoinECDSA\BitcoinECDSA;
 
 class BitcoinECDSADecker extends BitcoinECDSA {
+
+    /***
+     * Tests if the address is valid or not.
+     *
+     * @param string $address (base58)
+     * @return bool
+     */
+    public function validateAddress($address)
+    {
+        $address    = hex2bin($this->base58_decode($address));
+
+        /*
+        if(strlen($address) !== 25)
+            return false;
+        $checksum   = substr($address, 21, 4);
+        $rawAddress = substr($address, 0, 21);
+	*/
+
+	$len = strlen($address);
+        $checksum   = substr($address, $len-4, 4);
+        $rawAddress = substr($address, 0, $len-4);
+
+        if(substr(hex2bin($this->hash256($rawAddress)), 0, 4) === $checksum)
+            return true;
+        else
+            return false;
+    }
+
     /**
      * Returns the current network prefix for WIF, '80' = main network, 'ef' = test network.
      *
@@ -162,6 +191,9 @@ foreach ($Notaries_elected1 as $key => $value) {
 	$bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 38)); // 38 - GameCredits
         $game_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
 
+	$bitcoinECDSA->setNetworkPrefix("1cb8"); // Hush
+        $hush_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
+
 	//echo "[".sprintf("%02d",$index)."] ". sprintf("%20s",$key) . "" . sprintf("%36s",$address) . PHP_EOL;
 
     echo '
@@ -172,7 +204,7 @@ foreach ($Notaries_elected1 as $key => $value) {
             <td><a href="https://kmd.explorer.supernet.org/address/'.$kmd_address.'" target="_blank">'.$kmd_address.'</a></td>
 	    <!--<td><a href="https://prohashing.com/explorerJson/getAddress?address='.$game_address.'&coin_id=121" target="_blank">'.$game_address.'</a></td>-->
             <td><a href="https://blockexplorer.gamecredits.com/addresses/'.$game_address.'" target="_blank">'.$game_address.'</a></td>
-
+            <td><a href="https://explorer.myhush.org/address/'.$hush_address.'" target="_blank">'.$hush_address.'</a></td>
          </tr>
 ';
 
