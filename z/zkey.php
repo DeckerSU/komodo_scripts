@@ -95,7 +95,7 @@ prf.h
 $s[0] = Chr(Ord($s[0]) | 0xc0); $s[32] = Chr(0);
 
 $payingkey = php_compat_sha256($s,false,true);
-echo "      payingkey : " . $payingkey . "\n";
+echo "      payingkey : " . bin2hex(strrev(pack("H*",$payingkey))) . "\n";
 
 $s = $privkey."0000000000000000000000000000000000000000000000000000000000000000";
 $s = pack("H*",$s);
@@ -107,7 +107,7 @@ $Curve25519 = new Curve25519();
 $transmissionkey = $Curve25519->publicKey(pack("H*",$b)); 
 $transmissionkey = bin2hex($transmissionkey);
 
-echo "transmissionkey : " . $transmissionkey . "\n";
+echo "transmissionkey : " . bin2hex(strrev(pack("H*",$transmissionkey))) . "\n";
 
 $address = "169a" . $payingkey . $transmissionkey;
 $address .= substr(php_compat_sha256(php_compat_sha256(pack("H*",$address), true), false), 0, 8); // checksum
