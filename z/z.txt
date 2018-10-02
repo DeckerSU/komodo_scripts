@@ -1,0 +1,102 @@
+z_getnewaddress
+zc8baYtSaiBaBkDmRQprom8WuaHJJmh246EAYj9jX2p1Zt9riNqZQozJV5sFg9JFjDYhh4cSJ2ycnFa1qeBcCdLhTwZWYXM
+z_exportkey zc8baYtSaiBaBkDmRQprom8WuaHJJmh246EAYj9jX2p1Zt9riNqZQozJV5sFg9JFjDYhh4cSJ2ycnFa1qeBcCdLhTwZWYXM
+SKxod8tRJtTY9n2HSYyjJ1XAhrF2cSonDEBBWTs9vQAHLD5ZoSsF
+z_validateaddress zc8baYtSaiBaBkDmRQprom8WuaHJJmh246EAYj9jX2p1Zt9riNqZQozJV5sFg9JFjDYhh4cSJ2ycnFa1qeBcCdLhTwZWYXM
+
+{
+  "isvalid": true,
+  "address": "zc8baYtSaiBaBkDmRQprom8WuaHJJmh246EAYj9jX2p1Zt9riNqZQozJV5sFg9JFjDYhh4cSJ2ycnFa1qeBcCdLhTwZWYXM",
+  "payingkey":       "c94361c9bcc4eae2dbb1de0d6e727e57ee36bbc6ae467579f60ff0112b46d502",
+  "transmissionkey": "3867db0c6a6d95d50ae22611c253ca9fd1ca66951d040961dfbbaa8b9fa6afb7",
+  "ismine": true
+}
+
+z_exportviewingkey zc8baYtSaiBaBkDmRQprom8WuaHJJmh246EAYj9jX2p1Zt9riNqZQozJV5sFg9JFjDYhh4cSJ2ycnFa1qeBcCdLhTwZWYXM
+NVsLixb5o89RjwYC2o9JfoBTdWUR2ACHzGVv4FLYGEQyUpWuRTDoMvQxvNimDKwdSFcYwnABKpPx4xZEaN7e8A6FxFD1
+02d5462b11f00ff6797546aec6bb36ee577e726e0ddeb1dbe2eac4bcc96143c9 f8edd872f0cd4fe235c6f56199f1a0d28c408d6992486603d0afcb3514c67955 AB38CB08
+
+// guarantees the first two characters, when base58 encoded, are "zc"
+base58Prefixes[ZCPAYMENT_ADDRRESS] = {22,154};
+// guarantees the first two characters, when base58 encoded, are "SK"
+base58Prefixes[ZCSPENDING_KEY] = {171,54};
+
+
+zc8baYtSaiBaBkDmRQprom8WuaHJJmh246EAYj9jX2p1Zt9riNqZQozJV5sFg9JFjDYhh4cSJ2ycnFa1qeBcCdLhTwZWYXM
+169A 02D5462B11F00FF6797546AEC6BB36EE577E726E0DDEB1DBE2EAC4BCC96143C9B7AFA69F8BAABBDF6109041D9566CAD19FCA53C21126E20AD5956D6A0CDB6738 E4EACC04
+
+     
+169a - {22,154} - network bytes
+02d5462b11f00ff6797546aec6bb36ee577e726e0ddeb1dbe2eac4bcc96143c9b7afa69f8baabbdf6109041d9566cad19fca53c21126e20ad5956d6a0cdb6738 - 64 bytes
+e4eacc04 - first four bytes of sha256 twice of (169a02d5462b11f00ff6797546aec6bb36ee577e726e0ddeb1dbe2eac4bcc96143c9b7afa69f8baabbdf6109041d9566cad19fca53c21126e20ad5956d6a0cdb6738)
+
+169a - 22,154
+
+SKxod8tRJtTY9n2HSYyjJ1XAhrF2cSonDEBBWTs9vQAHLD5ZoSsF
+AB36 017CF7A3970E85D40261EBC8D1573FA8C43EF2238B5F935ACDA1EDF0BB41E08F A6575016
+
+AB36 - {171,54}
+017CF7A3970E85D40261EBC8D1573FA8C43EF2238B5F935ACDA1EDF0BB41E08F - (1) ??????????? privkey?
+A6575016 - first four bytes of sha256 twice of (ab36 017cf7a3970e85d40261ebc8d1573fa8c43ef2238b5f935acda1edf0bb41e08f)
+
+
+017cf7a3970e85d40261ebc8d1573fa8c43ef2238b5f935acda1edf0bb41e08f - what's this? privkey?
+02d5462b11f00ff6797546aec6bb36ee577e726e0ddeb1dbe2eac4bcc96143c9b7afa69f8baabbdf6109041d9566cad19fca53c21126e20ad5956d6a0cdb6738 - it's 64 bytes (not a pubkey), what's this?
+
+payingkey : transmissionkey = 02d5462b11f00ff6797546aec6bb36ee577e726e0ddeb1dbe2eac4bcc96143c9 b7afa69f8baabbdf6109041d9566cad19fca53c21126e20ad5956d6a0cdb6738 - 64 bytes from z-address ...
+                              02d5462b11f00ff6797546aec6bb36ee577e726e0ddeb1dbe2eac4bcc96143c9 f8edd872f0cd4fe235c6f56199f1a0d28c408d6992486603d0afcb3514c67955 - viewing key 
+
+privkey -    017CF7A3970E85D40261EBC8D1573FA8C43EF2238B5F935ACDA1EDF0BB41E08F
+ pubkey - 04 CD663D364766390E1BF36E32D62A29B609E6695DEA1D955D72A332E34ADE91E7 9F8A727B9FDFBE39DB64F6AC43F06C605579F1BFF39186435945F25EEAE6D781
+
+z_validateaddress zc8baYtSaiBaBkDmRQprom8WuaHJJmh246EAYj9jX2p1Zt9riNqZQozJV5sFg9JFjDYhh4cSJ2ycnFa1qeBcCdLhTwZWYXM
+
+{
+  "isvalid": true,
+  "address": "zc8baYtSaiBaBkDmRQprom8WuaHJJmh246EAYj9jX2p1Zt9riNqZQozJV5sFg9JFjDYhh4cSJ2ycnFa1qeBcCdLhTwZWYXM",
+  "payingkey":       "c94361c9bcc4eae2dbb1de0d6e727e57ee36bbc6ae467579f60ff0112b46d502",
+  "transmissionkey": "3867db0c6a6d95d50ae22611c253ca9fd1ca66951d040961dfbbaa8b9fa6afb7",
+  "ismine": true
+}
+
+Privkey: 017cf7a3970e85d40261ebc8d1573fa8c43ef2238b5f935acda1edf0bb41e08f
+1. privkey[0] |= 0xc0, privkey[32] = 0
+c17cf7a3970e85d40261ebc8d1573fa8c43ef2238b5f935acda1edf0bb41e08f0000000000000000000000000000000000000000000000000000000000000000
+--                                                              --
+
+2. After SHA256 (FinalizeNoPadding):
+
+```    CSHA256 hasher;
+    hasher.Write(blob, 64);
+    hasher.FinalizeNoPadding(res.begin());
+```
+
+02d5462b11f00ff6797546aec6bb36ee577e726e0ddeb1dbe2eac4bcc96143c9
+
+This is paying key.
+
+3. buf = c17cf7a3970e85d40261ebc8d1573fa8c43ef2238b5f935acda1edf0bb41e08f0100000000000000000000000000000000000000000000000000000000000000
+         --                                                              --
+4. After SHA256:
+faedd872f0cd4fe235c6f56199f1a0d28c408d6992486603d0afcb3514c679d5
+
+4. transmissionkey = 
+
+curve25519.ScalarBaseMult(faedd872f0cd4fe235c6f56199f1a0d28c408d6992486603d0afcb3514c679d5, 0000000000000000000000000000000000000000000000000000000000000000)
+= b7afa69f8baabbdf6109041d9566cad19fca53c21126e20ad5956d6a0cdb6738
+
+// basePoint is the x coordinate of the generator of the curve.
+var basePoint = [32]byte{9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+
+// ScalarMult sets dst to the product in*base where dst and base are the x
+// coordinates of group points and all values are in little-endian form.
+func ScalarMult(dst, in, base *[32]byte) {
+	scalarMult(dst, in, base)
+}
+
+// ScalarBaseMult sets dst to the product in*base where dst and base are the x
+// coordinates of group points, base is the standard generator and all values
+// are in little-endian form.
+func ScalarBaseMult(dst, in *[32]byte) {
+	ScalarMult(dst, in, &basePoint)
+}
