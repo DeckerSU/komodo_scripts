@@ -78,6 +78,7 @@ function base58_encode($data, $littleEndian = true)
 
 $privkey = "017cf7a3970e85d40261ebc8d1573fa8c43ef2238b5f935acda1edf0bb41e08f";
 
+
 //echo "     passphrase : `" . $passphrase . "`\n";
 echo "        privkey : " . $privkey . "\n";
 $s = $privkey."0000000000000000000000000000000000000000000000000000000000000000";
@@ -108,6 +109,18 @@ $transmissionkey = $Curve25519->publicKey(pack("H*",$b));
 $transmissionkey = bin2hex($transmissionkey);
 
 echo "transmissionkey : " . bin2hex(strrev(pack("H*",$transmissionkey))) . "\n";
+
+/*
+// viewing key (need to test)
+
+$viewingkey = pack("H*", "a8abd3" . $payingkey . $b); 
+$viewingkey[32] = Chr(Ord($viewingkey[32]) & 248);
+$viewingkey[63] = Chr(Ord($viewingkey[63]) & 127);
+$viewingkey[63] = Chr(Ord($viewingkey[63]) | 64);
+$viewingkey = bin2hex($viewingkey);
+$viewingkey .= substr(php_compat_sha256(php_compat_sha256(pack("H*",$viewingkey), true), false), 0, 8); // checksum
+echo "    viewing key : " . base58_encode($viewingkey) . "\n";
+*/
 
 $address = "169a" . $payingkey . $transmissionkey;
 $address .= substr(php_compat_sha256(php_compat_sha256(pack("H*",$address), true), false), 0, 8); // checksum
