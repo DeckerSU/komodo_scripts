@@ -197,6 +197,9 @@ else
     log_print "Privkey is obtained"
 fi
 
+# disable generate to avoid daemon crash during multiple "error adding notary vin" messages
+$komodo_cli setgenerate false
+
 send_balance
 log_print "ht.$height ($blockhash)"
 
