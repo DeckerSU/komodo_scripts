@@ -29,8 +29,7 @@
 # 
 # Done. 
 
-# Currently script works only with KMD, assets no supported. But if you wish to continue work on this,
-# PRs in repo are welcome.
+# If you wish to continue work on this, PRs in repo are welcome.
 
 komodo_cli="$HOME/komodo/src/komodo-cli"
 komodo_daemon="$HOME/komodo/src/komodod"
