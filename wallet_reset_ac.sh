@@ -102,17 +102,25 @@ $komodo_cli $asset stop
 
 if [ $coin == "KMD" ]
 then
-pidfile=$HOME/.komodo/komodod.pid
+ddatadir=$HOME/.komodo
 else
-pidfile=$HOME/.komodo/$coin/komodod.pid
+ddatadir=$HOME/.komodo/$coin
 fi
 
-while [ -f $pidfile ]
+while [ -f $ddatadir/komodod.pid ]
 do 
    i=$((i+1))
    log_print "Waiting for daemon $coin stop ($i)"
    sleep 1
 done
+
+while [ ! -z $(lsof -Fp $ddatadir/.lock | head -1 | cut -c 2-) ]
+do 
+   i=$((i+1))
+   log_print "Waiting for .lock release by $coin  ($i)"
+   sleep 1
+done
+
 }
 
 # --------------------------------------------------------------------------
