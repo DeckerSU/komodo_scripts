@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ##
-## Decker (c) 2018
+## Credits: Decker, jeezy
 ##
 
 # How to use?
@@ -17,7 +17,7 @@
 
 # 1. Wait for daemon start if it's not started.
 # 2. Get pubkey and privkey for given NN_ADDRESS below from daemon.
-# 3. Send all your balance in one tx to NN_ADDRESS. If daemon can't send all balance (for example, 
+# 3. Send all your balance in one tx to NN_ADDRESS. If daemon can't send all balance (for example,
 #    in case of oversized tx - script will just exit on this step, nothing hurt)
 # 4. Wait for 1 confirmation and save height of block in which this tx is included.
 # 5. Create new z-address and grab privkey from it (needed to the trick with rescan).
@@ -26,30 +26,61 @@
 # 8. Start daemon with -gen -notary -pubkey="$NN_PUBKEY" & args .
 # 9. Wait for daemon start .
 # 10. Imports your NN privkey and rescan from height from step 4.
-# 
-# Done. 
+#
+# Done.
 
-# If you wish to continue work on this, PRs in repo are welcome.
 
-komodo_cli="$HOME/komodo/src/komodo-cli"
-komodo_daemon="$HOME/komodo/src/komodod"
 
-NN_ADDRESS=RFCmz9od8SLgm8VrncCbhY99vWP2p1A7Ba
+###########################
+####### CONFIG HERE #######
+###########################
+
 # you'll need only to set NN_ADDRESS, other needed info such as pubkey and privkey
 # script will get automatically from daemon
+NN_ADDRESS=RCA8H1npFPW5pnJRzycF8tFEJmn6XZhD4j
+
+# Set paths
+KMD_PATH="$HOME/komodo/src"
+komodo_cli="$KMD_PATH/komodo-cli"
+komodo_daemon="$KMD_PATH/komodod"
+
+# Never do these (see listassetchains / assetchains.json)
+ignore_list=(
+        KMD
+        BTC
+        HUSH
+        CHIPS
+        GAME
+        VRSC
+        EMC2
+        KMDICE
+        VOTE2018
+        PIZZA
+        BEER
+)
+
+###########################
+####### END CONFIG  #######
+###########################
+
+
+
+
+
+
 
 # --------------------------------------------------------------------------
-function init_colors () 
+function init_colors ()
 {
-RESET="\033[0m"
-BLACK="\033[30m"    
-RED="\033[31m"      
-GREEN="\033[32m"    
-YELLOW="\033[33m"   
-BLUE="\033[34m"     
-MAGENTA="\033[35m"  
-CYAN="\033[36m"     
-WHITE="\033[37m"    
+  RESET="\033[0m"
+  BLACK="\033[30m"
+  RED="\033[31m"
+  GREEN="\033[32m"
+  YELLOW="\033[33m"
+  BLUE="\033[34m"
+  MAGENTA="\033[35m"
+  CYAN="\033[36m"
+  WHITE="\033[37m"
 }
 
 # --------------------------------------------------------------------------
@@ -75,7 +106,7 @@ fi
 
 i=0
 while ! $komodo_cli $asset getinfo >/dev/null 2>&1
-do 
+do
    i=$((i+1))
    log_print "Waiting for daemon start $coin ($i)"
    sleep 1
@@ -108,14 +139,14 @@ ddatadir=$HOME/.komodo/$coin
 fi
 
 while [ -f $ddatadir/komodod.pid ]
-do 
+do
    i=$((i+1))
    log_print "Waiting for daemon $coin stop ($i)"
    sleep 1
 done
 
 while [ ! -z $(lsof -Fp $ddatadir/.lock | head -1 | cut -c 2-) ]
-do 
+do
    i=$((i+1))
    log_print "Waiting for .lock release by $coin  ($i)"
    sleep 1
@@ -123,7 +154,29 @@ done
 
 }
 
-# --------------------------------------------------------------------------
+function get_balance()
+{
+    #echo $komodo_cli $asset getbalance
+    BALANCE=$($komodo_cli $asset getbalance 2>/dev/null)
+    ERRORLEVEL=$?
+
+    if [ "$ERRORLEVEL" -eq "0" ] && [ "$BALANCE" != "0.00000000" ]; then
+        message=$(echo -e "(${GREEN}$coin${RESET}) $BALANCE")
+        log_print "$message"
+    else
+        BALANCE="0.00000000"
+            message=$(echo -e "(${RED}$coin${RESET}) $BALANCE")
+        log_print "$message"
+        exit
+    fi
+}
+
+function do_send()
+{
+	RESULT=$($komodo_cli $asset sendtoaddress $NN_ADDRESS $BALANCE "" "" true 2>&1)
+	ERRORLEVEL=$?
+}
+
 function send_balance()
 {
     #if [[ ! -z $1 && $1 != "KMD" ]]
@@ -136,31 +189,36 @@ function send_balance()
         asset=""
     fi
 
-    #echo $komodo_cli $asset getbalance
-    BALANCE=$($komodo_cli $asset getbalance 2>/dev/null)
-    ERRORLEVEL=$?
-    
-    if [ "$ERRORLEVEL" -eq "0" ] && [ "$BALANCE" != "0.00000000" ]; then
-        message=$(echo -e "(${GREEN}$coin${RESET}) $BALANCE")
-        log_print "$message"
-    else
-        BALANCE="0.00000000"
-	    message=$(echo -e "(${RED}$coin${RESET}) $BALANCE")
-        log_print "$message"
-        exit
-    fi
-
-    # sendtoaddress
-    #$komodo_cli $asset sendtoaddress $NN_ADDRESS $BALANCE "" "" true
-
-    # redirected stderr to stdout
-    RESULT=$($komodo_cli $asset sendtoaddress $NN_ADDRESS $BALANCE "" "" true 2>&1)
-    ERRORLEVEL=$?
-    if [ "$ERRORLEVEL" -ne "0" ]; then
-	log_print "tx $RESULT"
-    	exit
-    fi
-    log_print "txid: $RESULT"
+	# Author: jeezy (TAB>space btw)
+	# Steps: Try to send, if tx too large split into ten 10% chunks and send all, send whole balance to self again
+	# Try send again
+	get_balance
+	log_print "$komodo_cli $asset sendtoaddress $NN_ADDRESS $BALANCE _ _ true"
+	do_send
+	while [ "$ERRORLEVEL" -ne "0" ]
+	do
+		if [[ $RESULT =~ "Transaction too large" ]]; then
+			BALANCE=$(printf %f $(bc -l <<< "scale=8;$BALANCE*0.1"))
+        		log_print "TX to large. Now trying to send ten 10% chunks of $BALANCE"
+			log_print "$komodo_cli $asset sendtoaddress $NN_ADDRESS $BALANCE _ _ true"
+			counter=1
+			while [ $counter -le 10 ]
+			do
+				do_send
+				log_print "txid: $RESULT"
+				((counter++))
+			done
+			log_print "Sending whole balance again..."
+			sleep 3
+			get_balance
+		        log_print "$komodo_cli $asset sendtoaddress $NN_ADDRESS $BALANCE _ _ true"
+			do_send
+		else
+	        	log_print "ERROR: $RESULT"
+	    		exit
+		fi
+	done
+	log_print "txid: $RESULT"
 
     i=0
     confirmations=0
@@ -173,6 +231,7 @@ function send_balance()
     done
     blockhash=$($komodo_cli $asset gettransaction $RESULT | jq -r .blockhash)
     height=$($komodo_cli $asset getblock $blockhash | jq .height)
+    log_print "Confirmed!"
 }
 
 # --------------------------------------------------------------------------
@@ -227,7 +286,7 @@ function reset_wallet() {
     else
         daemon_args=$(ps -fC komodod | grep -- "-ac_name=$coin" | grep -Po "komodod .*" | sed 's/komodod//g')
     fi
-    
+
     log_print "($coin) Args: \"$daemon_args\""
 
     # TODO: check args, if we can't get arg and can't start daemon, don't need to stop it (!)
@@ -237,7 +296,7 @@ function reset_wallet() {
     log_print "Removing old wallet ... "
 
     wallet_file=backup_$(date '+%Y_%m_%d_%H%M%S').dat
-    
+
     if [ $coin == "KMD" ]
     then
         cp $HOME/.komodo/wallet.dat $HOME/.komodo/$wallet_file
@@ -246,15 +305,15 @@ function reset_wallet() {
         cp $HOME/.komodo/$coin/wallet.dat $HOME/.komodo/$coin/$wallet_file
         rm $HOME/.komodo/$coin/wallet.dat
     fi
-    
+
     sleep 5
     log_print "Starting daemon ($coin) ... "
 
     # *** STARTING DAEMON ***
-    $komodo_daemon $daemon_args &
-    
+    $komodo_daemon $daemon_args >/dev/null 2>&1 &
+
     #$komodo_daemon -gen -notary -pubkey="$NN_PUBKEY" &
-    
+
     wait_for_daemon $coin
     log_print "Importing private key ... "
     $komodo_cli $asset importprivkey $NN_PRIVKEY "" false
@@ -264,11 +323,15 @@ function reset_wallet() {
 
 }
 
-# Main
-
+####### MAIN #######
 curdir=$(pwd)
-
 init_colors
-
-reset_wallet PIZZA
-reset_wallet BEER
+# LOOP thru assetchains
+${KMD_PATH}/listassetchains | while read list; do
+  if [[ "${ignore_list[@]}" =~ "${list}" ]]; then
+    continue
+  fi
+  reset_wallet $list
+done
+log_print "THE END!"
+#EOF
