@@ -2,8 +2,46 @@
 
 // https://github.com/BitcoinPHP/BitcoinECDSA.php
 require_once 'BitcoinECDSA.php/src/BitcoinPHP/BitcoinECDSA/BitcoinECDSA.php';
-
 use BitcoinPHP\BitcoinECDSA\BitcoinECDSA;
+
+require_once 'Keccak256.php';
+use Keccak\Keccak256;
+
+/* ETH EIP55 implementation (2 variants) */
+/* https://github.com/ethereum/EIPs/blob/master/EIPS/eip-55.md */
+function bytesToBits(string $bytestring) {
+  if ($bytestring === '') return '';
+
+  $bitstring = '';
+  foreach (str_split($bytestring, 4) as $chunk) {
+    $bitstring .= str_pad(base_convert(unpack('H*', $chunk)[1], 16, 2), strlen($chunk) * 8, '0', STR_PAD_LEFT);
+  }
+  return $bitstring;
+}
+
+function EIP55_1($address) {
+$address_eip55 = ""; $kec = new Keccak256();
+$addressHash = $kec->hash(strtolower($address), 256);
+$addressHashBits = bytesToBits(pack("H*",$addressHash));
+for ($i = 0; $i < 40; $i++ ) {
+$c = $address[$i];
+if (ctype_alpha($address{$i})) {
+        if ($addressHashBits[4 * $i] == "1") $c = strtoupper($c);
+}
+$address_eip55 .= $c;
+}
+return $address_eip55;
+}
+
+function EIP55_2($address) {
+$address_eip55 = ""; $kec = new Keccak256();
+$addressHash = $kec->hash(strtolower($address), 256);
+for ($i = 0; $i < 40; $i++ ) {
+	if (intval($addressHash[$i], 16) >=8) $address_eip55 .= strtoupper($address[$i]); else $address_eip55 .= strtolower($address[$i]);
+}
+return $address_eip55;
+}
+/* ETH EIP55 implementation ------------ */
 
 class BitcoinECDSADecker extends BitcoinECDSA {
 
@@ -129,4 +167,21 @@ $address = $bitcoinECDSA->getUncompressedAddress();
 echo "Uncompressed Address: " . sprintf("%34s",$address) . PHP_EOL;
 }
 
+/* ETH/ERC20 */
+
+// https://ethereum.stackexchange.com/questions/3542/how-are-ethereum-addresses-generated
+// https://www.npmjs.com/package/node-eth-address
+// https://theethereum.wiki/w/index.php/Accounts,_Addresses,_Public_And_Private_Keys,_And_Tokens
+// https://ethereum.stackexchange.com/questions/3720/how-do-i-get-the-raw-private-key-from-my-mist-keystore-file
+// https://ethereum.stackexchange.com/questions/12830/how-to-get-private-key-from-account-address-and-password
+// https://github.com/ethereum/EIPs/issues/55#issuecomment-187159063
+// https://github.com/ethereum/EIPs/blob/master/EIPS/eip-55.md
+
+echo "\x1B[01;37m[\x1B[01;32m "  . "ETH/ERC20" . " \x1B[01;37m]\x1B[0m" . PHP_EOL;
+$kec = new Keccak256();
+$bitcoinECDSA->setPrivateKey($k);
+$pubkey = substr($bitcoinECDSA->getUncompressedPubKey(),2);
+
+$address = substr($kec->hash(pack("H*",$pubkey), 256), -40);
+echo "   ETH/ERC20 Address: 0x" . EIP55_2($address) . PHP_EOL;
 ?>
