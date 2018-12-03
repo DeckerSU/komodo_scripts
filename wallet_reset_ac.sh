@@ -227,7 +227,13 @@ function reset_wallet() {
     else
         daemon_args=$(ps -fC komodod | grep -- "-ac_name=$coin" | grep -Po "komodod .*" | sed 's/komodod//g')
     fi
-    
+
+    # if previous time daemon launched with reindex or rescan, we don't need to re-launch daemon with same params,
+    # so, we just remove them from launch string.
+
+    daemon_args=$(echo $daemon_args | sed -e "s/-reindex//g")
+    daemon_args=$(echo $daemon_args | sed -e "s/-rescan//g")
+
     log_print "($coin) Args: \"$daemon_args\""
 
     # TODO: check args, if we can't get arg and can't start daemon, don't need to stop it (!)
@@ -269,6 +275,10 @@ function reset_wallet() {
 curdir=$(pwd)
 
 init_colors
+
+# Unlock all lockunspents to make sure we can access all our utxo!
+#$komodo_cli lockunspent true $($komodo_cli listlockunspent | jq -c .)
+#reset_wallet KMD
 
 reset_wallet PIZZA
 reset_wallet BEER
