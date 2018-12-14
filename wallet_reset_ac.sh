@@ -265,7 +265,7 @@ function reset_wallet() {
     log_print "Importing private key ... "
     $komodo_cli $asset importprivkey $NN_PRIVKEY "" false
     log_print "Rescanning from ht.$height ... "
-    $komodo_cli $asset z_importkey "$NN_ZKEY" \"yes\" $height
+    $komodo_cli $asset z_importkey "$NN_ZKEY" "yes" $height
     log_print "Done reset ($coin)"
 
 }
