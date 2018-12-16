@@ -3,10 +3,10 @@
 # Assetchains Splitfund Script
 # (c) Decker, 2018-2019
 
-chips_cli=/home/decker/chips3/src/chips-cli
+chips_cli=$HOME/chips3/src/chips-cli
 bitcoin_cli=bitcoin-cli
-gamecredits_cli=/home/decker/GameCredits/src/gamecredits-cli
-komodo_cli=/home/decker/komodo/src/komodo-cli
+gamecredits_cli=$HOME/GameCredits/src/gamecredits-cli
+komodo_cli=$HOME/komodo/src/komodo-cli
 
 # all you need is to insert your pubkey here in lock script format: 21{YOUR_33_BYTES_HEX_PUBKEY}AC
 NN_PUBKEY=2100deadcafedeadcafedeadcafedeadcafedeadcafedeadcafedeadcafedeadcafeac
