@@ -13,7 +13,9 @@ echo '<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.
             <th>BTC</th>
             <th>KMD</th>
 	    <th>GAME</th>
-	    <th>HUSH</th>
+        <th>HUSH</th>
+        <th>EMC2</th>
+        <th>GIN</th>
          </tr>
       </thead>
       <tbody>';
@@ -196,6 +198,9 @@ foreach ($Notaries_elected1 as $key => $value) {
 
 	$bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 33)); // 33 - EMC2
         $emc2_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
+    
+    $bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 38)); 
+        $gin_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
 
 	//echo "[".sprintf("%02d",$index)."] ". sprintf("%20s",$key) . "" . sprintf("%36s",$address) . PHP_EOL;
 
@@ -209,6 +214,7 @@ foreach ($Notaries_elected1 as $key => $value) {
             <!--<td><a href="https://blockexplorer.gamecredits.com/addresses/'.$game_address.'" target="_blank">'.$game_address.'</a></td>-->
             <td><a href="https://explorer.myhush.org/address/'.$hush_address.'" target="_blank">'.$hush_address.'</a></td>
             <td><a href="https://chainz.cryptoid.info/emc2/address.dws?'.$emc2_address.'.htm" target="_blank">'.$emc2_address.'</a></td>
+            <td><a href="https://explorer.gincoin.io/address/'.$gin_address.'" target="_blank">'.$gin_address.'</a></td>
          </tr>
 ';
 
