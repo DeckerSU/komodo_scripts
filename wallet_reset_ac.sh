@@ -171,8 +171,22 @@ function send_balance()
     log_print "Waiting for confirmations ($i).$confirmations"
     sleep 10
     done
-    blockhash=$($komodo_cli $asset gettransaction $RESULT | jq -r .blockhash)
-    height=$($komodo_cli $asset getblock $blockhash | jq .height)
+
+    if [ "$confirmations" -le "0" ]; then
+        # in case of invalid (orphaned) block mined, sent tx can have negative number of confirmations (!)
+        message=$(echo -e "${RED}error:${RESET} txid.$RESULT have ${RED}$confirmations${RESET} conf., probably invalid block was mined!")
+        log_print "$message"
+        # exit
+        # try to determine current block height and decrement it by 100 for future rescan, when we will import z_key
+        blockhash=$($komodo_cli $asset getbestblockhash)
+        height=$($komodo_cli $asset getblock $blockhash | jq .height)
+        height=$((height-100))
+        blockhash=$($komodo_cli $asset getblockhash $height)
+    else
+        blockhash=$($komodo_cli $asset gettransaction $RESULT | jq -r .blockhash)
+        height=$($komodo_cli $asset getblock $blockhash | jq .height)
+    fi
+
 }
 
 # --------------------------------------------------------------------------
