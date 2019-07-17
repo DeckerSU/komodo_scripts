@@ -15,12 +15,12 @@ function init_colors() {
     BRIGHT="\033[1m"
     DARKGREY="\033[90m"
 }
-
+# --------------------------------------------------------------------------
 function log_print() {
    datetime=$(date '+%Y-%m-%d %H:%M:%S')
    echo -e [$datetime] $1
 }
-
+# --------------------------------------------------------------------------
 function bootstrap() {
 
     if [ ! -z $1 ] && [ $1 != "KMD" ]
@@ -53,6 +53,33 @@ function bootstrap() {
         -czvf $(pwd)/${archive_name} ${tar_files_list} > /dev/null
 
 }
+# --------------------------------------------------------------------------
+function walletbackup_mm() {
+
+    # before use read about multiple members with the same name in tar, each time when you will launch
+    # backup - it will add each wallet.dat as a new member (!), so in .tar you can possible have multiple
+    # wallet.dat from each coin.
+
+    if [ ! -z $1 ] && [ $1 != "KMD" ]
+        then
+            coin=$1
+            data_folder=${HOME}/.komodo/$coin
+            transform='s,^.,'${coin}',S'
+        else
+            coin="KMD"
+            data_folder=${HOME}/.komodo
+            transform=''
+    fi
+
+    archive_name=wallets.$(date -u +%Y%m%d).tar # _%H%M%S
+    tar_files_list="./wallet.dat"
+    log_print "Backup \x5B${YELLOW}$i${RESET}\x5D wallet.dat --> ${archive_name}"
+    # https://www.gnu.org/software/tar/manual/html_node/multiple.html#SEC62 - Multiple Members with the Same Name
+    GZIP=-9 tar --directory ${data_folder} \
+    --show-transformed-names --transform="${transform}" \
+    -rvf $(pwd)/${archive_name} ${tar_files_list} # > /dev/null
+}
+# --------------------------------------------------------------------------
 
 # --- Variables ---
 #komodo_cli_binary="$HOME/komodo/src/komodo-cli"
@@ -66,6 +93,7 @@ komodo_cli_binary="/home/decker/ssd_nvme/komodo_src_beta/src/komodo-cli"
 # https://www.gnu.org/software/tar/manual/html_section/tar_51.html#transform
 # https://unix.stackexchange.com/questions/72661/show-sum-of-file-sizes-in-directory-listing
 # https://www.gnu.org/software/tar/manual/html_section/tar_26.html#SEC48
+# https://stackoverflow.com/questions/1951506/add-a-new-element-to-an-array-without-specifying-the-index-in-bash
 # -----------------
 
 init_colors
@@ -80,10 +108,14 @@ log_print "Start making bootstrap for KMD/AC ..."
 # or directly from jl777/komodo beta branch assetchains.json
 readarray -t kmd_coins < <(curl -s https://raw.githubusercontent.com/jl777/komodo/beta/src/assetchains.json | jq -r '[.[].ac_name] | join("\n")')
 # you can spectify coins array manually if you want
-# declare -a kmd_coins=(BEER PIZZA KMD)
+# declare -a kmd_coins=(BEER PIZZA)
+kmd_coins+=(KMD)
 # printf '%s\n' "${kmd_coins[@]}"
+
+# rm wallets.$(date -u +%Y%m%d).tar
 for i in "${kmd_coins[@]}"
 do
     bootstrap $i
+    # walletbackup_mm $i
 done
 
