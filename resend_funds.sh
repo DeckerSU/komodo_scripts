@@ -6,7 +6,6 @@
 #
 # vins  :   all your existing utxos except immature or non-spendable in other reasons
 # vouts :   1. NOTARYVIN_NUM x P2PK iguana utxos for address corresponding to your pubkey
-#           2. 1 x nulldata (OP_RETURN) utxo to track using of script on blockchain
 #           2. 1 x P2SH utxo with 0.01 amount to track using of script (plz, don't remove it, 0.01 KMD is not so much)
 #           3. 1 x P2PKH utxo with change for address corresponding to your pubkey
 # fee   :   4. smart fee calc is not yet implemented, so it will use fixed fee = 0.00077777
@@ -19,7 +18,6 @@
 #
 # AWJS is experimental and a work-in-progress. Use at your own risk!
 #  
-
 # --------------------------------------------------------------------------
 function init_colors() {
     RESET="\033[0m"
@@ -181,13 +179,25 @@ function signrawtransaction {
 function sendrawtransaction {
     SEND_RAW_TX=$(curl -s --user "${KOMODOD_RPCUSER}:${KOMODOD_RPCPASSWORD}" --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "sendrawtransaction", "params": ["'"${SIGNED_RAW_TX}"'"] }' -H 'content-type: text/plain;' "http://${KOMODOD_RPCHOST}:${KOMODO_RPCPORT}/")
     if [ "$(echo "${SEND_RAW_TX}" | jq .error)" == null ]; then
-        echo ${SEND_RAW_TX}
+        # echo ${SEND_RAW_TX}
         SEND_RAW_TX_HASH=$(echo "${SEND_RAW_TX}" | jq -r .result)
     else
         log_print "${RED}ERROR $(echo ${SEND_RAW_TX} | jq .error.code) : $(echo ${SEND_RAW_TX} | jq -r .error.message)${RESET}"
         return 1
     fi
 }
+
+# --------------------------------------------------------------------------
+function cleanwallettransactions {
+    CLEAN_WALLWET_TXS=$(curl -s --user "${KOMODOD_RPCUSER}:${KOMODOD_RPCPASSWORD}" --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "cleanwallettransactions", "params": ["'"${SEND_RAW_TX_HASH}"'"] }' -H 'content-type: text/plain;' "http://${KOMODOD_RPCHOST}:${KOMODO_RPCPORT}/")
+    if [ "$(echo "${CLEAN_WALLWET_TXS}" | jq .error)" == null ]; then
+        CLEAN_WALLWET_TXS=$(echo "${CLEAN_WALLWET_TXS}" | jq -c .result)
+    else
+        log_print "${RED}ERROR $(echo ${CLEAN_WALLWET_TXS} | jq .error.code) : $(echo ${CLEAN_WALLWET_TXS} | jq -r .error.message)${RESET}"
+        return 1
+    fi
+}
+
 
 # https://github.com/DeckerSU/chips3/blob/ec2bf830e41087e8d3ded6323703050f9b2846fb/contrib/init/bitcoind.openrc
 KOMODOD_DEFAULT_DATADIR=${KOMODOD_DEFAULT_DATADIR:-"$HOME/.komodo"}
@@ -247,6 +257,8 @@ signrawtransaction || exit
 if false; then
     sendrawtransaction || exit
     log_print "Broadcasted: ${BLUE}${SEND_RAW_TX_HASH}${RESET} - ${GREEN}OK${RESET}"
+    cleanwallettransactions || exit
+    log_print "Clean wallet result: ${CLEAN_WALLWET_TXS}"
 else
     log_print "Signed raw tx: ${SIGNED_RAW_TX}"
 fi
