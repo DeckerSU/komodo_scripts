@@ -17,7 +17,25 @@
 # NOTARYVIN_NUM - count of notary vins (P2PK) / iguana utxos that needs to be created
 #
 # AWJS is experimental and a work-in-progress. Use at your own risk!
-#  
+#
+# F.A.Q. (and useful commands)
+#
+# Q. How can use measure speed improvement after AJSS?
+# A. Use the following command(s):
+#
+#   time (~/komodo/src/komodo-cli listunspent | jq '. | { "utxos" : length }' && ~/komodo/src/komodo-cli getwalletinfo | jq '{ "txcount" : .txcount }') | jq -s '.[0] * .[1]'
+#   time (~/komodo/src/komodo-cli listunspent | jq '. | { "utxos" : length }' && ~/komodo/src/komodo-cli getwalletinfo | jq '{ "txcount" : .txcount }') | jq -s add
+#
+#   Output will be like:
+#
+#   {
+#     "utxos": 70,
+#     "txcount": 4022
+#   }
+#
+#   real	0m0.112s
+#   user	0m0.032s
+#   sys	0m0.010s
 # --------------------------------------------------------------------------
 function init_colors() {
     RESET="\033[0m"
