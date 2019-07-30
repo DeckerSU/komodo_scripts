@@ -9,7 +9,7 @@
 # from FROM_ADDRESS with given FROM_PRIVKEY. Insight explorer API will used for listunspent and 
 # komodod for signing transaction. If somebody will able to modify this script to use openssl for signing
 # tx instead of komodod - it would be nice. PRs are welcome.
-# You must bradcast the signed transaction (sendrawtransaction)
+# You must broadcast the signed transaction (sendrawtransaction)
 # Options:
 
 NN_ADDRESS=RDeckerSubnU8QVgrhj27apzUvbVK3pnTk
