@@ -22,6 +22,8 @@ FROM_HASH160=29cfc6376255a78451eeb4b129ed8eacffa2feef
 FROM_PUBKEY=000000000000000000000000000000000000000000000000000000000000000000
 FROM_PRIVKEY=Up1YVLk7uuErCHVQyFCtfinZngmdwfyfc47WCQ8oJxgowEbuo6t4
 
+CHANGE_HASH160=29cfc6376255a78451eeb4b129ed8eacffa2feef
+
 # Replace with values of rpcuser, rpcpassword and rpcport from komodo.conf
 curluser=user
 curlpass=pass
@@ -91,7 +93,7 @@ if [[ $utxo != "null" ]]; then
 	echo "Change:" $change "("$change_satoshis")"
 	value=$(printf "%016x" $change_satoshis | dd conv=swab 2> /dev/null | rev)
 	rawtx=$rawtx$value
-	rawtx=$rawtx"1976a914"$FROM_HASH160"88ac" # len OP_DUP OP_HASH160 len hash OP_EQUALVERIFY OP_CHECKSIG
+	rawtx=$rawtx"1976a914"$CHANGE_HASH160"88ac" # len OP_DUP OP_HASH160 len hash OP_EQUALVERIFY OP_CHECKSIG
   else
 	# more than 252 outputs not handled now (!) TODO
 	echo -e $RED"Error!"$RESET" More than 252 outputs not handled now!"
