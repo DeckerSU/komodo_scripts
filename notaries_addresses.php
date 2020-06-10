@@ -3,7 +3,7 @@
 echo '<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/css/dataTables.bootstrap.min.css" rel="stylesheet"/>
 <div class="container">
-   <!-- (c) Decker, 2019 -->
+   <!-- (c) Decker, 2019-2020 -->
    <h2>Notaries Addresses</h2>
    ';
 
@@ -208,6 +208,142 @@ $Notaries_elected_S3_3rdparty = Array(
     "decker_AR" => "02a85540db8d41c7e60bf0d33d1364b4151cad883dd032878ea4c037f67b769635"
 );
 
+// https://github.com/KomodoPlatform/komodo/blob/master/src/komodo_defs.h#L330
+$Notaries_elected_S4_mainnet = Array(
+    "alien_AR" => "03911a60395801082194b6834244fa78a3c30ff3e888667498e157b4aa80b0a65f",
+    "alien_EU" => "03bb749e337b9074465fa28e757b5aa92cb1f0fea1a39589bca91a602834d443cd",
+    "strob_NA" => "02a1c0bd40b294f06d3e44a52d1b2746c260c475c725e9351f1312e49e01c9a405",
+    "titomane_SH" => "020014ad4eedf6b1aeb0ad3b101a58d0a2fc570719e46530fd98d4e585f63eb4ae",
+    "fullmoon_AR" => "03b251095e747f759505ec745a4bbff9a768b8dce1f65137300b7c21efec01a07a",
+    "phba2061_EU" => "03a9492d2a1601d0d98cfe94d8adf9689d1bb0e600088127a4f6ca937761fb1c66",
+    "fullmoon_NA" => "03931c1d654a99658998ce0ddae108d825943a821d1cddd85e948ac1d483f68fb6",
+    "fullmoon_SH" => "03c2a1ed9ddb7bb8344328946017b9d8d1357b898957dd6aaa8c190ae26740b9ff",
+    "madmax_AR" => "022be5a2829fa0291f9a51ff7aeceef702eef581f2611887c195e29da49092e6de",
+    "titomane_EU" => "0285cf1fdba761daf6f1f611c32d319cd58214972ef822793008b69dde239443dd",
+    "cipi_NA" => "022c6825a24792cc3b010b1531521eba9b5e2662d640ed700fd96167df37e75239",
+    "indenodes_SH" => "0334e6e1ec8285c4b85bd6dae67e17d67d1f20e7328efad17ce6fd24ae97cdd65e",
+    "decker_AR" => "03ffdf1a116300a78729608d9930742cd349f11a9d64fcc336b8f18592dd9c91bc",
+    "indenodes_EU" => "0221387ff95c44cb52b86552e3ec118a3c311ca65b75bf807c6c07eaeb1be8303c",
+    "madmax_NA" => "02997b7ab21b86bbea558ae79acc35d62c9cedf441578f78112f986d72e8eece08",
+    "chainzilla_SH" => "02288ba6dc57936b59d60345e397d62f5d7e7d975f34ed5c2f2e23288325661563",
+    "peer2cloud_AR" => "0250e7e43a3535731b051d1bcc7dc88fbb5163c3fe41c5dee72bd973bcc4dca9f2",
+    "pirate_EU" => "0231c0f50a06655c3d2edf8d7e722d290195d49c78d50de7786b9d196e8820c848",
+    "webworker01_NA" => "02dfd5f3cef1142879a7250752feb91ddd722c497fb98c7377c0fcc5ccc201bd55",
+    "zatjum_SH" => "036066fd638b10e555597623e97e032b28b4d1fa5a13c2b0c80c420dbddad236c2",
+    "titomane_AR" => "0268203a4c80047edcd66385c22e764ea5fb8bc42edae389a438156e7dca9a8251",
+    "chmex_EU" => "025b7209ba37df8d9695a23ea706ea2594863ab09055ca6bf485855937f3321d1d",
+    "indenodes_NA" => "02698c6f1c9e43b66e82dbb163e8df0e5a2f62f3a7a882ca387d82f86e0b3fa988",
+    "patchkez_SH" => "02cabd6c5fc0b5476c7a01e9d7b907e9f0a051d7f4f731959955d3f6b18ee9a242",
+    "metaphilibert_AR" => "02adad675fae12b25fdd0f57250b0caf7f795c43f346153a31fe3e72e7db1d6ac6",
+    "etszombi_EU" => "0341adbf238f33a33cc895633db996c3ad01275313ac6641e046a3db0b27f1c880",
+    "pirate_NA" => "02207f27a13625a0b8caef6a7bb9de613ff16e4a5f232da8d7c235c7c5bad72ffe",
+    "metaphilibert_SH" => "0284af1a5ef01503e6316a2ca4abf8423a794e9fc17ac6846f042b6f4adedc3309",
+    "indenodes_AR" => "02ec0fa5a40f47fd4a38ea5c89e375ad0b6ddf4807c99733c9c3dc15fb978ee147",
+    "chainmakers_NA" => "029415a1609c33dfe4a1016877ba35f9265d25d737649f307048efe96e76512877",
+    "mihailo_EU" => "037f9563f30c609b19fd435a19b8bde7d6db703012ba1aba72e9f42a87366d1941",
+    "tonyl_AR" => "0299684d7291abf90975fa493bf53212cf1456c374aa36f83cc94daece89350ae9",
+    "alien_NA" => "03bea1ac333b95c8669ec091907ea8713cae26f74b9e886e13593400e21c4d30a8",
+    "pungocloud_SH" => "025b97d8c23effaca6fa7efacce20bf54df73081b63004a0fe22f3f98fece5669f",
+    "node9_EU" => "029ffa793b5c3248f8ea3da47fa3cf1810dada5af032ecd0e37bab5b92dd63b34e",
+    "smdmitry_AR" => "022a2a45979a6631a25e4c96469423de720a2f4c849548957c35a35c91041ee7ac",
+    "nodeone_NA" => "03f9dd0484e81174fd50775cb9099691c7d140ff00c0f088847e38dc87da67eb9b",
+    "gcharang_SH" => "02ec4172eab854a0d8cd32bc691c83e93975a3df5a4a453a866736c56e025dc359",
+    "cipi_EU" => "02f2b6defff1c544202f66e47cfd6909c54d67c7c39b9c2a99f137dbaf6d0bd8fa",
+    "etszombi_AR" => "0329944b0ac65b6760787ede042a2fde0be9fca1d80dd756bc0ee0b98d389b7682",
+    "pbca26_NA" => "0387e0fb6f2ca951154c87e16c6cbf93a69862bb165c1a96bcd8722b3af24fe533",
+    "mylo_SH" => "03b58f57822e90fe105e6efb63fd8666033ea503d6cc165b1e479bbd8c2ba033e8",
+    "swisscertifiers_EU" => "03ebcc71b42d88994b8b2134bcde6cb269bd7e71a9dd7616371d9294ec1c1902c5",
+    "marmarachain_AR" => "035bbd81a098172592fe97f50a0ce13cbbf80e55cc7862eccdbd7310fab8a90c4c",
+    "karasugoi_NA" => "0262cf2559703464151153c12e00c4b67a969e39b330301fdcaa6667d7eb02c57d",
+    "phm87_SH" => "021773a38db1bc3ede7f28142f901a161c7b7737875edbb40082a201c55dcf0add",
+    "oszy_EU" => "03d1ffd680491b98a3ec5541715681d1a45293c8efb1722c32392a1d792622596a",
+    "chmex_AR" => "036c856ea778ea105b93c0be187004d4e51161eda32888aa307b8f72d490884005",
+    "dragonhound_NA" => "0227e5cad3731e381df157de189527aac8eb50d82a13ce2bd81153984ebc749515",
+    "strob_SH" => "025ceac4256cef83ca4b110f837a71d70a5a977ecfdf807335e00bc78b560d451a",
+    "madmax_EU" => "02ea0cf4d6d151d0528b07efa79cc7403d77cb9195e2e6c8374f5074b9a787e287",
+    "dudezmobi_AR" => "027ecd974ff2a27a37ee69956cd2e6bb31a608116206f3e31ef186823420182450",
+    "daemonfox_NA" => "022d6f4885f53cbd668ad7d03d4f8e830c233f74e3a918da1ed247edfc71820b3d",
+    "nutellalicka_SH" => "02f4b1e71bc865a79c05fe333952b97cb040d8925d13e83925e170188b3011269b",
+    "starfleet_EU" => "025c7275bd750936862b47793f1f0bb3cbed60fb75a48e7da016e557925fe375eb",
+    "mrlynch_AR" => "031987dc82b087cd53e23df5480e265a5928e9243e0e11849fa12359739d8b18a4",
+    "greer_NA" => "03e0995615d7d3cf1107effa6bdb1133e0876cf1768e923aa533a4e2ee675ec383",
+    "mcrypt_SH" => "025faab3cc2e83bf7dad6a9463cbff86c08800e937942126f258cf219bc2320043",
+    "decker_EU" => "03777777caebce56e17ca3aae4e16374335b156f1dd62ee3c7f8799c6b885f5560",
+    "dappvader_SH" => "02962e2e5af746632016bc7b24d444f7c90141a5f42ce54e361b302cf455d90e6a",
+    "alright_DEV" => "02b73a589d61691efa2ada15c006d27bc18493fea867ce6c14db3d3d28751f8ce3",
+    "artemii235_DEV" => "03bb616b12430bdd0483653de18733597a4fd416623c7065c0e21fe9d96460add1",
+    "tonyl_DEV" => "02d5f7fd6e25d34ab2f3318d60cdb89ff3a812ec5d0212c4c113bb12d12616cfdc",
+    "decker_DEV" => "028eea44a09674dda00d88ffd199a09c9b75ba9782382cc8f1e97c0fd565fe5707"
+);
+
+// https://github.com/KomodoPlatform/dPoW/blob/s4/iguana/3rd_party
+$Notaries_elected_S4_3rdparty = Array(
+    "alien_AR" => "024f20c096b085308e21893383f44b4faf1cdedea9ad53cc7d7e7fbfa0c30c1e71",
+    "alien_EU" => "022b85908191788f409506ebcf96a892f3274f352864c3ed566c5a16de63953236",
+    "strob_NA" => "02285bf2f9e96068ecac14bc6f770e394927b4da9f5ba833eaa9468b5d47f203a3",
+    "titomane_SH" => "02abf206bafc8048dbdc042b8eb6b1e356ea5dbe149eae3532b4811d4905e5cf01",
+    "fullmoon_AR" => "03639bc56d3fecf856f17759a441c5893668e7c2d460f3d216798a413cd6766bb2",
+    "phba2061_EU" => "03369187ce134bd7793ee34af7756fe1ab27202e09306491cdd5d8ad2c71697937",
+    "fullmoon_NA" => "03e388bcc579ac2675f8fadfa921eec186dcea8d2b43de1eed6caba23d5a962b74",
+    "fullmoon_SH" => "03a5cfda2b097c808834ccdd805828c811b519611feabdfe6b3644312e53f6748f",
+    "madmax_AR" => "027afddbcf690230dd8d435ec16a7bfb0083e6b77030f763437f291dfc40a579d0",
+    "titomane_EU" => "02276090e483db1a01a802456b10831b3b6e0a6ad3ece9b2a01f4aad0e480c8edc",
+    "cipi_NA" => "03f4e69edcb4fa3b2095cb8cb1ca010f4ec4972eac5d8822397e5c8d87aa21a739",
+    "indenodes_SH" => "031d1584cf0eb4a2d314465e49e2677226b1615c3718013b8d6b4854c15676a58c",
+    "decker_AR" => "02a85540db8d41c7e60bf0d33d1364b4151cad883dd032878ea4c037f67b769635",
+    "indenodes_EU" => "03a416533cace0814455a1bb1cd7861ce825a543c6f6284a432c4c8d8875b7ace9",
+    "madmax_NA" => "036d3afebe1eab09f4c38c3ee6a4659ad390f3df92787c11437a58c59a29e408e6",
+    "chainzilla_SH" => "0311dde03c2dd654ce78323b718ed3ad73a464d1bde97820f3395f54788b5420dd",
+    "peer2cloud_AR" => "0243958faf9ae4d43b598b859ddc595c170c4cf50f8e4517d660ae5bc72aeb821b",
+    "pirate_EU" => "0240011b95cde819f298fe0f507b2260c9fecdab784924076d4d1e54c522103cb1",
+    "webworker01_NA" => "02de90c720c007229374772505a43917a84ed129d5fbcfa4949cc2e9b563351124",
+    "zatjum_SH" => "0241c5660ca540780be66603b1791127a1261d56abbcb7562c297eec8e4fc078fb",
+    "titomane_AR" => "03958bd8d13fe6946b8d0d0fbbc3861c72542560d0276e80a4c6b5fe55bc758b81",
+    "chmex_EU" => "030bf7bd7ad0515c33b5d5d9a91e0729baf801b9002f80495ae535ea1cebb352cb",
+    "indenodes_NA" => "02b3908eda4078f0e9b6704451cdc24d418e899c0f515fab338d7494da6f0a647b",
+    "patchkez_SH" => "028c08db6e7242681f50db6c234fe3d6e12fb1a915350311be26373bac0d457d49",
+    "metaphilibert_AR" => "0239e34ad22957bbf4c8df824401f237b2afe8d40f7a645ecd43e8f27dde1ab0da",
+    "etszombi_EU" => "03a5c083c78ba397970f20b544a01c13e7ed36ca8a5ae26d5fe7bd38b92b6a0c94",
+    "pirate_NA" => "02ad7ef25d2dd461e361120cd3efe7cbce5e9512c361e9185aac33dd303d758613",
+    "metaphilibert_SH" => "03b21ff042bf1730b28bde43f44c064578b41996117ac7634b567c3773089e3be3",
+    "indenodes_AR" => "0242778789986d614f75bcf629081651b851a12ab1cc10c73995b27b90febb75a2",
+    "chainmakers_NA" => "028803e07bcc521fde264b7191a944f9b3612e8ee4e24a99bcd903f6976240839a",
+    "mihailo_EU" => "036494e7c9467c8c7ff3bf29e841907fb0fa24241866569944ea422479ec0e6252",
+    "tonyl_AR" => "0229e499e3f2e065ced402ceb8aaf3d5ab8bd3793aa074305e9fa30772ce604908",
+    "alien_NA" => "022f62b56ddfd07c9860921c701285ac39bb3ac8f6f083d1b59c8f4943be3de162",
+    "pungocloud_SH" => "02641c36ae6747b88150a463a1fe65cf7a9d1c00a64387c73f296f0b64e77c7d3f",
+    "node9_EU" => "0392e4c9400e69f28c6b9e89d586da69d5a6af7702f1045eaa6ebc1996f0496e1f",
+    "smdmitry_AR" => "0397b7584cb29717b721c0c587d4462477efc1f36a56921f133c9d17b0cd7f278a",
+    "nodeone_NA" => "0310a249c6c2dcc29f2135715138a9ddb8e01c0eab701cbd0b96d9cec660dbdc58",
+    "gcharang_SH" => "02a654037d12cdd609f4fad48e15ec54538e03f61fdae1acb855f16ebacac6bd73",
+    "cipi_EU" => "026f4f66385daaf8313ef30ffe4988e7db497132682dca185a70763d93e1417d9d",
+    "etszombi_AR" => "03bfcbca83f11e622fa4eed9a1fa25dba377981ea3b22e3d0a4015f9a932af9272",
+    "pbca26_NA" => "03c18431bb6bc95672f640f19998a196becd2851d5dcba4795fe8d85b7d77eab81",
+    "mylo_SH" => "026d5f29d09ff3f33e14db4811606249b2438c6bcf964876714f81d1f2d952acde",
+    "swisscertifiers_EU" => "02e7722ebba9f8b5ebfb4e87d4fa58cc75aef677535b9cfc060c7d9471aacd9c9e",
+    "marmarachain_AR" => "028690ca1e3afdf8a38b421f6a41f5ff407afc96d5a7a6a488330aae26c8b086bb",
+    "karasugoi_NA" => "02f803e6f159824a181cc5d709f3d1e7ff65f19e1899920724aeb4e3d2d869f911",
+    "phm87_SH" => "03889a10f9df2caef57220628515693cf25316fe1b0693b0241419e75d0d0e66ed",
+    "oszy_EU" => "03c53bd421de4a29ce68c8cc83f802e1181e77c08f8f16684490d61452ea8d023a",
+    "chmex_AR" => "030cd487e10fbf142e0e8d582e702ecb775f378569c3cb5acd0ff97b6b12803588",
+    "dragonhound_NA" => "029912212d370ee0fb4d38eefd8bfcd8ab04e2c3b0354020789c29ddf2a35c72d6",
+    "strob_SH" => "0213751a1c59d3489ca85b3d62a3d606dcef7f0428aa021c1978ea16fb38a2fad6",
+    "madmax_EU" => "0397ec3a4ad84b3009566d260c89f1c4404e86e5d044964747c9371277e38f5995",
+    "dudezmobi_AR" => "033c121d3f8d450174674a73f3b7f140b2717a7d51ea19ee597e2e8e8f9d5ed87f",
+    "daemonfox_NA" => "023c7584b1006d4a62a4b4c9c1ede390a3789316547897d5ed49ff9385a3acb411",
+    "nutellalicka_SH" => "0284c4d3cb97dd8a32d10fb32b1855ae18cf845dad542e3b8937ca0e998fb54ecc",
+    "starfleet_EU" => "03c6e047218f34644ccba67e317b9da5d28e68bbbb6b9973aef1281d2bafa46496",
+    "mrlynch_AR" => "03e67440141f53a08684c329ebc852b018e41f905da88e52aa4a6dc5aa4b12447a",
+    "greer_NA" => "0262da6aaa0b295b8e2f120035924758a4a630f899316dc63ee15ef03e9b7b2b23",
+    "mcrypt_SH" => "027a4ca7b11d3456ff558c08bb04483a89c7f383448461fd0b6b3b07424aabe9a4",
+    "decker_EU" => "027777775b89ff548c3be54fb0c9455437d87f38bfce83bdef113899881b219c9e",
+    "dappvader_SH" => "025199bc04bcb8a17976d9fe8bc87763a6150c2727321aa59bf34a2b49f2f3a0ce",
+    "alright_DEV" => "03b6f9493658bdd102503585a08ae642b49d6a68fb69ac3626f9737cd7581abdfa",
+    "artemii235_DEV" => "037a20916d2e9ea575300ac9d729507c23a606b9a200c8e913d7c9832f912a1fa7",
+    "tonyl_DEV" => "0258b77d7dcfc6c2628b0b6b438951a6e74201fb2cd180a795e4c37fcf8e78a678",
+    "decker_DEV" => "02fca8ee50e49f480de275745618db7b0b3680b0bdcce7dcae7d2e0fd5c3345744"
+);
+
 function file_get_contents_curl($url) {
     $ch = curl_init();
 
@@ -315,85 +451,94 @@ function gettemplate($needfund_addresses, $amount = 0.77777777, $command = "") {
 
 function GenAddressesTable($nnelected, $title, $kmdonly, $id) {
 
-echo '<h3 name="'.$id.'">'.$title.'</h3>';
-echo '<table id="'.$id.'" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%"><thead>
-   <tr>
-      <th>Index</th>
-      <th>Name</th>';
-if ($kmdonly || $id == "season2-mainnet")
-echo '      
-      <th>BTC</th>';
-echo '      
-      <th>KMD</th>';
-if (!$kmdonly)
-echo'      
-  <th>GAME</th>
-  <th>EMC2</th>
-  <th>GIN</th>';
-echo'  
-   </tr>
-</thead>
-<tbody>' . PHP_EOL;
-
-$bitcoinECDSA = new BitcoinECDSADecker();
-
-$index = 0;
-
-$btc_addresses = Array();
-$kmd_addresses = Array();
-$game_addresses = Array();
-$emc2_address = Array();
-$gin_addresses = Array();
-
-foreach ($nnelected as $key => $value) {
-
-    $bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 0)); // 0 - Bitcoin
-    $btc_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
-    $bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 60)); // 60 - Komodo
-    $kmd_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
-    $bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 38)); // 38 - GameCredits
-    $game_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
-
-    /*
-	$bitcoinECDSA->setNetworkPrefix("1cb8"); // Hush
-        $hush_address = $bitcoinECDSA->getUncompressedAddress(true, $value); */
-
-	$bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 33)); // 33 - EMC2
-    $emc2_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
-    
-    $bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 38)); 
-    $gin_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
-
-    //echo "[".sprintf("%02d",$index)."] ". sprintf("%20s",$key) . "" . sprintf("%36s",$address) . PHP_EOL;
-    
-    $btc_addresses[] = $btc_address;
-    $kmd_addresses[] = $kmd_address;
-    $game_addresses[] = $game_address;
-    $emc2_addresses[] = $emc2_address;
-    $gin_addresses[] = $gin_address;
-
-    echo '
-         <tr>
-	    <td>'.sprintf("%02d",$index).'</td>
-            <td data-toggle="tooltip" title="'. $value .'">'.$key.'</td>';
+    echo '<h3 name="'.$id.'">'.$title.'</h3>';
+    echo '<table id="'.$id.'" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%"><thead>
+    <tr>
+        <th>Index</th>
+        <th>Name</th>';
     if ($kmdonly || $id == "season2-mainnet")
-    echo '            
-            <td><a href="https://blockchain.info/address/'.$btc_address.'" target="_blank">'.$btc_address.'</a></td>';
-    echo '            
-            <td><a href="https://kmdexplorer.io/address/'.$kmd_address.'" target="_blank">'.$kmd_address.'</a></td>';
+    echo '      
+        <th>BTC</th>';
+    echo '      
+        <th>KMD</th>';
     if (!$kmdonly)
-    echo '
-	    <td><a href="https://prohashing.com/explorerJson/getAddress?address='.$game_address.'&coin_id=121" target="_blank">'.$game_address.'</a></td>
-            <!--<td><a href="https://blockexplorer.gamecredits.com/addresses/'.$game_address.'" target="_blank">'.$game_address.'</a></td>-->
-            <td><a href="https://chainz.cryptoid.info/emc2/address.dws?'.$emc2_address.'.htm" target="_blank">'.$emc2_address.'</a></td>
-            <td><a href="https://explorer.gincoin.io/address/'.$gin_address.'" target="_blank">'.$gin_address.'</a></td>';
-    echo '
-         </tr>
-';
+    echo'      
+    <th>GAME</th>
+    <th>EMC2</th>
+    <th>GIN</th>
+    <th>AYA</th>';
+    echo'</tr>
+    </thead>
+    <tbody>' . PHP_EOL;
 
-	$index++;
+    $bitcoinECDSA = new BitcoinECDSADecker();
 
-	
+    $index = 0;
+
+    $btc_addresses = Array();
+    $kmd_addresses = Array();
+    $game_addresses = Array();
+    $emc2_address = Array();
+    $gin_addresses = Array();
+    $aya_addresses = Array();
+
+    foreach ($nnelected as $key => $value) {
+
+        $bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 0)); // 0 - Bitcoin
+        $btc_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
+        $bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 60)); // 60 - Komodo
+        $kmd_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
+        $bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 38)); // 38 - GameCredits
+        $game_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
+
+        /*
+        $bitcoinECDSA->setNetworkPrefix("1cb8"); // Hush
+            $hush_address = $bitcoinECDSA->getUncompressedAddress(true, $value); */
+
+        $bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 33)); // 33 - EMC2
+        $emc2_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
+        
+        $bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 38)); 
+        $gin_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
+
+        $bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 38)); 
+        $gin_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
+
+        $bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 23)); 
+        $aya_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
+
+        //echo "[".sprintf("%02d",$index)."] ". sprintf("%20s",$key) . "" . sprintf("%36s",$address) . PHP_EOL;
+        
+        $btc_addresses[] = $btc_address;
+        $kmd_addresses[] = $kmd_address;
+        $game_addresses[] = $game_address;
+        $emc2_addresses[] = $emc2_address;
+        $gin_addresses[] = $gin_address;
+        $aya_addresses[] = $aya_address;
+
+        echo '
+            <tr>
+            <td>'.sprintf("%02d",$index).'</td>
+                <td data-toggle="tooltip" title="'. $value .'">'.$key.'</td>';
+        if ($kmdonly || $id == "season2-mainnet")
+        echo '            
+                <td><a href="https://blockchain.info/address/'.$btc_address.'" target="_blank">'.$btc_address.'</a></td>';
+        echo '            
+                <td><a href="https://kmdexplorer.io/address/'.$kmd_address.'" target="_blank">'.$kmd_address.'</a></td>';
+        if (!$kmdonly)
+        echo '
+            <td><a href="https://prohashing.com/explorerJson/getAddress?address='.$game_address.'&coin_id=121" target="_blank">'.$game_address.'</a></td>
+                <!--<td><a href="https://blockexplorer.gamecredits.com/addresses/'.$game_address.'" target="_blank">'.$game_address.'</a></td>-->
+                <td><a href="https://chainz.cryptoid.info/emc2/address.dws?'.$emc2_address.'.htm" target="_blank">'.$emc2_address.'</a></td>
+                <td><a href="https://explorer.gincoin.io/address/'.$gin_address.'" target="_blank">'.$gin_address.'</a></td>
+                <td><a href="https://explorer.aryacoin.io/address/'.$aya_address.'" target="_blank">'.$aya_address.'</a></td>';
+        echo '
+            </tr>
+    ';
+
+        $index++;
+
+        
 }
 
 echo '      </tbody>
@@ -423,12 +568,17 @@ if (!$kmdonly) {
     echo '<div class="daemon-cli-snippet"><p><strong>GAME/GIN</strong></p><p>Command snippet:</p><div class="highlight"><pre>'.$template.'</pre></div></div>';
     $template = gettemplate($emc2_addresses);
     echo '<div class="daemon-cli-snippet"><p><strong>EMC2</strong></p><p>Command snippet:</p><div class="highlight"><pre>'.$template.'</pre></div></div>';
+    $template = gettemplate($aya_addresses);
+    echo '<div class="daemon-cli-snippet"><p><strong>AYA</strong></p><p>Command snippet:</p><div class="highlight"><pre>'.$template.'</pre></div></div>';
 }
 
 echo '</div></div>
 ';
 
 } 
+
+GenAddressesTable($Notaries_elected_S4_mainnet,"Notaries (S4 Mainnet)", true, "season4-mainnet");
+GenAddressesTable($Notaries_elected_S4_3rdparty,"Notaries (S4 3rd-party)", false, "season4-3rdparty");
 
 GenAddressesTable($Notaries_elected_S3_mainnet,"Notaries (S3 Mainnet)", true, "season3-mainnet");
 GenAddressesTable($Notaries_elected_S3_3rdparty,"Notaries (S3 3rd-party)", false, "season3-3rdparty");
@@ -444,6 +594,8 @@ $(document).ready(function() {
   $("#season2-mainnet").DataTable();
   $("#season3-mainnet").DataTable();
   $("#season3-3rdparty").DataTable();
+  $("#season4-mainnet").DataTable();
+  $("#season4-3rdparty").DataTable();
 });';
 
 echo '
