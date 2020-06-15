@@ -1,5 +1,5 @@
-#!/bin/bash
-# KMD+AC bootstrap gen (c) Decker, 2019
+#!/usr/bin/env bash
+# 3P bootstrap gen (c) Decker, 2019-2020
 
 # --------------------------------------------------------------------------
 function init_colors() {
@@ -23,21 +23,51 @@ function log_print() {
 # --------------------------------------------------------------------------
 function bootstrap() {
 
-    if [ ! -z $1 ] && [ $1 != "KMD" ]
+    if [ -z $1 ]; then
+        log_print "${RED}\x5BERROR\x5D${RESET} Empty coin name ... "
+        return 1;
+    fi
+
+    du_files_list=""
+    tar_files_list=""
+
+    if [ $1 == "HUSH3" ] || [ $1 == "VRSC" ]
         then
             coin=$1
             data_folder=${HOME}/.komodo/$coin
             transform='s,^.,'${coin}',S'
         else
-            coin="KMD"
-            data_folder=${HOME}/.komodo
+            coin=$1
+            case $coin in
+                AYA)
+                    data_folder=${HOME}/.aryacoin
+                    # du_files_list+="${data_folder}/example.dat "
+                    # tar_files_list+="./example.dat "
+                    ;;
+                CHIPS)
+                    data_folder=${HOME}/.chips
+                    ;;
+                EMC2)
+                    data_folder=${HOME}/.einsteinium
+                    ;;
+                GAME)
+                    data_folder=${HOME}/.gamecredits
+                    ;;
+                *)
+                    log_print "${RED}\x5BERROR\x5D${RESET} Unknown coin ${coin} ... "
+                    return 1
+                    ;;
+            esac
+            # data_folder=${HOME}/.komodo
             transform=''
     fi
 
     archive_name=bootstrap.${coin,,}.tar.gz
-    du_files_list="${data_folder}/blocks ${data_folder}/chainstate ${data_folder}/notarisations" # ${data_folder}/komodostate ${data_folder}/komodostate.ind
-    tar_files_list="./blocks ./chainstate ./notarisations" #  ./komodostate ./komodostate.ind
-    files_size=$(du -cak ${du_files_list} | cut -f1 | tail -1)
+
+    du_files_list+="${data_folder}/blocks ${data_folder}/chainstate" # ${data_folder}/notarisations ${data_folder}/komodostate ${data_folder}/komodostate.ind
+    tar_files_list+="./blocks ./chainstate" #  ./notarisations ./komodostate ./komodostate.ind
+
+    files_size=$(du -cak ${du_files_list} 2>/dev/null | cut -f1 | tail -1)
     checkpoint=$((files_size / 100))
     log_print "Archiving \x5B${YELLOW}$i${RESET}\x5D --> ${archive_name}"
     log_print "Directory: ${data_folder}"
@@ -52,6 +82,11 @@ function bootstrap() {
         --exclude={backup_*.dat,.lock,komodod.pid} \
         -czvf $(pwd)/${archive_name} ${tar_files_list} > /dev/null
 
+    # https://stackoverflow.com/questions/46167772/with-gnu-gzip-environment-variable-deprecated-how-to-control-zlib-compression-v
+
+    # GZIP=-9 tar -zcf ... files to compress ...
+    # tar -I 'gzip -9' -cf ... files to compress ...
+
 }
 # --------------------------------------------------------------------------
 function walletbackup_mm() {
@@ -60,14 +95,37 @@ function walletbackup_mm() {
     # backup - it will add each wallet.dat as a new member (!), so in .tar you can possible have multiple
     # wallet.dat from each coin.
 
-    if [ ! -z $1 ] && [ $1 != "KMD" ]
+    if [ -z $1 ]; then
+        log_print "[ERROR] Empty coin name ... "
+        return 1;
+    fi
+
+    if [ $1 == "HUSH3" ] || [ $1 == "VRSC" ]
         then
             coin=$1
             data_folder=${HOME}/.komodo/$coin
             transform='s,^.,'${coin}',S'
         else
-            coin="KMD"
-            data_folder=${HOME}/.komodo
+            coin=$1
+            case $coin in
+                AYA)
+                    data_folder=${HOME}/.aryacoin
+                    ;;
+                CHIPS)
+                    data_folder=${HOME}/.chips
+                    ;;
+                EMC2)
+                    data_folder=${HOME}/.einsteinium
+                    ;;
+                GAME)
+                    data_folder=${HOME}/.gamecredits
+                    ;;
+                *)
+                    log_print "${RED}\x5BERROR\x5D${RESET} Unknown coin ${coin} ... "
+                    return 1
+                    ;;
+            esac
+            # data_folder=${HOME}/.komodo
             transform=''
     fi
 
@@ -83,7 +141,7 @@ function walletbackup_mm() {
 
 # --- Variables ---
 #komodo_cli_binary="$HOME/komodo/src/komodo-cli"
-komodo_cli_binary="/home/decker/ssd_nvme/komodo_src_beta/src/komodo-cli"
+
 # -----------------
 #
 # https://www.gnu.org/software/bash/manual/html_node/Shell-Parameter-Expansion.html
@@ -97,19 +155,20 @@ komodo_cli_binary="/home/decker/ssd_nvme/komodo_src_beta/src/komodo-cli"
 # -----------------
 
 init_colors
-echo "KMD+AC bootstrap gen (c) Decker, 2019"
+echo "3P bootstrap gen (c) Decker, 2019-2020"
 echo
-log_print "Start making bootstrap for KMD/AC ..."
+log_print "Start making bootstrap for 3P ..."
 
 # https://stackoverflow.com/questions/18669756/bash-how-to-extract-data-from-a-column-in-csv-file-and-put-it-in-an-array
 
 # you can fill coins array from your local assetchains.json file
 # readarray -t kmd_coins < <(cat $HOME/komodo/src/assetchains.json | jq -r '[.[].ac_name] | join("\n")')
 # or directly from jl777/komodo beta branch assetchains.json
-readarray -t kmd_coins < <(curl -s https://raw.githubusercontent.com/KomodoPlatform/dPoW/master/iguana/assetchains.json | jq -r '[.[].ac_name] | join("\n")')
+# readarray -t kmd_coins < <(curl -s https://raw.githubusercontent.com/KomodoPlatform/dPoW/master/iguana/assetchains.json | jq -r '[.[].ac_name] | join("\n")')
 # you can spectify coins array manually if you want
 # declare -a kmd_coins=(BEER PIZZA)
-kmd_coins+=(KMD)
+
+kmd_coins+=(AYA CHIPS EMC2 GAME HUSH3 VRSC TEST)
 # printf '%s\n' "${kmd_coins[@]}"
 
 # rm wallets.$(date -u +%Y%m%d).tar
