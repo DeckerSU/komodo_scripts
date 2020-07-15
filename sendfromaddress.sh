@@ -1,4 +1,5 @@
 #!/bin/bash
+# Usage Guide: https://techloverhd.com/2020/07/how-to-send-komodo-or-any-smart-chain-funds-from-your-address-without-rescanning-the-wallet/
 
 FROM_ADDRESS=RMR3NGjTGjHcEpixpveKXX9L4wTUf3Db2x
 curl -s https://kmdexplorer.io/insight-api-komodo/addr/$FROM_ADDRESS/utxo > all.utxos
