@@ -463,10 +463,10 @@ function GenAddressesTable($nnelected, $title, $kmdonly, $id) {
         <th>KMD</th>';
     if (!$kmdonly)
     echo'      
-    <th>GAME</th>
     <th>EMC2</th>
     <th>GIN</th>
-    <th>AYA</th>';
+    <th>AYA</th>
+    <th>GLEEC</th>';
     echo'</tr>
     </thead>
     <tbody>' . PHP_EOL;
@@ -477,10 +477,10 @@ function GenAddressesTable($nnelected, $title, $kmdonly, $id) {
 
     $btc_addresses = Array();
     $kmd_addresses = Array();
-    $game_addresses = Array();
-    $emc2_address = Array();
+    $emc2_addresses = Array();
     $gin_addresses = Array();
     $aya_addresses = Array();
+    $gleec_addresses = Array();
 
     foreach ($nnelected as $key => $value) {
 
@@ -488,8 +488,6 @@ function GenAddressesTable($nnelected, $title, $kmdonly, $id) {
         $btc_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
         $bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 60)); // 60 - Komodo
         $kmd_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
-        $bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 38)); // 38 - GameCredits
-        $game_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
 
         /*
         $bitcoinECDSA->setNetworkPrefix("1cb8"); // Hush
@@ -501,20 +499,20 @@ function GenAddressesTable($nnelected, $title, $kmdonly, $id) {
         $bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 38)); 
         $gin_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
 
-        $bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 38)); 
-        $gin_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
-
         $bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 23)); 
         $aya_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
+
+        $bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 35));
+        $gleec_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
 
         //echo "[".sprintf("%02d",$index)."] ". sprintf("%20s",$key) . "" . sprintf("%36s",$address) . PHP_EOL;
         
         $btc_addresses[] = $btc_address;
         $kmd_addresses[] = $kmd_address;
-        $game_addresses[] = $game_address;
         $emc2_addresses[] = $emc2_address;
         $gin_addresses[] = $gin_address;
         $aya_addresses[] = $aya_address;
+        $gleec_addresses[] = $gleec_address;
 
         echo '
             <tr>
@@ -527,18 +525,15 @@ function GenAddressesTable($nnelected, $title, $kmdonly, $id) {
                 <td><a href="https://kmdexplorer.io/address/'.$kmd_address.'" target="_blank">'.$kmd_address.'</a></td>';
         if (!$kmdonly)
         echo '
-            <td><a href="https://prohashing.com/explorerJson/getAddress?address='.$game_address.'&coin_id=121" target="_blank">'.$game_address.'</a></td>
-                <!--<td><a href="https://blockexplorer.gamecredits.com/addresses/'.$game_address.'" target="_blank">'.$game_address.'</a></td>-->
                 <td><a href="https://chainz.cryptoid.info/emc2/address.dws?'.$emc2_address.'.htm" target="_blank">'.$emc2_address.'</a></td>
                 <td><a href="https://explorer.gincoin.io/address/'.$gin_address.'" target="_blank">'.$gin_address.'</a></td>
-                <td><a href="https://explorer.aryacoin.io/address/'.$aya_address.'" target="_blank">'.$aya_address.'</a></td>';
+                <td><a href="https://ayaexplorer.guarda.co/address/'.$aya_address.'" target="_blank">'.$aya_address.'</a></td>
+                <td><a href="https://gleechain.com/address/'.$gleec_address.'" target="_blank">'.$gleec_address.'</a></td>';
         echo '
             </tr>
     ';
 
         $index++;
-
-        
 }
 
 echo '      </tbody>
@@ -564,12 +559,14 @@ echo '<div class="daemon-cli-snippet"><p><strong>KMD</strong></p><p>Command snip
 
 if (!$kmdonly) {
 
-    $template = gettemplate($game_addresses);
-    echo '<div class="daemon-cli-snippet"><p><strong>GAME/GIN</strong></p><p>Command snippet:</p><div class="highlight"><pre>'.$template.'</pre></div></div>';
+    $template = gettemplate($gin_addresses);
+    echo '<div class="daemon-cli-snippet"><p><strong>GIN</strong></p><p>Command snippet:</p><div class="highlight"><pre>'.$template.'</pre></div></div>';
     $template = gettemplate($emc2_addresses);
     echo '<div class="daemon-cli-snippet"><p><strong>EMC2</strong></p><p>Command snippet:</p><div class="highlight"><pre>'.$template.'</pre></div></div>';
     $template = gettemplate($aya_addresses);
     echo '<div class="daemon-cli-snippet"><p><strong>AYA</strong></p><p>Command snippet:</p><div class="highlight"><pre>'.$template.'</pre></div></div>';
+    $template = gettemplate($gleec_addresses);
+    echo '<div class="daemon-cli-snippet"><p><strong>GLEEC</strong></p><p>Command snippet:</p><div class="highlight"><pre>'.$template.'</pre></div></div>';
 }
 
 echo '</div></div>
