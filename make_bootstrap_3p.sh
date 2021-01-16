@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 3P bootstrap gen (c) Decker, 2019-2020
+# 3P bootstrap gen (c) Decker, 2019-2021
 
 # --------------------------------------------------------------------------
 function init_colors() {
@@ -31,7 +31,7 @@ function bootstrap() {
     du_files_list=""
     tar_files_list=""
 
-    if [ $1 == "HUSH3" ] || [ $1 == "VRSC" ]
+    if [ $1 == "VRSC" ] || [ $1 == "MCL" ]
         then
             coin=$1
             data_folder=${HOME}/.komodo/$coin
@@ -52,6 +52,12 @@ function bootstrap() {
                     ;;
                 GAME)
                     data_folder=${HOME}/.gamecredits
+                    ;;
+                GLEEC)
+                    data_folder=${HOME}/.gleecbtc
+                    ;;
+                PBC)
+                    data_folder=${HOME}/.powerblockcoin
                     ;;
                 *)
                     log_print "${RED}\x5BERROR\x5D${RESET} Unknown coin ${coin} ... "
@@ -100,7 +106,7 @@ function walletbackup_mm() {
         return 1;
     fi
 
-    if [ $1 == "HUSH3" ] || [ $1 == "VRSC" ]
+    if [ $1 == "VRSC" ] || [ $1 == "MCL" ]
         then
             coin=$1
             data_folder=${HOME}/.komodo/$coin
@@ -119,6 +125,12 @@ function walletbackup_mm() {
                     ;;
                 GAME)
                     data_folder=${HOME}/.gamecredits
+                    ;;
+                GLEEC)
+                    data_folder=${HOME}/.gleecbtc
+                    ;;
+                PBC)
+                    data_folder=${HOME}/.powerblockcoin
                     ;;
                 *)
                     log_print "${RED}\x5BERROR\x5D${RESET} Unknown coin ${coin} ... "
@@ -168,7 +180,7 @@ log_print "Start making bootstrap for 3P ..."
 # you can spectify coins array manually if you want
 # declare -a kmd_coins=(BEER PIZZA)
 
-kmd_coins+=(AYA CHIPS EMC2 GAME HUSH3 VRSC TEST)
+kmd_coins+=(AYA CHIPS EMC2 GLEEC MCL PBC VRSC)
 # printf '%s\n' "${kmd_coins[@]}"
 
 # rm wallets.$(date -u +%Y%m%d).tar
