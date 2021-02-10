@@ -206,6 +206,26 @@ function sendrawtransaction {
 }
 
 # --------------------------------------------------------------------------
+function waitfortransaction {
+    wait_counter=0
+    confirmations=0
+    while [ "$confirmations" -eq "0" ]
+    do
+        GET_TRANSACTION=$(curl -s --user "${KOMODOD_RPCUSER}:${KOMODOD_RPCPASSWORD}" --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "gettransaction", "params": ["'"${SEND_RAW_TX_HASH}"'"] }' -H 'content-type: text/plain;' "http://${KOMODOD_RPCHOST}:${KOMODO_RPCPORT}/")
+        if [ "$(echo "${GET_TRANSACTION}" | jq .error)" == null ]; then
+            # echo ${GET_TRANSACTION}
+            confirmations=$(echo "${GET_TRANSACTION}" | jq -r .result.confirmations)
+            wait_counter=$((wait_counter+1))
+            log_print "Waiting for confirmations ($wait_counter).$confirmations"
+            sleep 10
+        else
+            log_print "${RED}ERROR $(echo ${GET_TRANSACTION} | jq .error.code) : $(echo ${GET_TRANSACTION} | jq -r .error.message)${RESET}"
+            return 1
+        fi
+    done
+}
+
+# --------------------------------------------------------------------------
 function cleanwallettransactions {
     CLEAN_WALLWET_TXS=$(curl -s --user "${KOMODOD_RPCUSER}:${KOMODOD_RPCPASSWORD}" --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "cleanwallettransactions", "params": ["'"${SEND_RAW_TX_HASH}"'"] }' -H 'content-type: text/plain;' "http://${KOMODOD_RPCHOST}:${KOMODO_RPCPORT}/")
     if [ "$(echo "${CLEAN_WALLWET_TXS}" | jq .error)" == null ]; then
@@ -275,6 +295,9 @@ signrawtransaction || exit
 if false; then
     sendrawtransaction || exit
     log_print "Broadcasted: ${BLUE}${SEND_RAW_TX_HASH}${RESET} - ${GREEN}OK${RESET}"
+    sleep 10 # to be sure that the tx appeared in wallet, otherwise gettransaction will fail
+    waitfortransaction || exit
+
     cleanwallettransactions || exit
     log_print "Clean wallet result: ${CLEAN_WALLWET_TXS}"
 else
