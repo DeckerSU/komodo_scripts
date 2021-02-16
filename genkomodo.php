@@ -140,6 +140,8 @@ $k[31] = Chr (Ord($k[31]) | 64);
 $k = bin2hex($k);
 
 $bitcoinECDSA->setPrivateKey($k);
+// uncomment the line below if you want to calc everything from WIF, instead of passphrase
+// $bitcoinECDSA->setPrivateKeyWithWif("Uqe8cy26KvC2xqfh3aCpKvKjtoLC5YXiDW3iYf4MGSSy1RgMm3V5");
 echo "             Passphrase: '" . $passphrase . "'" . PHP_EOL;
 echo PHP_EOL;
 
