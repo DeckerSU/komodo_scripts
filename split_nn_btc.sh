@@ -22,7 +22,7 @@ WHITE="\033[37m"
 
 NN_ADDRESS=12Rqm2rZCfBzAVAL5CCb7DUaMU2VKfvJFL # fill your NN address here
 NN_PUBKEY=0287b551ba26f24b792d24aec94f96a72a6f40142717f290b684cab3904d4e095c # fill your pubkey here
-NN_HASH160=	0faacf9bf91ba026e7a79eeae26c3bc70dfce19b # take it from https://www.blockchain.com/btc/address/$NN_ADDRESS
+NN_HASH160=	0faacf9bf91ba026e7a79eeae26c3bc70dfce19b # take it from https://cryptofrontline.com/Tools/Upload/tool/address-to-hash
 
 FROM_ADDRESS=12CANsiKa1vjdwKnu2AGPDgqDCGpEpqCsW # address from funds are taken
 FROM_HASH160=0d14876d237dbe8d895ce5caf1fe3dadc6a782e0 # it's HASH160
