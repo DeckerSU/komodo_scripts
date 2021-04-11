@@ -143,11 +143,15 @@ $k = bin2hex($k);
 $bitcoinECDSA->setPrivateKey($k);
 // uncomment the line below if you want to calc everything from WIF, instead of passphrase
 // $bitcoinECDSA->setPrivateKeyWithWif("Uqe8cy26KvC2xqfh3aCpKvKjtoLC5YXiDW3iYf4MGSSy1RgMm3V5");
-echo "             Passphrase: '" . $passphrase . "'" . PHP_EOL;
-echo PHP_EOL;
 
+echo "{ \"passphrase\": \"" . $passphrase . "\"," . PHP_EOL;
 
-foreach ($coins as $coin) {
+echo "\"coins\":[" . PHP_EOL;
+
+$length = count($coins);
+for ($i = 0; $i < $length; $i++) {
+
+$coin = $coins[$i];
 
 if (is_array($coin["PUBKEY_ADDRESS"])) {
       $NetworkPrefix = bin2hex(implode("",array_map("chr", $coin["PUBKEY_ADDRESS"])));
@@ -158,19 +162,27 @@ if (is_array($coin["PUBKEY_ADDRESS"])) {
 // Returns the compressed public key. The compressed PubKey starts with 0x02 if it's y coordinate is even and 0x03 if it's odd, the next 32 bytes corresponds to the x coordinates.
 $NetworkPrefix = $bitcoinECDSA->getNetworkPrefix();
 
-echo "\x1B[01;37m[\x1B[01;32m "  . $coin["name"] . " \x1B[01;37m]\x1B[0m" . PHP_EOL;
-echo "         Network Prefix: " . $NetworkPrefix . PHP_EOL;
-echo "  Compressed Public Key: " . $bitcoinECDSA->getPubKey() . PHP_EOL;
-echo "Uncompressed Public Key: " . $bitcoinECDSA->getUncompressedPubKey() . PHP_EOL;
-echo "            Private Key: " . $bitcoinECDSA->getPrivateKey() . PHP_EOL;
-echo "         Compressed WIF: " . $bitcoinECDSA->getWIF( true, $coin["SECRET_KEY"]) . PHP_EOL;
-echo "       Uncompressed WIF: " . $bitcoinECDSA->getWIF(false, $coin["SECRET_KEY"]) . PHP_EOL;
+echo "{" . PHP_EOL;
+echo "\"coin\": \""  . $coin["name"] . "\"," . PHP_EOL;
+echo "\"Network Prefix\": \"" . $NetworkPrefix . "\"," . PHP_EOL;
+echo "\"Compressed Public Key\": \"" . $bitcoinECDSA->getPubKey() . "\"," . PHP_EOL;
+echo "\"Uncompressed Public Key\": \"" . $bitcoinECDSA->getUncompressedPubKey() . "\"," . PHP_EOL;
+echo "\"Private Key\": \"" . $bitcoinECDSA->getPrivateKey() . "\"," . PHP_EOL;
+echo "\"Compressed WIF\": \"" . $bitcoinECDSA->getWIF( true, $coin["SECRET_KEY"]) . "\"," . PHP_EOL;
+echo "\"Uncompressed WIF\": \"" . $bitcoinECDSA->getWIF(false, $coin["SECRET_KEY"]) . "\"," . PHP_EOL;
 
 $address = $bitcoinECDSA->getAddress(); //compressed Bitcoin address
-echo "  Compressed Address: " . sprintf("%34s",$address) . PHP_EOL;
+echo "\"Compressed Address\": \"" . sprintf("%34s",$address) . "\"," . PHP_EOL;
 $address = $bitcoinECDSA->getUncompressedAddress();
-echo "Uncompressed Address: " . sprintf("%34s",$address) . PHP_EOL;
+echo "\"Uncompressed Address\": \"" . sprintf("%34s",$address) . "\"" . PHP_EOL;
+if( $i < $length -1 ) {
+    echo "}," . PHP_EOL;
+}else{
+    echo "}" . PHP_EOL;
 }
+}
+
+echo "]," . PHP_EOL;
 
 /* ETH/ERC20 */
 
@@ -182,11 +194,15 @@ echo "Uncompressed Address: " . sprintf("%34s",$address) . PHP_EOL;
 // https://github.com/ethereum/EIPs/issues/55#issuecomment-187159063
 // https://github.com/ethereum/EIPs/blob/master/EIPS/eip-55.md
 
-echo "\x1B[01;37m[\x1B[01;32m "  . "ETH/ERC20" . " \x1B[01;37m]\x1B[0m" . PHP_EOL;
+echo "\"symbols\":" . PHP_EOL ;
+echo "{ \"symbol\":\""  . "ETH/ERC20" . "\"," . PHP_EOL;
 $kec = new Keccak256();
 $bitcoinECDSA->setPrivateKey($k);
 $pubkey = substr($bitcoinECDSA->getUncompressedPubKey(),2);
 
 $address = substr($kec->hash(pack("H*",$pubkey), 256), -40);
-echo "   ETH/ERC20 Address: 0x" . EIP55_2($address) . PHP_EOL;
+echo "\"address\": \"0x" . EIP55_2($address) . "\"" . PHP_EOL;
+echo "}" . PHP_EOL;
+
+echo "}" . PHP_EOL;
 ?>
