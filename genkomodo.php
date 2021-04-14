@@ -164,17 +164,17 @@ $NetworkPrefix = $bitcoinECDSA->getNetworkPrefix();
 
 echo "{" . PHP_EOL;
 echo "\"coin\": \""  . $coin["name"] . "\"," . PHP_EOL;
-echo "\"network-prefix\": \"" . $NetworkPrefix . "\"," . PHP_EOL;
-echo "\"compressed-public-key\": \"" . $bitcoinECDSA->getPubKey() . "\"," . PHP_EOL;
-echo "\"uncompressed-public-key\": \"" . $bitcoinECDSA->getUncompressedPubKey() . "\"," . PHP_EOL;
-echo "\"private-key\": \"" . $bitcoinECDSA->getPrivateKey() . "\"," . PHP_EOL;
-echo "\"compressed-wif\": \"" . $bitcoinECDSA->getWIF( true, $coin["SECRET_KEY"]) . "\"," . PHP_EOL;
-echo "\"uncompressed-wif\": \"" . $bitcoinECDSA->getWIF(false, $coin["SECRET_KEY"]) . "\"," . PHP_EOL;
+echo "\"network_prefix\": \"" . $NetworkPrefix . "\"," . PHP_EOL;
+echo "\"compressed_public_key\": \"" . $bitcoinECDSA->getPubKey() . "\"," . PHP_EOL;
+echo "\"uncompressed_public_key\": \"" . $bitcoinECDSA->getUncompressedPubKey() . "\"," . PHP_EOL;
+echo "\"private_key\": \"" . $bitcoinECDSA->getPrivateKey() . "\"," . PHP_EOL;
+echo "\"compressed_wif\": \"" . $bitcoinECDSA->getWIF( true, $coin["SECRET_KEY"]) . "\"," . PHP_EOL;
+echo "\"uncompressed_wif\": \"" . $bitcoinECDSA->getWIF(false, $coin["SECRET_KEY"]) . "\"," . PHP_EOL;
 
 $address = $bitcoinECDSA->getAddress(); //compressed Bitcoin address
-echo "\"compressed-address\": \"" . sprintf("%34s",$address) . "\"," . PHP_EOL;
+echo "\"compressed_address\": \"" . sprintf("%34s",$address) . "\"," . PHP_EOL;
 $address = $bitcoinECDSA->getUncompressedAddress();
-echo "\"uncompressed-address\": \"" . sprintf("%34s",$address) . "\"" . PHP_EOL;
+echo "\"uncompressed_address\": \"" . sprintf("%34s",$address) . "\"" . PHP_EOL;
 if( $i < $length -1 ) {
     echo "}," . PHP_EOL;
 }else{
