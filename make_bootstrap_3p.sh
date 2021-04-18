@@ -180,7 +180,7 @@ log_print "Start making bootstrap for 3P ..."
 # you can spectify coins array manually if you want
 # declare -a kmd_coins=(BEER PIZZA)
 
-kmd_coins+=(AYA CHIPS EMC2 GLEEC MCL PBC VRSC)
+kmd_coins+=(AYA CHIPS EMC2 GLEEC MCL VRSC)
 # printf '%s\n' "${kmd_coins[@]}"
 
 # rm wallets.$(date -u +%Y%m%d).tar
