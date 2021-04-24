@@ -456,10 +456,13 @@ function GenAddressesTable($nnelected, $title, $kmdonly, $id) {
     <tr>
         <th>Index</th>
         <th>Name</th>';
-    if ($kmdonly || $id == "season2-mainnet")
-    echo '      
+    if ($kmdonly || $id == "season2-mainnet") {
+    echo '
         <th>BTC</th>';
-    echo '      
+    echo '
+        <th>LTC</th>';
+    }
+    echo '
         <th>KMD</th>';
     if (!$kmdonly)
     echo'      
@@ -476,6 +479,7 @@ function GenAddressesTable($nnelected, $title, $kmdonly, $id) {
     $index = 0;
 
     $btc_addresses = Array();
+    $ltc_addresses = Array();
     $kmd_addresses = Array();
     $emc2_addresses = Array();
     $gin_addresses = Array();
@@ -486,6 +490,8 @@ function GenAddressesTable($nnelected, $title, $kmdonly, $id) {
 
         $bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 0)); // 0 - Bitcoin
         $btc_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
+        $bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 48)); // 48 - Litecoin
+        $ltc_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
         $bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 60)); // 60 - Komodo
         $kmd_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
 
@@ -508,6 +514,7 @@ function GenAddressesTable($nnelected, $title, $kmdonly, $id) {
         //echo "[".sprintf("%02d",$index)."] ". sprintf("%20s",$key) . "" . sprintf("%36s",$address) . PHP_EOL;
         
         $btc_addresses[] = $btc_address;
+        $ltc_addresses[] = $ltc_address;
         $kmd_addresses[] = $kmd_address;
         $emc2_addresses[] = $emc2_address;
         $gin_addresses[] = $gin_address;
@@ -518,10 +525,13 @@ function GenAddressesTable($nnelected, $title, $kmdonly, $id) {
             <tr>
             <td>'.sprintf("%02d",$index).'</td>
                 <td data-toggle="tooltip" title="'. $value .'">'.$key.'</td>';
-        if ($kmdonly || $id == "season2-mainnet")
-        echo '            
+        if ($kmdonly || $id == "season2-mainnet") {
+        echo '
                 <td><a href="https://blockchain.info/address/'.$btc_address.'" target="_blank">'.$btc_address.'</a></td>';
-        echo '            
+        echo '
+                <td><a href="https://insight.litecore.io/address/'.$ltc_address.'" target="_blank">'.$ltc_address.'</a></td>';
+        }
+        echo '
                 <td><a href="https://kmdexplorer.io/address/'.$kmd_address.'" target="_blank">'.$kmd_address.'</a></td>';
         if (!$kmdonly)
         echo '
@@ -552,6 +562,8 @@ echo '
 if ($kmdonly || $id == "season2-mainnet") {
     $template = gettemplate($btc_addresses);
     echo '<div class="daemon-cli-snippet"><p><strong>BTC</strong></p><p>Command snippet:</p><div class="highlight"><pre>'.$template.'</pre></div></div>';
+    $template = gettemplate($ltc_addresses);
+    echo '<div class="daemon-cli-snippet"><p><strong>LTC</strong></p><p>Command snippet:</p><div class="highlight"><pre>'.$template.'</pre></div></div>';
 }
 
 $template = gettemplate($kmd_addresses);
