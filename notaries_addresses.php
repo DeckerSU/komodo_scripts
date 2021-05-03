@@ -469,7 +469,8 @@ function GenAddressesTable($nnelected, $title, $kmdonly, $id) {
     <th>EMC2</th>
     <th>GIN</th>
     <th>AYA</th>
-    <th>GLEEC</th>';
+    <th>GLEEC</th>
+    <th>SFUSD</th>';
     echo'</tr>
     </thead>
     <tbody>' . PHP_EOL;
@@ -485,6 +486,7 @@ function GenAddressesTable($nnelected, $title, $kmdonly, $id) {
     $gin_addresses = Array();
     $aya_addresses = Array();
     $gleec_addresses = Array();
+    $sfusd_addresses = Array();
 
     foreach ($nnelected as $key => $value) {
 
@@ -511,6 +513,9 @@ function GenAddressesTable($nnelected, $title, $kmdonly, $id) {
         $bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 35));
         $gleec_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
 
+        $bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 63));
+        $sfusd_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
+
         //echo "[".sprintf("%02d",$index)."] ". sprintf("%20s",$key) . "" . sprintf("%36s",$address) . PHP_EOL;
         
         $btc_addresses[] = $btc_address;
@@ -520,6 +525,7 @@ function GenAddressesTable($nnelected, $title, $kmdonly, $id) {
         $gin_addresses[] = $gin_address;
         $aya_addresses[] = $aya_address;
         $gleec_addresses[] = $gleec_address;
+        $sfusd_addresses[] = $sfusd_address;
 
         echo '
             <tr>
@@ -538,7 +544,8 @@ function GenAddressesTable($nnelected, $title, $kmdonly, $id) {
                 <td><a href="https://chainz.cryptoid.info/emc2/address.dws?'.$emc2_address.'.htm" target="_blank">'.$emc2_address.'</a></td>
                 <td><a href="https://explorer.gincoin.io/address/'.$gin_address.'" target="_blank">'.$gin_address.'</a></td>
                 <td><a href="https://ayaexplorer.guarda.co/address/'.$aya_address.'" target="_blank">'.$aya_address.'</a></td>
-                <td><a href="https://gleechain.com/address/'.$gleec_address.'" target="_blank">'.$gleec_address.'</a></td>';
+                <td><a href="https://gleechain.com/address/'.$gleec_address.'" target="_blank">'.$gleec_address.'</a></td>
+                <td><a href="https://explorer.sfusd.kmd.sh/address/'.$sfusd_address.'" target="_blank">'.$sfusd_address.'</a></td>';
         echo '
             </tr>
     ';
@@ -579,6 +586,9 @@ if (!$kmdonly) {
     echo '<div class="daemon-cli-snippet"><p><strong>AYA</strong></p><p>Command snippet:</p><div class="highlight"><pre>'.$template.'</pre></div></div>';
     $template = gettemplate($gleec_addresses);
     echo '<div class="daemon-cli-snippet"><p><strong>GLEEC</strong></p><p>Command snippet:</p><div class="highlight"><pre>'.$template.'</pre></div></div>';
+    $template = gettemplate($sfusd_addresses);
+    echo '<div class="daemon-cli-snippet"><p><strong>SFUSD</strong></p><p>Command snippet:</p><div class="highlight"><pre>'.$template.'</pre></div></div>';
+
 }
 
 echo '</div></div>
