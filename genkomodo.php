@@ -25,7 +25,8 @@ $addressHash = $kec->hash(strtolower($address), 256);
 $addressHashBits = bytesToBits(pack("H*",$addressHash));
 for ($i = 0; $i < 40; $i++ ) {
 $c = $address[$i];
-if (ctype_alpha($address{$i})) {
+
+if (ctype_alpha($address[$i])) {
         if ($addressHashBits[4 * $i] == "1") $c = strtoupper($c);
 }
 $address_eip55 .= $c;
