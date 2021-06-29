@@ -18,7 +18,7 @@ coins[LTC]=$HOME/litecoin/src/litecoin-cli
 
 # we don't need to specify pubkey anymore, as we have it in $HOME/komodo/src/pubkey.txt,
 # we will just fill environment variable ${pubkey} from there
-source $HOME/pubkey.txt
+source $HOME/komodo/src/pubkey.txt
 NN_PUBKEY=21${pubkey}ac
 
 # script check the condition if utxo_count < utxo_min then append it to utxo_max,
