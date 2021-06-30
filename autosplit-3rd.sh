@@ -7,13 +7,17 @@
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 declare -A coins
-#coins[BTC]=/usr/local/bin/bitcoin-cli
-#coins[CHIPS]=$HOME/chips3/src/chips-cli
-#coins[GAME]=$HOME/GameCredits/src/gamecredits-cli
-#coins[EMC2]=$HOME/einsteinium/src/einsteinium-cli
-#coins[HUSH]=$HOME/hush/src/hush-cli
-#coins[GIN]=$HOME/gincoin-core/src/gincoin-cli
+# mainnet
 coins[LTC]=$HOME/litecoin/src/litecoin-cli
+# 3rd
+coins[CHIPS]=$HOME/chips/src/chips-cli
+coins[GAME]=$HOME/GameCredits/src/gamecredits-cli
+coins[EMC2]=$HOME/einsteinium/src/einsteinium-cli
+coins[GIN]=$HOME/gincoin-core/src/gincoin-cli
+coins[AYA]=$HOME/AYAv2/src/aryacoin-cli
+coins[GLEEC]=$HOME/GleecBTC-FullNode-Win-Mac-Linux/src/gleecbtc-cli
+coins[SFUSD]=$HOME/sfusd-core/src/smartusd-cli
+
 # declare -A coins=( [BTC]=/usr/local/bin/bitcoin-cli [GAME]=$HOME/GameCredits/src/gamecredits-cli ) # example of one-line array init
 
 # we don't need to specify pubkey anymore, as we have it in $HOME/komodo/src/pubkey.txt,
