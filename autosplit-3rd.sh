@@ -10,13 +10,13 @@ declare -A coins
 # mainnet
 coins[LTC]=$HOME/litecoin/src/litecoin-cli
 # 3rd
-coins[CHIPS]=$HOME/chips/src/chips-cli
-coins[GAME]=$HOME/GameCredits/src/gamecredits-cli
-coins[EMC2]=$HOME/einsteinium/src/einsteinium-cli
-coins[GIN]=$HOME/gincoin-core/src/gincoin-cli
-coins[AYA]=$HOME/AYAv2/src/aryacoin-cli
-coins[GLEEC]=$HOME/GleecBTC-FullNode-Win-Mac-Linux/src/gleecbtc-cli
-coins[SFUSD]=$HOME/sfusd-core/src/smartusd-cli
+# coins[CHIPS]=$HOME/chips/src/chips-cli
+# coins[GAME]=$HOME/GameCredits/src/gamecredits-cli
+# coins[EMC2]=$HOME/einsteinium/src/einsteinium-cli
+# coins[GIN]=$HOME/gincoin-core/src/gincoin-cli
+# coins[AYA]=$HOME/AYAv2/src/aryacoin-cli
+# coins[GLEEC]=$HOME/GleecBTC-FullNode-Win-Mac-Linux/src/gleecbtc-cli
+# coins[SFUSD]=$HOME/sfusd-core/src/smartusd-cli
 
 # declare -A coins=( [BTC]=/usr/local/bin/bitcoin-cli [GAME]=$HOME/GameCredits/src/gamecredits-cli ) # example of one-line array init
 

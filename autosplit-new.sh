@@ -116,7 +116,12 @@ log_print "Starting autosplit ..."
 #declare -a kmd_coins=(KMD REVS SUPERNET DEX PANGEA JUMBLR BET CRYPTO HODL MSHARK BOTS MGW COQUI WLC KV CEAL MESH AXO ETOMIC BTCH PIZZA BEER NINJA OOT BNTN CHAIN PRLPAY DSEC GLXT EQL VRSC ZILLA RFOX SEC CCL PIRATE PGT KMDICE DION KSB OUR ILN RICK MORTY VOTE2019 HUSH3 KOIN ZEXO K64)
 do_autosplit KMD
 #source $(dirname $(readlink -f $0))/kmd-coins.sh
+
+# mainnet
 readarray -t kmd_coins < <(cat $HOME/dPoW/iguana/assetchains.json | jq -r '[.[].ac_name] | join("\n")')
+# 3rd
+# declare -a kmd_coins=(KMD VRSC MCL)
+
 for i in "${kmd_coins[@]}"
 do
    do_autosplit "$i"
