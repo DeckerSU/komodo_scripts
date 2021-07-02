@@ -64,7 +64,7 @@ function do_autosplit() {
 
         coin=$1; komodo_cli=$2; asset=""
         # setting the split amounts
-        if [ $coin == 'GAME' ] || [ $coin == 'EMC2' ]; then
+        if [ $coin == 'GAME' ] || [ $coin == 'EMC2' ] || [ $coin == 'AYA' ]; then
             satoshis=100000; amount=0.001
         else
             satoshis=10000; amount=0.0001
