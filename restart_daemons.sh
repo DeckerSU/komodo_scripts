@@ -89,7 +89,7 @@ do
         ADDITIONAL_ARGS=
         if [ ${coin} = "KMD" ]
         then
-            ADDITIONAL_ARGS=-gen -genproclimit=1 -notary=".litecoin/litecoin.conf" -opretmintxfee=0.004 -minrelaytxfee=0.000035
+            ADDITIONAL_ARGS="-gen -genproclimit=1 -notary=.litecoin/litecoin.conf -opretmintxfee=0.004 -minrelaytxfee=0.000035"
         fi
 
         # https://stackoverflow.com/questions/25378013/how-to-convert-a-json-object-to-key-value-format-in-jq
@@ -105,10 +105,10 @@ do
         # https://stackoverflow.com/questions/10586153/how-to-split-a-string-into-an-array-in-bash
         # https://stackoverflow.com/questions/3683910/executing-shell-command-in-background-from-script
 
-        # declare -a DAEMON_CMD=($${KOMODOD_PATH} ${COMMAND_LINE} ${ADDNODES} ${ADDITIONAL_ARGS} ${PUBKEY})
-        # set -x
-        # "${DAEMON_CMD[@]}" &
-        # set +x
+        #declare -a DAEMON_CMD=(${KOMODOD_PATH} ${COMMAND_LINE} ${ADDNODES} ${ADDITIONAL_ARGS} ${PUBKEY})
+        #set -x
+        #"${DAEMON_CMD[@]}" &
+        #set +x
 
         ${KOMODOD_PATH} ${COMMAND_LINE} ${ADDNODES} ${ADDITIONAL_ARGS} ${PUBKEY} &
     fi
