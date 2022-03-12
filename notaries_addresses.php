@@ -603,9 +603,8 @@ function GenAddressesTable($nnelected, $title, $kmdonly, $id) {
     if (!$kmdonly)
     echo'      
     <th>EMC2</th>
-    <th>GIN</th>
     <th>AYA</th>
-    <th>GLEEC</th>
+    <th>MIL</th>
     <th>SFUSD</th>';
     echo'</tr>
     </thead>
@@ -619,10 +618,9 @@ function GenAddressesTable($nnelected, $title, $kmdonly, $id) {
     $ltc_addresses = Array();
     $kmd_addresses = Array();
     $emc2_addresses = Array();
-    $gin_addresses = Array();
     $aya_addresses = Array();
-    $gleec_addresses = Array();
     $sfusd_addresses = Array();
+    $mil_addresses = Array();
 
     foreach ($nnelected as $key => $value) {
 
@@ -639,15 +637,12 @@ function GenAddressesTable($nnelected, $title, $kmdonly, $id) {
 
         $bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 33)); // 33 - EMC2
         $emc2_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
-        
-        $bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 38)); 
-        $gin_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
 
         $bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 23)); 
         $aya_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
 
-        $bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 35));
-        $gleec_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
+        $bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 50));
+        $mil_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
 
         $bitcoinECDSA->setNetworkPrefix(sprintf("%02X", 63));
         $sfusd_address = $bitcoinECDSA->getUncompressedAddress(true, $value);
@@ -658,9 +653,8 @@ function GenAddressesTable($nnelected, $title, $kmdonly, $id) {
         $ltc_addresses[] = $ltc_address;
         $kmd_addresses[] = $kmd_address;
         $emc2_addresses[] = $emc2_address;
-        $gin_addresses[] = $gin_address;
         $aya_addresses[] = $aya_address;
-        $gleec_addresses[] = $gleec_address;
+        $mil_addresses[] = $mil_address;
         $sfusd_addresses[] = $sfusd_address;
 
         echo '
@@ -678,9 +672,8 @@ function GenAddressesTable($nnelected, $title, $kmdonly, $id) {
         if (!$kmdonly)
         echo '
                 <td><a href="https://chainz.cryptoid.info/emc2/address.dws?'.$emc2_address.'.htm" target="_blank">'.$emc2_address.'</a></td>
-                <td><a href="https://explorer.gincoin.io/address/'.$gin_address.'" target="_blank">'.$gin_address.'</a></td>
                 <td><a href="https://ayaexplorer.guarda.co/address/'.$aya_address.'" target="_blank">'.$aya_address.'</a></td>
-                <td><a href="https://gleechain.com/address/'.$gleec_address.'" target="_blank">'.$gleec_address.'</a></td>
+                <td><a href="#'.$mil_address.'" target="_blank">'.$mil_address.'</a></td>
                 <td><a href="https://explorer.sfusd.kmd.sh/address/'.$sfusd_address.'" target="_blank">'.$sfusd_address.'</a></td>';
         echo '
             </tr>
@@ -714,14 +707,12 @@ echo '<div class="daemon-cli-snippet"><p><strong>KMD</strong></p><p>Command snip
 
 if (!$kmdonly) {
 
-    $template = gettemplate($gin_addresses);
-    echo '<div class="daemon-cli-snippet"><p><strong>GIN</strong></p><p>Command snippet:</p><div class="highlight"><pre>'.$template.'</pre></div></div>';
     $template = gettemplate($emc2_addresses);
     echo '<div class="daemon-cli-snippet"><p><strong>EMC2</strong></p><p>Command snippet:</p><div class="highlight"><pre>'.$template.'</pre></div></div>';
     $template = gettemplate($aya_addresses);
     echo '<div class="daemon-cli-snippet"><p><strong>AYA</strong></p><p>Command snippet:</p><div class="highlight"><pre>'.$template.'</pre></div></div>';
-    $template = gettemplate($gleec_addresses);
-    echo '<div class="daemon-cli-snippet"><p><strong>GLEEC</strong></p><p>Command snippet:</p><div class="highlight"><pre>'.$template.'</pre></div></div>';
+    $template = gettemplate($mil_addresses);
+    echo '<div class="daemon-cli-snippet"><p><strong>MIL</strong></p><p>Command snippet:</p><div class="highlight"><pre>'.$template.'</pre></div></div>';
     $template = gettemplate($sfusd_addresses);
     echo '<div class="daemon-cli-snippet"><p><strong>SFUSD</strong></p><p>Command snippet:</p><div class="highlight"><pre>'.$template.'</pre></div></div>';
 
