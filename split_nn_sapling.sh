@@ -22,6 +22,20 @@ WHITE="\033[37m"
 
 NN_ADDRESS=RDeckerSubnU8QVgrhj27apzUvbVK3pnTk
 NN_PUBKEY=0249eee7a3ad854f1d22c467b42dc73db94af7ce7837e15bfcf82f195cd5490d76
+
+#base58 decode by grondilu https://github.com/grondilu/bitcoin-bash-tools/blob/master/bitcoin.sh
+declare -a base58=(
+      1 2 3 4 5 6 7 8 9
+    A B C D E F G H   J K L M N   P Q R S T U V W X Y Z
+    a b c d e f g h i j k   m n o p q r s t u v w x y z
+)
+unset dcr; for i in {0..57}; do dcr+="${i}s${base58[i]}"; done
+decodeBase58() {
+    local line
+    echo -n "$1" | sed -e's/^\(1*\).*/\1/' -e's/1/00/g' | tr -d '\n'
+    dc -e "$dcr 16o0$(sed 's/./ 58*l&+/g' <<<$1)p" |
+    while read line; do echo -n ${line/\\/}; done
+}
 nob58=$(decodeBase58 $NN_ADDRESS)
 NN_HASH160=$(echo ${nob58:2:-8})
 # Source for calculation of NN_HASH160:
@@ -31,6 +45,7 @@ NN_HASH160=$(echo ${nob58:2:-8})
 FROM_ADDRESS=RD6GgnrMpPaTSMn8vai6yiGA7mN4QGPVMY
 fnob58=$(decodeBase58 $FROM_ADDRESS)
 FROM_HASH160=$(echo ${fnob58:2:-8})
+# FROM_HASH160=29cfc6376255a78451eeb4b129ed8eacffa2feef
 FROM_PUBKEY=000000000000000000000000000000000000000000000000000000000000000000
 FROM_PRIVKEY=Up1YVLk7uuErCHVQyFCtfinZngmdwfyfc47WCQ8oJxgowEbuo6t4
 
