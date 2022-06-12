@@ -480,6 +480,142 @@ $Notaries_elected_S5_3rdparty = Array(
     "dragonhound_DEV" => "02b3c168ed4acd96594288cee3114c77de51b6afe1ab6a866887a13a96ee80f33c"
 );
 
+// https://github.com/KomodoPlatform/komodo/pull/544/commits/65b7649935c399a1ad56fb93c54294eb2a0c244c
+$Notaries_elected_S6_mainnet = Array(
+    "blackice_DEV" => "02ca882f153e715091a2dbc5409096f8c109d9fe6506ca7a918056dd37162b6f6e", // 0
+    "blackice_AR" => "02909c79a198179c193fb85bbd4ba09b875a5a9bd481fec284658188b96ed43519",
+    "alien_EU" => "03bb749e337b9074465fa28e757b5aa92cb1f0fea1a39589bca91a602834d443cd",
+    "alien_NA" => "03bea1ac333b95c8669ec091907ea8713cae26f74b9e886e13593400e21c4d30a8",
+    "alien_SH" => "03911a60395801082194b6834244fa78a3c30ff3e888667498e157b4aa80b0a65f",
+    "alienx_EU" => "026afe5b112d1b39e0edafd5e051e261a676104460581f3673f26ceff7f1e6c56c",
+    "alienx_NA" => "02f0b3ef87629509441b1ae95f28108f258a81910e483b90e0496205e24e7069b8",
+    "artem.pikulin_AR" => "026a8ed1e4eeeb023cfb8e003e1c1de6a2b771f37e112745ffb8b6e375a9cbfdec",
+    "artem.pikulin_DEV" => "036b9848396ddcdb9bb58ddab2c24b710b8e4e9b0ee084a00518505ecd9e9fe174",
+    "blackice_EU" => "02668f5f723584f97f5e6f9196fc31018f36a6cf824c60328ad0c097a785df4745",
+    "chmex_AR" => "036c856ea778ea105b93c0be187004d4e51161eda32888aa307b8f72d490884005", // 10
+    "chmex_EU" => "025b7209ba37df8d9695a23ea706ea2594863ab09055ca6bf485855937f3321d1d",
+    "chmex_NA" => "030c2528c29d5328243c910277e3d74aa77c9b4e145308007d2b11550731591dbe",
+    "chmex_SH" => "02698305eb3c27a2c724efd2152f9250739355116f201656c34b83aac2d3aebd19",
+    "chmex1_SH" => "02d27ed1cddfbaff9e47865e7df0165457e8f075f70bbea8c0498598ccf494555d",
+    "cipi_1_EU" => "03d6e1f3a693b5d69049791005d7cb64c259a1ad85833f5a9c545d4fee29905009",
+    "cipi_2_EU" => "0202e430157486503f4bde3d3ca770c8f1e2447cf480a6b273b5265b9620f585e3",
+    "cipi_AR" => "033ae024cdb748e083406a2e20037017a1292079ad6a8161ae5b43f398724fea74",
+    "cipi_NA" => "036cc1d7476e4260601927be0fc8b748ae68d8fec8f5c498f71569a01bd92046c5",
+    "computergenie_EU" => "03a8c071036228e0900e0171f616ce1a58f0a761193551d68c4c20e70534f2e183",
+    "computergenie_NA" => "03a78ae070a5e9e935112cf7ea8293f18950f1011694ea0260799e8762c8a6f0a4", // 20
+    "dimxy_AR" => "02689d0b77b1e8e8c93a102d8b689fd08179164d70e2dd585543c3896a0916e6a1",
+    "dimxy_DEV" => "039a01cd626d5efbe7fd05a59d8e5fced53bacac589192278f9b00ad31654b6956",
+    "dragonhound_NA" => "02e650819f4d1cabeaad6bc5ec8c0722a89e63059a10f8b5e97c983c321608329b",
+    "fediakash_AR" => "027dfe5403f8870fb0e1b94a2b4204373b31ea73179ba500a88dd56d22855cd03b",
+    "gcharang_DEV" => "033b82b5791c65477dd11095cf33332013df6d2bcb7aa06a6dae5f7b22b6959b0b",
+    "gcharang_SH" => "02cb445948bf0d89f8d61102e12a5ee6e98be61ac7c2cb9ba435219ea9db967117",
+    "goldenman_AR" => "02c11f651df6a03f1a17b9ea0b1a73c0acca7aeacd4081e09bd7dd939690af8ae1",
+    "kolo_AR" => "028431645f923a9e383a4e37cbb7168fa34988da23d43097124fe882bdac6d175f",
+    "kolo_EU" => "03e1287d4c14ad73ce9ddd31361a7de8df4eeeefe9460a1ff9a6b2a1242ad3b7c2",
+    "kolox_AR" => "0289f5f64f4bb18d014c4e9f4c888f4da2b6518e88fd5b7768728c38177b66d305", // 30
+    "komodopioneers_EU" => "0351f7f2a6ecce863e4e774bfafe2e59e151c08bf8f350286763a6b8ed97274b82",
+    "madmax_DEV" => "027100e6b3db2028034db651946ecde90e45be3799ebc310d39af4496772a850ad",
+    "marmarachain_EU" => "0234e40800500370d43979586ee2cec2e777a0368d10c682e78bca30fd1630c18d",
+    "mcrypt_AR" => "029bdb33b08f96524082490f4373bc6026b92bcaef9bc521a840a799c73b75ed80",
+    "mcrypt_SH" => "025faab3cc2e83bf7dad6a9463cbff86c08800e937942126f258cf219bc2320043",
+    "metaphilibert_SH" => "0284af1a5ef01503e6316a2ca4abf8423a794e9fc17ac6846f042b6f4adedc3309",
+    "mylo_NA" => "0365a778014c216401b6ba9c28eec88f116a9a9912e145ba2dbbd065d98b493af5",
+    "mylo_SH" => "03458dca36e800d5bc121d8c0d35f9fc6282880a79fee2d7e050f887b797bc7d6e",
+    "nodeone_NA" => "03f9dd0484e81174fd50775cb9099691c7d140ff00c0f088847e38dc87da67eb9b",
+    "nutellalicka_AR" => "0285be2518bf8d65fceaa5f4d8485002f90d3b7ff274b23bb925fd167128e19589", // 40
+    "nutellalicka_SH" => "03a8b10c1f74af429fc43ab4eb722f6c2a88087f2d71703e7f0e8001207a966fb5",
+    "ocean_AR" => "03c2bc8c57a001a788851fedc33ce72797ee8fe26eaa3abb1b807727e4867a3105",
+    "pbca26_NA" => "03d8b25536da157d931b159a72c0eeaedb1bf7bb3eb2d02647fa41b2422a2b064e",
+    "pbca26_SH" => "039a55787b742c3725323f0bd81c90a484fbdbf276a16317883bb03eedd9d6aa7c",
+    "phit_SH" => "02a9cef2141fb2af24349c1eea20f5fa8f5dba2835723778d19b23353ddcd877b1",
+    "ptyx_NA" => "0395640e81359526ecbc140716ddd5c9a1ce2a697fb547ca896e17cad3c65e78db",
+    "ptyx2_NA" => "0225ff37e49e443065018736fbcad175ab5993b51b99b846e8de0b8b9abbed2ef2",
+    "sheeba_SH" => "03e6578015b7f0ab78a486070435031fff7bae11256ca6a9f3d358ab03029737cb",
+    "smdmitry_AR" => "022a2a45979a6631a25e4c96469423de720a2f4c849548957c35a35c91041ee7ac",
+    "smdmitry_EU" => "02eb3aad81778f8d6f7e5295c44ca224e5c812f5e43fc1e9ce4ebafc23324183c9", // 50
+    "smdmitry_SH" => "02d01cd6b87cbf5a9795c06968f0d169168c1be0d82cfeb79958b11ae2c30316c1",
+    "strob_SH" => "025ceac4256cef83ca4b110f837a71d70a5a977ecfdf807335e00bc78b560d451a",
+    "strobnidan_SH" => "02b967fde3686d45056343e488997d4c53f25cd7ad38548cd12b136010a09295ae",
+    "tokel_NA" => "02b472713e87fb2560569857051ea0811c65d668a6fe73df165afe152417f774a0",
+    "tonyl_AR" => "029ad03929ec295e9164e2bfb9f0e0102c280d5e5212503d079d2d99ab492a9106",
+    "tonyl_DEV" => "02342ec82b31a016b71cd1eb2f482a74f63172e1029ba2fb18f0def3bd4fc0668a",
+    "van_EU" => "03af7f8c82f20671ca1978116353839d3e501523e379bfb52b1e05d7816bb5812f",
+    "webworker01_EU" => "0321d523645caffd8e762764ba56f7874a61b9bf534837a2cb6e7da219fab15eef",
+    "webworker01_NA" => "0287883ddd8da366401893ebcc1ff7e52d2ad3736984120a0ab01603e02c21dc98",
+    "who-biz_NA" => "02f91a6772fe1a376e2bbe4b190008e3f878d40a8eaf92c65f1a7680b6b42ea47b", // 60
+    "yurii-khi_DEV" => "03e57c7341d2c8a3be62e1caaa28978d76a8277dea7bb484fdd8c55dc05e4e4e93",
+    "ca333_EU" => "021d6fbe67d12f492a01306c70ab096f8b8581eb5f958d3f5fe3588ae8c7797f42",
+    "dragonhound_DEV" => "038e010c33c56b61389409eea5597fe17967398731e23185c84c472a16fc5d34ab"
+);
+
+// https://github.com/pbcllc/sfusd-core/blob/397cf523396be9d8f0634d0965a51102ec771bae/src/komodo_validation016.h#L432-L496
+$Notaries_elected_S6_3rdparty = Array(
+    "blackice_DEV" => "03e2de3418c88be0cfe2fa0dcfdaea001b5a36ad86e6833ad284d79021ae7e2b94",
+    "blackice_AR" => "03949b06c2773b4573aeb0b52e70ccc2d98dc5794a47e24eeb902c9d28e0e8d28b",
+    "alien_EU" => "022b85908191788f409506ebcf96a892f3274f352864c3ed566c5a16de63953236",
+    "alien_NA" => "022f62b56ddfd07c9860921c701285ac39bb3ac8f6f083d1b59c8f4943be3de162",
+    "alien_SH" => "024f20c096b085308e21893383f44b4faf1cdedea9ad53cc7d7e7fbfa0c30c1e71",
+    "alienx_EU" => "025de0911bab55616c307f02ea8a5915a2e0c8e479aa97968e7f00d1025cbe6c6d",
+    "alienx_NA" => "025d5e11725233ab161f4f63d697c5f9f0c6b9d3aa2b9c68299638f8cc63faa9c2",
+    "artem.pikulin_AR" => "03a45c4ad7f279cbc50acb48d81fc0eb63c4c5f556e3a4393fb3d6414df09c6e4c",
+    "artem.pikulin_DEV" => "025ee88d1c12f546c1c8942d7a3e0678f10bc27cc566e27bf4a2d2178e018d18c6",
+    "blackice_EU" => "025f8de3a6181270ceb5c31654e6a6e95d0339bc14b46b5e3050e8a69861c91baa",
+    "chmex_AR" => "030cd487e10fbf142e0e8d582e702ecb775f378569c3cb5acd0ff97b6b12803588",
+    "chmex_EU" => "030bf7bd7ad0515c33b5d5d9a91e0729baf801b9002f80495ae535ea1cebb352cb",
+    "chmex_NA" => "024e88a36d729352a391e07d1821dbfda1fca6409320cf9c2869b6fb99f05fbddd",
+    "chmex_SH" => "03e09c8ee6ae20cde64857d116c4bb5d50db6de2887ac39ea3ccf6434b1abf8698",
+    "chmex1_SH" => "02d59db293de6c7da6673beeb373ebce62fd6d3522f715ea1356b5a2624fbd11a2",
+    "cipi_1_EU" => "033a812d6cccdc4208378728f3a0e15db5b12074def9ab686ddc3752715ff1a194",
+    "cipi_2_EU" => "0302ca28a041ed00544de737651bdec9bafe3b7f1c0bf2c6092f2368d59fec75c2",
+    "cipi_AR" => "02336758998f474659020e6887ece61ac7b8567f9b2d38724ebf77ae800c1fb2b7",
+    "cipi_NA" => "0335352862da521bd90b99d394db1ee3ecde379db9cf7ba2f28b16fa76153e289f",
+    "computergenie_EU" => "033a2474a762700b452b96a49730280040a9872070bc51461e3727f6f118ff5358",
+    "computergenie_NA" => "02f945d87b7cd6e9f2173a110399d36b369edb1f10bdf5a4ba6fd4923e2986e137",
+    "dimxy_AR" => "0337e443df52f278f313f90628aaaa7a8db777f17bc7ce519069eb72717c1c2755",
+    "dimxy_DEV" => "03a7edd6d0ba188960e39eced4d6b4ca6946bd98323ab40cbc13d6e52696de7dc4",
+    "dragonhound_NA" => "0366a87a476a09e05560c5aae0e44d2ab9ba56e69701cee24307871ddd37c86258",
+    "fediakash_AR" => "035be6a54242a53e3ca55bd63430ac9b960fbfaad336d8c1464b5802f03ab184be",
+    "gcharang_DEV" => "03a3878af1152f648e6084fd3fbe697a26b1c2e92d407dd96c375f45f7d3ca13bf",
+    "gcharang_SH" => "0321868e0eb39271330fa2c3a9f4e542275d9719f8b87773c5432448ab10d6943d",
+    "goldenman_AR" => "03e027927dd1e379c2f45624ed9b057b187fe094595fee55c53f36ed665ed566ab",
+    "kolo_AR" => "032c2a6aeaf8176f9630abe2e1bbea5e481da23ab1f9a5b10f220a9b2bc9607bd6",
+    "kolo_EU" => "03b21717e84c0a6cf22b557b198daba4f78980048211b9139b4517fa08f9f17359",
+    "kolox_AR" => "038010e24e6d53f26871d31287f446f407fa87596d946bcd1f7b7b8458e34ad73f",
+    "komodopioneers_EU" => "02fb31b130babe79ac780a6118702555a8c66875835f35c2232a6cb8b1438fe71d",
+    "madmax_DEV" => "02d1ace4a25794de5a5287edeb9df9619dc97020114801c5cb287b1efdd49ddbb3",
+    "marmarachain_EU" => "02ca3e0618bc7c75afa6359ae476ee639682adfaa6fc463bbe7016c4f00da23ccf",
+    "mcrypt_AR" => "02845d016c68c3e5ce924b164abc271511f3092ae359677a515e8f81a9533472f4",
+    "mcrypt_SH" => "027a4ca7b11d3456ff558c08bb04483a89c7f383448461fd0b6b3b07424aabe9a4",
+    "metaphilibert_SH" => "03b21ff042bf1730b28bde43f44c064578b41996117ac7634b567c3773089e3be3",
+    "mylo_NA" => "02493412e6014d2bb985b1026e31204e7634a211a16454fc696f4dc4dfe409e998",
+    "mylo_SH" => "026a52dba25ca4deb225a5ef7fca117d59e20ef2319b00e1bb6750a5d61e5ed601",
+    "nodeone_NA" => "0310a249c6c2dcc29f2135715138a9ddb8e01c0eab701cbd0b96d9cec660dbdc58",
+    "nutellalicka_AR" => "03a5502c61839a34edc8443aee5c16c67d4a958874e13d9b6b69d29075354739ad",
+    "nutellalicka_SH" => "03c7822f0c3434037fa17bfa4d3b7f9d3e0eb9abe49e8cc1188d92c6b3c360a675",
+    "ocean_AR" => "02d216e72d37a38449d661413cbc6e1f008b21cffdb06865f7be636e2cbc1e5346",
+    "pbca26_NA" => "030b6515e80aaa489215875e2aa6f2a15fa36cb3342580e885275f8c636252cbc8",
+    "pbca26_SH" => "02d17840724692a9d5e72d61d001c31eb5ddc4d2f0f104b760e6854bf144e63fb8",
+    "phit_SH" => "021b893b7978284e3d73701a623f23104fcce27e70fb49427c215f9a7481f652da",
+    "ptyx_NA" => "025d72ef0f1c5103de306d536360bcf3c5b6129c2046334b21cec8202e9bfc4baf",
+    "ptyx2_NA" => "02913b3af6f67453eaff2318f3eed0fa0ea60eb2b37c8da64c575fec972f178d9b",
+    "sheeba_SH" => "030dd2c3c02cbc5b3c25e3c54ed02c1541951a6f5ecf8adbd353e8d9052d08b8fc",
+    "smdmitry_AR" => "0397b7584cb29717b721c0c587d4462477efc1f36a56921f133c9d17b0cd7f278a",
+    "smdmitry_EU" => "0338f30ca34d0aca0d79b69abde447036aaaa75f482b6c75801fd382e984337d01",
+    "smdmitry_SH" => "03f7d5ac650baaccedab959adf7c4f416584f4c05a37bf079f710227560c456978",
+    "strob_SH" => "0213751a1c59d3489ca85b3d62a3d606dcef7f0428aa021c1978ea16fb38a2fad6",
+    "strobnidan_SH" => "033e33ef18effb979437cd202bb87dc32385e16ebd52d6f762d8a3b308d6f89c52",
+    "tokel_NA" => "0315d866c09e15709e2036a05faec6aaf28e0ecf67329b2adb922b746f22e694bc",
+    "tonyl_AR" => "02e2d9ecdc9f462a4767f7dfe8ed243c98fcccc1511989a60e3f859dc6fda42d16",
+    "tonyl_DEV" => "0399c4f8c5b604cda64c1ccb8fdbd7a89730131519f87491a79b0811e619102d8f",
+    "van_EU" => "0370305b9e91d46331da202ae733d6050d01038ef6eceb2036ada394a48fae84b9",
+    "webworker01_EU" => "0390ba250f20b5849b9d37ad2bcb58d3d9a3a0385937e652c26511ba9f445f5db1",
+    "webworker01_NA" => "03bde0df98de0ff9697b7d5ecea225fd7267f55c061caa2c43a47b313e35c9b6c6",
+    "who-biz_NA" => "0268d30efafc6ac84b1c8210e99fd4936e178794581d348b87f64fcbbfa8d5e73b",
+    "yurii-khi_DEV" => "0243977da0533c7c1a37f0f6e30175225c9012d9f3f426180ff6e5710f5a50e32b",
+    "ca333_EU" => "03c34a62c8c89889e4529962578e0b75a010a6e1d9bcbe8f4bb9cc680d82c7261e",
+    "dragonhound_DEV" => "02b3c168ed4acd96594288cee3114c77de51b6afe1ab6a866887a13a96ee80f33c"
+);
+
 function file_get_contents_curl($url) {
     $ch = curl_init();
 
@@ -665,7 +801,7 @@ function GenAddressesTable($nnelected, $title, $kmdonly, $id) {
         echo '
                 <td><a href="https://blockchain.info/address/'.$btc_address.'" target="_blank">'.$btc_address.'</a></td>';
         echo '
-                <td><a href="https://insight.litecore.io/address/'.$ltc_address.'" target="_blank">'.$ltc_address.'</a></td>';
+                <td><a href="https://blockchair.com/litecoin/address/'.$ltc_address.'" target="_blank">'.$ltc_address.'</a></td>';
         }
         echo '
                 <td><a href="https://kmdexplorer.io/address/'.$kmd_address.'" target="_blank">'.$kmd_address.'</a></td>';
@@ -673,7 +809,7 @@ function GenAddressesTable($nnelected, $title, $kmdonly, $id) {
         echo '
                 <td><a href="https://chainz.cryptoid.info/emc2/address.dws?'.$emc2_address.'.htm" target="_blank">'.$emc2_address.'</a></td>
                 <td><a href="https://ayaexplorer.guarda.co/address/'.$aya_address.'" target="_blank">'.$aya_address.'</a></td>
-                <td><a href="#'.$mil_address.'" target="_blank">'.$mil_address.'</a></td>
+                <td><a href="https://mil.kmdexplorer.io/address/'.$mil_address.'" target="_blank">'.$mil_address.'</a></td>
                 <td><a href="https://explorer.sfusd.kmd.sh/address/'.$sfusd_address.'" target="_blank">'.$sfusd_address.'</a></td>';
         echo '
             </tr>
@@ -723,15 +859,18 @@ echo '</div></div>
 
 } 
 
+GenAddressesTable($Notaries_elected_S6_mainnet,"Notaries (S6 Mainnet)", true, "season6-mainnet");
+GenAddressesTable($Notaries_elected_S6_3rdparty,"Notaries (S6 3rd-party)", false, "season6-3rdparty");
+
 GenAddressesTable($Notaries_elected_S5_mainnet,"Notaries (S5 Mainnet)", true, "season5-mainnet");
 GenAddressesTable($Notaries_elected_S5_3rdparty,"Notaries (S5 3rd-party)", false, "season5-3rdparty");
 
-GenAddressesTable($Notaries_elected_S4_mainnet,"Notaries (S4 Mainnet)", true, "season4-mainnet");
+/* GenAddressesTable($Notaries_elected_S4_mainnet,"Notaries (S4 Mainnet)", true, "season4-mainnet");
 GenAddressesTable($Notaries_elected_S4_3rdparty,"Notaries (S4 3rd-party)", false, "season4-3rdparty");
 
 GenAddressesTable($Notaries_elected_S3_mainnet,"Notaries (S3 Mainnet)", true, "season3-mainnet");
 GenAddressesTable($Notaries_elected_S3_3rdparty,"Notaries (S3 3rd-party)", false, "season3-3rdparty");
-GenAddressesTable($Notaries_elected_S2_mainnet,"Notaries (S2)", false, "season2-mainnet");
+GenAddressesTable($Notaries_elected_S2_mainnet,"Notaries (S2)", false, "season2-mainnet"); */
 
 
 echo '
@@ -740,13 +879,15 @@ echo '
 <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
 $(document).ready(function() {
-  $("#season2-mainnet").DataTable();
-  $("#season3-mainnet").DataTable();
-  $("#season3-3rdparty").DataTable();
-  $("#season4-mainnet").DataTable();
-  $("#season4-3rdparty").DataTable();
+  // $("#season2-mainnet").DataTable();
+  // $("#season3-mainnet").DataTable();
+  // $("#season3-3rdparty").DataTable();
+  // $("#season4-mainnet").DataTable();
+  // $("#season4-3rdparty").DataTable();
   $("#season5-mainnet").DataTable();
   $("#season5-3rdparty").DataTable();
+  $("#season6-mainnet").DataTable();
+  $("#season6-3rdparty").DataTable();
 });';
 
 echo '
