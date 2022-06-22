@@ -133,6 +133,7 @@ $coins = Array(
     Array("name" => "AYA", "PUBKEY_ADDRESS" => 23, "SECRET_KEY" => 176),
     Array("name" => "GleecBTC", "PUBKEY_ADDRESS" => 35, "SECRET_KEY" => 65),
     Array("name" => "MIL", "PUBKEY_ADDRESS" => 50, "SECRET_KEY" => 239),
+    Array("name" => "SFUSD", "PUBKEY_ADDRESS" => 63, "SECRET_KEY" => 188),
 );
 
 $k = hash("sha256", $passphrase);
