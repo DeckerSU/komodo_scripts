@@ -25,7 +25,8 @@ $addressHash = $kec->hash(strtolower($address), 256);
 $addressHashBits = bytesToBits(pack("H*",$addressHash));
 for ($i = 0; $i < 40; $i++ ) {
 $c = $address[$i];
-if (ctype_alpha($address{$i})) {
+
+if (ctype_alpha($address[$i])) {
         if ($addressHashBits[4 * $i] == "1") $c = strtoupper($c);
 }
 $address_eip55 .= $c;
@@ -123,12 +124,15 @@ $passphrase = "myverysecretandstrongpassphrase_noneabletobrute";
 
 $coins = Array(
     Array("name" => "BTC",  "PUBKEY_ADDRESS" =>  0, "SECRET_KEY" => 128),
+    Array("name" => "LTC",  "PUBKEY_ADDRESS" => 48, "SECRET_KEY" => 176),
     Array("name" => "KMD",  "PUBKEY_ADDRESS" => 60, "SECRET_KEY" => 188),
     Array("name" => "GAME", "PUBKEY_ADDRESS" => 38, "SECRET_KEY" => 166),
     Array("name" => "HUSH", "PUBKEY_ADDRESS" => Array(0x1C,0xB8), "SECRET_KEY" => 0x80),
     Array("name" => "EMC2", "PUBKEY_ADDRESS" => 33, "SECRET_KEY" => 176),
     Array("name" => "GIN", "PUBKEY_ADDRESS" => 38, "SECRET_KEY" => 198),
     Array("name" => "AYA", "PUBKEY_ADDRESS" => 23, "SECRET_KEY" => 176),
+    Array("name" => "GleecBTC", "PUBKEY_ADDRESS" => 35, "SECRET_KEY" => 65),
+    Array("name" => "MIL", "PUBKEY_ADDRESS" => 50, "SECRET_KEY" => 239),
     Array("name" => "TCR", "PUBKEY_ADDRESS" => 65, "SECRET_KEY" => 58),
 );
 
@@ -140,6 +144,8 @@ $k[31] = Chr (Ord($k[31]) | 64);
 $k = bin2hex($k);
 
 $bitcoinECDSA->setPrivateKey($k);
+// uncomment the line below if you want to calc everything from WIF, instead of passphrase
+// $bitcoinECDSA->setPrivateKeyWithWif("Uqe8cy26KvC2xqfh3aCpKvKjtoLC5YXiDW3iYf4MGSSy1RgMm3V5");
 echo "             Passphrase: '" . $passphrase . "'" . PHP_EOL;
 echo PHP_EOL;
 

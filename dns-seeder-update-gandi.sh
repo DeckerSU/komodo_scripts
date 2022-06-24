@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-# Coind DNS Seed Updater v0.01 (c) Decker, 2019
+# Coind DNS Seed Updater v0.01 (c) Decker, 2019-2021
 
 # This script updates A-records for selected zone via Gandi.net API,
 # new seeds retrieve from coin daemon outgoing peers. Script updates
-# only A (IPv4) records and doesn't check IP in case if it is from 
+# only A (IPv4) records and doesn't check IP in case if it is from
 # Bogon/Bogus networks.
 
 # --------------------------------------------------------------------------
@@ -44,7 +44,7 @@ function checkconfig()
     grep -qs '^rpcpassword=' "${KOMODOD_CONFIGFILE}"
     KOMODOD_RPCPASSWORD=$(grep -s '^rpcpassword=' "${KOMODOD_CONFIGFILE}")
     KOMODOD_RPCPASSWORD=${KOMODOD_RPCPASSWORD/rpcpassword=/}
-    
+
     grep -qs '^rpcuser=' "${KOMODOD_CONFIGFILE}"
     KOMODOD_RPCUSER=$(grep -s '^rpcuser=' "${KOMODOD_CONFIGFILE}")
     KOMODOD_RPCUSER=${KOMODOD_RPCUSER/rpcuser=/}
@@ -55,9 +55,9 @@ function checkconfig()
         KOMODO_RPCPORT=$(grep -s '^rpcport=' "${KOMODOD_CONFIGFILE}")
         KOMODO_RPCPORT=${KOMODO_RPCPORT/rpcport=/}
     fi
-    
+
     log_print "Parsing RPC credentials: ${KOMODOD_CONFIGFILE} - ${GREEN}OK${RESET}"
-    
+
 }
 # --------------------------------------------------------------------------
 function getpeerinfo() {
@@ -114,11 +114,11 @@ if [ "${#nodeips[@]}" -gt "0" ]; then
 
     # https://stackoverflow.com/questions/49184557/convert-bash-array-to-json-array-and-insert-to-file-using-jq
     # https://stackoverflow.com/questions/26808855/how-to-format-a-bash-array-as-a-json-array
-    
+
     # convert bash array of strings to json array (variant 1)
     # nodeips=(127.0.0.1 127.0.0.2)
     # printf '%s\n' "${nodeips[@]}" | jq -R . | jq -s .
-    
+
     # convert bash array of strings to json array (variant 2)
     # nodeips=(127.0.0.1 127.0.0.2)
     # for ip in "${nodeips[@]}"; do printf '%s' "${ip}" | jq -R -s .; done | jq -s .
