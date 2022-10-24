@@ -18,3 +18,8 @@ yes I had to use calcaddress api in marketmaker to get the GAME wif
 source userpass
 curl --url "http://127.0.0.1:7783" --data "{\"userpass\":\"$userpass\",\"method\":\"calcaddress\",\"passphrase\":\"1234default\"}"
 curl --url "http://127.0.0.1:7783" --data "{\"userpass\":\"$userpass\",\"method\":\"calcaddress\",\"passphrase\":\"$password\",\"coin\":\"GAME\"}"
+
+Install PHP
+-----------
+
+sudo apt install php-cli php-gmp php-mbstring
