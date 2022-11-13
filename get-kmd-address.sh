@@ -65,7 +65,7 @@ secret_key_hex="bc"   # 188 (dec) KMD (Komodo)
 # test the case in which rmd160 ends with 00 (!)
 # pubkey=036da5d2956e8fdaee1988aa5957e456e58fcf41793a36cd2db7471cda3a4c5caa, rmd160=bf7fd8eaf542d4578708242010e5feb1c3672900
 
-hash160_hex=$(echo -n "${pubkey_hex}" | xxd -r -p | openssl dgst -sha256 -binary | openssl dgst -rmd160 -binary | xxd -p -c 20)
+hash160_hex=$(echo -n "${pubkey_hex}" | xxd -r -p | openssl dgst -sha256 -binary | openssl dgst -provider=legacy -rmd160 -binary | xxd -p -c 20)
 if [ "${#hash160_hex}" -ne "40" ]; then
     echo "Error obtaining rmd-160 ..." 1>&2
     exit
