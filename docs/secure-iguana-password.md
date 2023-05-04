@@ -1,6 +1,6 @@
-## How to secure iguana password? ##
+## How to secure iguana seed? ##
 
-Current manuals, such as [Setup Komodo Notary Node](https://docs.komodoplatform.com/notary/setup-Komodo-Notary-Node.html#setup-iguana) documentation, recommend storing the iguana password as plain-text in the `wp_7776` file, which can be insecure as any application potentially could read it. In this manual, we will try to secure the password storage using the GnuPG tool.
+Current manuals, such as [Setup Komodo Notary Node](https://docs.komodoplatform.com/notary/setup-Komodo-Notary-Node.html#setup-iguana) documentation, recommend storing the iguana password (seed) as plain-text in the `wp_7776` file, which can be insecure as any application potentially could read it. In this manual, we will try to secure the password storage using the GnuPG tool.
 
 1. First of all create `~/gpgparams` file with following content:
 
