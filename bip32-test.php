@@ -20,6 +20,22 @@ bip44 = a specific format of a bip32 wallet
 require_once 'BitcoinECDSA.php/src/BitcoinPHP/BitcoinECDSA/BitcoinECDSA.php';
 use BitcoinPHP\BitcoinECDSA\BitcoinECDSA;
 
+function bip32_derive($bip32_root_key, $derivation_path) {
+    $bitcoinECDSA = new BitcoinECDSA();
+    if (substr($bip32_root_key, 0, 4) =="xprv") {
+        $xprv_decoded = $bitcoinECDSA->base58_decode($bip32_root_key);
+        $xprv_decoded = hex2bin($xprv_decoded);
+        $xprv_decoded = unpack("H8version/Cdepth/H8fingerprint/H8child/H64chaincode/H66privatekey", $xprv_decoded);
+        if ($xprv_decoded["version"] == "0488ade4") {
+            $cc_par = hex2bin($xprv_decoded["chaincode"]);
+            $k_par = hex2bin(substr($xprv_decoded["privatekey"], 2, 64));
+            $depth = $xprv_decoded["depth"];
+            // TODO: implement derivation
+        }
+    }
+    return [];
+}
+
 // (NB!) Change zend.assertions to 1 in your php.ini to make assertions work.
 
 $bitcoinECDSA = new BitcoinECDSA();
@@ -157,5 +173,7 @@ $checksum = substr(hash('sha256', hash('sha256', hex2bin($base58data), true), tr
 $base58data .= bin2hex($checksum);
 assert($base58data == $bitcoinECDSA->base58_decode('xpub69H7F5d8KSRgmmdJg2KhpAK8SR3DjMwAdkxj3ZuxV27CprR9LgpeyGmXUbC6wb7ERfvrnKZjXoUmmDznezpbZb7ap6r1D3tgFxHmwMkQTPH'));
 echo "ext pub: " . $bitcoinECDSA->base58_encode($base58data) . PHP_EOL;
+
+var_dump(bip32_derive("xprv9vHkqa6EV4sPZHYqZznhT2NPtPCjKuDKGY38FBWLvgaDx45zo9WQRUT3dKYnjwih2yJD9mkrocEZXo1ex8G81dwSM1fwqWpWkeS3v86pgKt", "m/0"));
 
 ?>
