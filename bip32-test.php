@@ -84,8 +84,6 @@ $base58data .= bin2hex($checksum);
 assert($base58data == $bitcoinECDSA->base58_decode('xpub661MyMwAqRbcFW31YEwpkMuc5THy2PSt5bDMsktWQcFF8syAmRUapSCGu8ED9W6oDMSgv6Zz8idoc4a6mr8BDzTJY47LJhkJ8UB7WEGuduB'));
 echo "ext pub: " . $bitcoinECDSA->base58_encode($base58data) . PHP_EOL;
 
-echo 'Chain m/0' . PHP_EOL;
-
 $cc_par = $ir; $k_par = $il;
 
 $depth = 1;
@@ -93,9 +91,16 @@ $depth = 1;
 $fingerprint = bin2hex(substr(hash('ripemd160', hash('sha256', hex2bin($pubkey), true), true), 0, 4)); // Hash160 (RIPEMD160 after SHA256)
 $fingerprint = unpack("l", hex2bin($fingerprint))[1];
 $child_number = 0;
+$hardened = 0;
+echo 'Chain m/' . $child_number . ($hardened ? "'" : "") . PHP_EOL;
 
 // hash_hmac(string $algo, string $data, string $key, bool $binary = false): string
-$i = pack("H*", hash_hmac('sha512', hex2bin($pubkey) . strrev(pack('l', $child_number)), $cc_par));
+if ($hardened) {
+    $i = pack("H*", hash_hmac('sha512', pack("C", 0x00) . $k_par . strrev(pack('l', 0x80000000 + $child_number)), $cc_par));
+} else {
+    $i = pack("H*", hash_hmac('sha512', hex2bin($pubkey) . strrev(pack('l', $child_number)), $cc_par));
+}
+
 $il = substr($i, 0, 32);  // private key (bin)
 $ir = substr($i, 32, 32); // chain code (bin)
 
@@ -111,6 +116,7 @@ $gmp2 = gmp_init(bin2hex($k_par), 16);
 $add = gmp_add($gmp1, $gmp2);
 $add = gmp_mod($add, $order);
 $ki = gmp_strval($add,16);
+$ki = str_pad($ki, 64, '0', STR_PAD_LEFT);
 
 $bitcoinECDSA->setPrivateKey($ki);
 $wif = $bitcoinECDSA->getWIF();
@@ -119,13 +125,12 @@ echo "privkey: " . $ki . " (" . $wif . ")" . PHP_EOL;
 echo " pubkey: " . $this_pubkey . PHP_EOL;
 echo "address: " . $bitcoinECDSA->getAddress() . PHP_EOL;
 
-
 echo "chncode: " . bin2hex($ir) . PHP_EOL;
 
 $base58data = "0488ade4" .
               bin2hex(pack("C", $depth)) .
               bin2hex(pack('l', $fingerprint)) .
-              bin2hex(strrev(pack('l', $child_number))) . // serialize a 32-bit unsigned integer i as a 4-byte sequence, most significant byte first.
+              bin2hex(strrev(pack('l', ($hardened ? 0x80000000 : 0x0) + $child_number))) . // serialize a 32-bit unsigned integer i as a 4-byte sequence, most significant byte first.
               bin2hex($ir) .
               "00" .
               $ki;
@@ -144,7 +149,7 @@ $pubkey = $bitcoinECDSA->getPubKey();
 $base58data = "0488b21e" .
               bin2hex(pack("C", $depth)) .
               bin2hex(pack('l', $fingerprint)) .
-              bin2hex(pack('l', $child_number)) .
+              bin2hex(strrev(pack('l', ($hardened ? 0x80000000 : 0x0) + $child_number))) .
               bin2hex($ir) .
               $pubkey;
 
