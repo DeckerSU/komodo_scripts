@@ -75,7 +75,7 @@ checkconfig()
 # --------------------------------------------------------------------------
 scriptpub2address() {
     # NN_ADDRESS=$(${komodo_cli_binary} decodescript "21${pubkey}ac" | jq -r .addresses[0])
-    NN_ADDRESS=$(curl -s --connect-timeout=1 --user "${KOMODOD_RPCUSER}:${KOMODOD_RPCPASSWORD}" --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "decodescript", "params": ["21'"$1"'ac"] }' -H 'content-type: text/plain;' "http://${KOMODOD_RPCHOST}:${KOMODO_RPCPORT}/")
+    NN_ADDRESS=$(curl -s --connect-timeout 1 --user "${KOMODOD_RPCUSER}:${KOMODOD_RPCPASSWORD}" --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "decodescript", "params": ["21'"$1"'ac"] }' -H 'content-type: text/plain;' "http://${KOMODOD_RPCHOST}:${KOMODO_RPCPORT}/")
     if [ "$(echo "${NN_ADDRESS}" | jq .error)" == null ]; then
         NN_ADDRESS=$(echo "${NN_ADDRESS}" | jq -c .result)
         if  [ "$(echo "${NN_ADDRESS}" | jq -r .type)" != "pubkey" ]; then
