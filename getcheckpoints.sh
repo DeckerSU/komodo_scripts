@@ -5,7 +5,7 @@ echo '        checkpointData = (Checkpoints::CCheckpointData)
         {
             boost::assign::map_list_of
 '
-for height in {0..2395555..50000}
+for height in {0..3648244..50000}
 do
 	block_hash=$(./komodo-cli getblockhash $height)
 	block=$(./komodo-cli getblock $block_hash)	
@@ -28,7 +28,7 @@ do
 done
 # request last block again
 #
-height=2395555
+height=3648244
 
 	block_hash=$(./komodo-cli getblockhash $height)
 	block=$(./komodo-cli getblock $block_hash)	
@@ -51,7 +51,7 @@ height=2395555
 #
 
 echo '            '$time',     // * UNIX timestamp of last checkpoint block
-            13903562,         // * total number of transactions between genesis and last checkpoint
+            21906511,         // * total number of transactions between genesis and last checkpoint
                             //   (the tx=... number in the SetBestChain debug.log lines)
             2777            // * estimated number of transactions per day after checkpoint
                             //   total number of tx / (checkpoint block height / (24 * 24))
