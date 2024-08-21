@@ -6,6 +6,8 @@
 # To use it, navigate to the Komodo (or KomodoOcean) repository's `./src` directory and then 
 # launch the script.
 
+# Don't forget to shut down Iguana using `pkill -9 iguana` before restarting the daemons.
+
 if [[ ! -x ./komodod || ! -x ./komodo-cli ]]; then
     echo "Error: ./komodod and/or ./komodo-cli not found in the current directory."
     echo "Please make sure to run this script from the Komodo repo src directory."
