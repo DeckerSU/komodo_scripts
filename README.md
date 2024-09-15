@@ -13,7 +13,7 @@ git clone https://github.com/DeckerSU/komodo_scripts
 cd komodo_scripts
 git submodule init
 git submodule update --init --recursive
-sudo apt install php7.2-cli php7.2-gmp php7.2-mbstring
+sudo apt install php-cli php-gmp php-mbstring
 ```
 
 ### How to run?
