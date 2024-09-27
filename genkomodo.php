@@ -254,7 +254,20 @@ foreach ($coins as $coin) {
     echo "     Compressed Address: " . sprintf("%34s",$address) . PHP_EOL;
     $address = $bitcoinECDSA->getUncompressedAddress();
     echo "   Uncompressed Address: " . sprintf("%34s",$address) . PHP_EOL;
-    /* bech32 */
+
+    /* P2SH-P2WPKH */
+    if ($coin["name"] === "BTC") {
+        $ripemd160 = $bitcoinECDSA->hash160(hex2bin($bitcoinECDSA->getPubKey()));
+        $redeem_script = "00" . "14" . $ripemd160;
+        $address = "05" . $bitcoinECDSA->hash160(hex2bin($redeem_script));
+        $address .= substr($bitcoinECDSA->hash256(hex2bin($address)), 0, 8);
+        $address = $bitcoinECDSA->base58_encode($address);
+        if ($bitcoinECDSA->validateAddress($address)) {
+            echo "Nested (P2WPKH-in-P2SH): " . $address . PHP_EOL;
+        }
+    }
+
+    /* P2WPKH (bech32) */
     /*
         - https://bitcointalk.org/index.php?topic=4992632
         - https://en.bitcoin.it/wiki/Bech32
