@@ -262,11 +262,11 @@ foreach ($coins as $coin) {
         - https://www.reddit.com/r/Bitcoin/comments/62fydd/pieter_wuille_lecture_on_new_bech32_address_format/?rdt=49947
         - https://learnmeabitcoin.com/technical/keys/#address-bech32
     */
-    if ($coin["name"] === "BTC") {
+    if ($coin["name"] === "BTC" || $coin["name"] === "LTC") {
         $ripemd160 = $bitcoinECDSA->hash160(pack("H*",$bitcoinECDSA->getPubKey()));
         // echo "             RIPEMD-160: " . $ripemd160 . PHP_EOL;
         $data = convert_bits(array_values(unpack('C*', hex2bin($ripemd160))), 8, 5);
-        $hrp = 'bc'; $witness_version = 0;
+        $hrp = ($coin["name"] === "BTC") ? 'bc' : (($coin["name"] === "LTC") ? 'ltc' : ''); $witness_version = 0;
         $witness_data = array_merge([$witness_version], convert_bits(array_values(unpack('C*', hex2bin($ripemd160))), 8, 5));
         $bech32_address = bech32_encode($hrp, $witness_data);
         echo "Bech32 Address (P2WPKH): " . $bech32_address . PHP_EOL;
