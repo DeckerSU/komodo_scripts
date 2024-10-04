@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>KMD Hardfork Countdown</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #1e1e1e;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+        }
+        .container {
+            border: 2px solid #4caf50;
+            padding: 30px 50px;
+            border-radius: 10px;
+            background-color: #2e2e2e;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            color: #4caf50;
+        }
+        .countdown {
+            font-size: 1.5em;
+            margin: 15px 0;
+        }
+        .countdown div {
+            margin: 10px 0;
+        }
+        .countdown span {
+            font-weight: bold;
+            color: #ffeb3b;
+        }
+        .estimated-date {
+            font-size: 1.2em;
+            margin-top: 25px;
+            color: #00e676;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #bdbdbd;
+        }
+        a {
+            color: #4caf50;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>KMD Hardfork Countdown</h1>
+        <div class="countdown">
+            <div>Current Block Height: <span id="current-height">Loading...</span></div>
+            <div>Hardfork Block Height: <span id="hf-block-height">4,125,988</span></div>
+            <div>Blocks Remaining: <span id="blocks-remaining">Loading...</span></div>
+            <div>Time Remaining: <span id="time-remaining">Loading...</span></div>
+        </div>
+        <div class="estimated-date">
+            Estimated Hardfork Date: <span id="estimated-date">Loading...</span>
+        </div>
+        <div class="footer">
+            Data fetched from <a href="https://kmdexplorer.io/" target="_blank">KMD Explorer</a>
+        </div>
+    </div>
+
+    <script>
+        const HARDFORK_BLOCK_HEIGHT = 4125988;
+        const API_BASE = 'https://kmdexplorer.io/insight-api-komodo';
+        const blocksRemainingElem = document.getElementById('blocks-remaining');
+        const timeRemainingElem = document.getElementById('time-remaining');
+        const estimatedDateElem = document.getElementById('estimated-date');
+        const currentHeightElem = document.getElementById('current-height');
+        const hfBlockHeightElem = document.getElementById('hf-block-height');
+
+        let height1 = null; // Height 1 day before
+        let height2 = null; // Height 2 days before
+        let blocksPerDay = null;
+        let blocksToHF = null;
+        let blocksPerSec = null;
+        let timeToHF = null;
+        let estimatedHFDate = null;
+
+        // Record the time when the page was opened
+        const pageOpenTime = Date.now();
+
+        // Function to format seconds to hh:mm:ss
+        function formatSeconds(seconds) {
+            const hrs = Math.floor(seconds / 3600);
+            const mins = Math.floor((seconds % 3600) / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Function to format Date to DD-MM-YY hh:mm:ss
+        function formatDate(date) {
+            const dd = String(date.getDate()).padStart(2, '0');
+            const mm = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+            const yy = String(date.getFullYear()).slice(-2);
+            const hh = String(date.getHours()).padStart(2, '0');
+            const min = String(date.getMinutes()).padStart(2, '0');
+            const ss = String(date.getSeconds()).padStart(2, '0');
+            return `${dd}-${mm}-${yy} ${hh}:${min}:${ss}`;
+        }
+
+        // Fetch current block height
+        async function fetchCurrentHeight() {
+            try {
+                const response = await fetch(`${API_BASE}/status?q=getInfo`);
+                const data = await response.json();
+                return data.info.blocks;
+            } catch (error) {
+                console.error('Error fetching current height:', error);
+                return null;
+            }
+        }
+
+        // Fetch block height for a specific date
+        async function fetchHeightByDate(dateStr) {
+            try {
+                const response = await fetch(`${API_BASE}/blocks?blockDate=${dateStr}`);
+                const data = await response.json();
+                if (data.blocks && data.blocks.length > 0) {
+                    return data.blocks[data.blocks.length - 1].height;
+                } else {
+                    console.warn(`No blocks found for date ${dateStr}`);
+                    return null;
+                }
+            } catch (error) {
+                console.error(`Error fetching height for date ${dateStr}:`, error);
+                return null;
+            }
+        }
+
+        // Initialize height1 and height2
+        async function initializeHeights() {
+            const today = new Date();
+            const yesterday = new Date(today);
+            yesterday.setDate(today.getDate() - 1);
+            const dayBeforeYesterday = new Date(today);
+            dayBeforeYesterday.setDate(today.getDate() - 2);
+
+            const format = (date) => date.toISOString().split('T')[0];
+
+            const date1 = format(yesterday);
+            const date2 = format(dayBeforeYesterday);
+
+            height1 = await fetchHeightByDate(date1);
+            height2 = await fetchHeightByDate(date2);
+
+            if (height1 && height2) {
+                blocksPerDay = height1 - height2;
+                blocksPerSec = blocksPerDay / 86400; // 86400 seconds in a day
+                console.log(`Blocks per day: ${blocksPerDay}, Blocks per second: ${blocksPerSec.toFixed(6)}`);
+            } else {
+                console.error('Failed to fetch height1 or height2.');
+            }
+        }
+
+        // Initialize and calculate estimatedHFDate
+        async function initializeCountdown() {
+            // Set Hardfork Block Height
+            hfBlockHeightElem.textContent = HARDFORK_BLOCK_HEIGHT.toLocaleString();
+
+            await initializeHeights();
+
+            const currentHeight = await fetchCurrentHeight();
+            if (currentHeight === null) {
+                blocksRemainingElem.textContent = 'Error';
+                timeRemainingElem.textContent = 'Error';
+                estimatedDateElem.textContent = 'Error';
+                currentHeightElem.textContent = 'Error';
+                return;
+            }
+
+            currentHeightElem.textContent = currentHeight.toLocaleString();
+
+            blocksToHF = HARDFORK_BLOCK_HEIGHT - currentHeight;
+            blocksRemainingElem.textContent = blocksToHF.toLocaleString();
+
+            if (!blocksPerSec) {
+                timeRemainingElem.textContent = 'Calculating...';
+                estimatedDateElem.textContent = 'Calculating...';
+                return;
+            }
+
+            timeToHF = blocksToHF / blocksPerSec; // in seconds
+
+            // Calculate Estimated Hardfork Date once
+            estimatedHFDate = new Date(pageOpenTime + timeToHF * 1000);
+            estimatedDateElem.textContent = formatDate(estimatedHFDate);
+
+            // Start the interval to update time remaining
+            setInterval(updateTimeRemaining, 1000);
+        }
+
+        // Update the time remaining
+        function updateTimeRemaining() {
+            if (!timeToHF || !estimatedHFDate) {
+                timeRemainingElem.textContent = 'Calculating...';
+                estimatedDateElem.textContent = 'Calculating...';
+                return;
+            }
+
+            const now = Date.now();
+            const remainingSeconds = Math.max((estimatedHFDate.getTime() - now) / 1000, 0);
+
+            // Update time remaining
+            timeRemainingElem.textContent = formatSeconds(remainingSeconds);
+
+            // Optionally, update the estimated date once (if you want to show real-time)
+            // estimatedDateElem.textContent = formatDate(estimatedHFDate);
+        }
+
+        // Refresh heights daily
+        async function refreshHeightsIfNeeded() {
+            const today = new Date();
+            const currentHour = today.getHours();
+            if (currentHour === 0) { // Reset heights at midnight
+                await initializeHeights();
+            }
+        }
+
+        // Start the countdown on page load
+        window.onload = initializeCountdown;
+
+        // Optionally, periodically refresh heights (e.g., every hour)
+        setInterval(refreshHeightsIfNeeded, 60 * 60 * 1000); // Every hour
+    </script>
+</body>
+</html>
