@@ -23,8 +23,9 @@ do
     # https://bitcointalk.org/index.php?topic=55852.0
     # https://en.bitcoin.it/wiki/Protocol_documentation#Message_structure
     # Newer protocol, # 18980200 - 170008 -> 1a980200 - 170010
+    # Newer protocol, # 1d980200 - 170013
 
-    payload='1a980200010000000000000011b2d05000000000010000000000000000000000000000000000ffff000000000000000000000000000000000000000000000000ffff0000000000003b2eb35d8ce617650f2f5361746f7368693a302e372e322fc03e0300';
+    payload='1d980200010000000000000011b2d05000000000010000000000000000000000000000000000ffff000000000000000000000000000000000000000000000000ffff0000000000003b2eb35d8ce617650f2f5361746f7368693a302e372e322fc03e0300';
     payload_size=$((${#payload} / 2))
     payload_size_hex=$(printf "%08x" $payload_size | dd conv=swab 2> /dev/null | rev)
     payload_sha256d=$(echo -n $payload | xxd -r -p | sha256sum --binary | cut -d" " -f1 | xxd -r -p | sha256sum --binary | cut -d" " -f1)
@@ -34,7 +35,7 @@ do
     message="f9eee48d76657273696f6e0000000000${payload_size_hex}${payload_checksum}${payload}"
     #echo -n "Checking ${ip} - "
     printf "Checking %15s - " ${ip}
-    echo ${message} | xxd -r -p | nc -w 3 -q 3 ${ip} 7770 > pattern.txt
+    echo -ne ${message} | xxd -r -p | nc -w 3 ${ip} 7770 > pattern.txt
     if [ ! -s pattern.txt ]; then
         echo "failed!"
     else
