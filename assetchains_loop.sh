@@ -4,18 +4,85 @@
 #  This is just a template for actions on ALL assetchains (loop via all ACs)
 ###
 
-komodo_cli_binary="$HOME/komodo/src/komodo-cli"
 readarray -t kmd_coins < <(curl -s https://raw.githubusercontent.com/KomodoPlatform/dPoW/master/iguana/assetchains.json | jq -r '[.[].ac_name] | join("\n")')
 # printf '%s\n' "${kmd_coins[@]}"
 
-if [[ ${#kmd_coins[@]} -eq 0 ]]; then
-  echo "Failed to fetch assetchains or no assetchains found." >&2
-  exit 1
-fi
-
-source ~/pubkey.txt
+# Initialize WIF and TO variables
 WIF=
 TO=
+
+# Function to source pubkey.txt from multiple locations
+source_pubkey() {
+  local pubkey_file
+  local found=0
+
+  # Define the search order
+  local search_paths=(
+    "$HOME/komodo/src/pubkey.txt"
+    "$HOME/KomodoOcean/src/pubkey.txt"
+    "$HOME/pubkey.txt"
+  )
+
+  # Iterate through the search paths
+  for pubkey_file in "${search_paths[@]}"; do
+    if [[ -f "$pubkey_file" ]]; then
+      echo "Found pubkey.txt at: $pubkey_file" >&2
+      source "$pubkey_file"
+      found=1
+      break
+    fi
+  done
+
+  # Check if pubkey.txt was found and sourced
+  if [[ "$found" -ne 1 ]]; then
+    echo "Error: pubkey.txt not found in any of the specified locations." >&2
+    exit 1
+  fi
+
+  # Ensure that the pubkey environment variable is set
+  if [[ -z "$pubkey" ]]; then
+    echo "Error: pubkey environment variable is not set after sourcing pubkey.txt." >&2
+    exit 1
+  fi
+
+  echo "Pubkey: \"${pubkey}\""
+}
+
+determine_komodo_cli() {
+  local cli_path
+  # Check system-wide installation
+  cli_path=$(command -v komodo-cli 2>/dev/null)
+  if [[ -x "$cli_path" ]]; then
+    echo "Found system-wide komodo-cli at: $cli_path" >&2
+    echo "$cli_path"
+    return 0
+  fi
+
+  # Check in ~/komodo/src
+  cli_path="$HOME/komodo/src/komodo-cli"
+  if [[ -x "$cli_path" ]]; then
+    echo "Found komodo-cli at: $cli_path" >&2
+    echo "$cli_path"
+    return 0
+  fi
+
+  # Check in ~/KomodoOcean/src
+  cli_path="$HOME/KomodoOcean/src/komodo-cli"
+  if [[ -x "$cli_path" ]]; then
+    echo "Found komodo-cli at: $cli_path" >&2
+    echo "$cli_path"
+    return 0
+  fi
+
+  # komodo-cli not found
+  echo "Error: komodo-cli not found in system-wide path, $HOME/komodo/src, or $HOME/KomodoOcean/src." >&2
+  exit 1
+}
+
+# Set komodo_cli_binary by determining its path
+komodo_cli_binary=$(determine_komodo_cli)
+# Call the function to source pubkey.txt
+source_pubkey
 
 gleec_count=0
 for i in "${kmd_coins[@]}"
