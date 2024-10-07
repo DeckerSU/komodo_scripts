@@ -111,11 +111,10 @@ function do_autosplit() {
 
     if [ ! -z "$1" ] && [ "$1" != "KMD" ]
     then
+        coin=$1
         if [ "$1" == "GLEEC_OLD" ]; then
-            coin="GLEEC"
             asset=" -ac_name=GLEEC -datadir=$HOME/.komodo/GLEEC_OLD"
         else
-            coin="$1"
             asset=" -ac_name=$1"
         fi
         utxo_min=${ac_utxo_min}
