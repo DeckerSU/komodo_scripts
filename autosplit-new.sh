@@ -1,18 +1,82 @@
 #!/usr/bin/env bash
 
 # Mainnet Splitfund Script (autosplit-new.sh)
-# Copyright (c) 2018-2021 Decker
+# Copyright (c) 2018-2024 Decker
+
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-komodo_cli=$HOME/komodo/src/komodo-cli
+source_pubkey() {
+  local pubkey_file
+  local found=0
 
-# NN_PUBKEY=21033178586896915e8456ebf407b1915351a617f46984001790f0cce3d6f3ada5c2ac
-# we don't need to specify pubkey anymore, as we have it in $HOME/komodo/src/pubkey.txt,
-# we will just fill environment variable ${pubkey} from there
+  # Define the search order
+  local search_paths=(
+    "$HOME/komodo/src/pubkey.txt"
+    "$HOME/KomodoOcean/src/pubkey.txt"
+    "$HOME/pubkey.txt"
+  )
 
-source $HOME/komodo/src/pubkey.txt
+  # Iterate through the search paths
+  for pubkey_file in "${search_paths[@]}"; do
+    if [[ -f "$pubkey_file" ]]; then
+      echo "Found pubkey.txt at: $pubkey_file" >&2
+      source "$pubkey_file"
+      found=1
+      break
+    fi
+  done
+
+  # Check if pubkey.txt was found and sourced
+  if [[ "$found" -ne 1 ]]; then
+    echo -e "${RED}Error:${RESET} pubkey.txt not found in any of the specified locations." >&2
+    exit 1
+  fi
+
+  # Ensure that the pubkey environment variable is set
+  if [[ -z "$pubkey" ]]; then
+    echo -e "${RED}Error:${RESET} pubkey environment variable is not set after sourcing pubkey.txt." >&2
+    exit 1
+  fi
+
+  echo -e "Pubkey: \"${pubkey}\""
+}
+
+determine_komodo_cli() {
+  local cli_path
+  # Check system-wide installation
+  cli_path=$(command -v komodo-cli 2>/dev/null)
+  if [[ -x "$cli_path" ]]; then
+    echo "Found system-wide komodo-cli at: $cli_path" >&2
+    echo "$cli_path"
+    return 0
+  fi
+
+  # Check in ~/komodo/src
+  cli_path="$HOME/komodo/src/komodo-cli"
+  if [[ -x "$cli_path" ]]; then
+    echo "Found komodo-cli at: $cli_path" >&2
+    echo "$cli_path"
+    return 0
+  fi
+
+  # Check in ~/KomodoOcean/src
+  cli_path="$HOME/KomodoOcean/src/komodo-cli"
+  if [[ -x "$cli_path" ]]; then
+    echo "Found komodo-cli at: $cli_path" >&2
+    echo "$cli_path"
+    return 0
+  fi
+
+  # komodo-cli not found
+  echo -e "${RED}Error:${RESET} komodo-cli not found in system-wide path, $HOME/komodo/src, or $HOME/KomodoOcean/src." >&2
+  exit 1
+}
+
+komodo_cli=$(determine_komodo_cli)
+
+source_pubkey
 NN_PUBKEY=21${pubkey}ac
 
 # if ACs utxos lower than ${ac_utxo_min}, then top up till ${ac_utxo_max}
@@ -45,13 +109,17 @@ function log_print() {
 
 function do_autosplit() {
 
-    if [ ! -z $1 ] && [ $1 != "KMD" ]
+    if [ ! -z "$1" ] && [ "$1" != "KMD" ]
     then
-        coin=$1
-        asset=" -ac_name=$1"
+        if [ "$1" == "GLEEC_OLD" ]; then
+            coin="GLEEC"
+            asset=" -ac_name=GLEEC -datadir=$HOME/.komodo/GLEEC_OLD"
+        else
+            coin="$1"
+            asset=" -ac_name=$1"
+        fi
         utxo_min=${ac_utxo_min}
         utxo_max=${ac_utxo_max}
-
     else
         coin="KMD"
         asset=""
@@ -122,8 +190,21 @@ readarray -t kmd_coins < <(cat $HOME/dPoW/iguana/assetchains.json | jq -r '[.[].
 # 3rd
 # declare -a kmd_coins=(KMD VRSC MCL)
 
+gleec_count=0
 for i in "${kmd_coins[@]}"
 do
-   do_autosplit "$i"
+  if [[ "$i" == "GLEEC" ]]; then
+    ((gleec_count++))
+
+    if [[ "$gleec_count" -eq 1 ]]; then
+      do_autosplit "GLEEC_OLD"
+    elif [[ "$gleec_count" -eq 2 ]]; then
+      do_autosplit "GLEEC"
+    else
+      echo -e "${YELLOW}GLEEC has been encountered more than twice. No additional actions will be performed.${RESET}" >&2
+    fi
+    continue
+  fi
+  do_autosplit "$i"
 done
 
