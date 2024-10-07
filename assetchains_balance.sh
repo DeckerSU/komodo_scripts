@@ -45,12 +45,12 @@ show_balance () {
         ac_option="-ac_name=$coin"
     fi
 
-    # Construct the komodo-cli command for getbalance
-    if [[ -n "$param" ]]; then
-        BALANCE=$($komodo_cli_binary $ac_option "$param" getbalance 2> /dev/null)
-    else
-        BALANCE=$($komodo_cli_binary $ac_option getbalance 2> /dev/null)
+    if [[ "$coin" == "GLEEC_OLD" ]]; then
+        ac_option="-ac_name=GLEEC"
     fi
+
+    # Construct the komodo-cli command for getbalance
+    BALANCE=$($komodo_cli_binary $ac_option ${param:+$param} getbalance 2> /dev/null)
 
     # Check if the balance retrieval was successful
     if [[ $? -ne 0 ]]; then
@@ -67,8 +67,10 @@ show_balance () {
     # Construct the expected scriptPubKey
     local expected_scriptPubKey="21${pubkey}ac"
 
-    # Fetch and process UTXOs
-    UTXOS=$($komodo_cli_binary $ac_option listunspent | jq --arg script "$expected_scriptPubKey" '[.[] | select(.generated == false and .amount == 0.0001 and .spendable == true and (.scriptPubKey == $script))] | length')
+    # If param is set and not empty, ${param:+$param} expands to the value of param,
+    # If param is unset or empty, ${param:+$param} expands to nothing (i.e., it omits param).
+    UTXOS=$($komodo_cli_binary $ac_option ${param:+$param} listunspent | jq --arg script "$expected_scriptPubKey" '[.[] | select(.generated == false and .amount == 0.0001 and .spendable == true and (.scriptPubKey == $script))] | length')
+
     if [[ $? -ne 0 ]]; then
         echo -e "${RED}Error:${RESET} Failed to retrieve UTXOs for '$coin'." >&2
         return 1
@@ -197,9 +199,9 @@ do
     ((gleec_count++))
 
     if [[ "$gleec_count" -eq 1 ]]; then
-      show_balance "$i" "-datadir=$HOME/.komodo/GLEEC_OLD"
+      show_balance "GLEEC_OLD" "-datadir=$HOME/.komodo/GLEEC_OLD"
     elif [[ "$gleec_count" -eq 2 ]]; then
-      show_balance "$i"
+      show_balance "GLEEC"
     else
       echo -e "${YELLOW}GLEEC has been encountered more than twice. No additional actions will be performed.${RESET}" >&2
     fi
