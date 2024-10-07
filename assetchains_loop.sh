@@ -8,6 +8,11 @@ komodo_cli_binary="$HOME/komodo/src/komodo-cli"
 readarray -t kmd_coins < <(curl -s https://raw.githubusercontent.com/KomodoPlatform/dPoW/master/iguana/assetchains.json | jq -r '[.[].ac_name] | join("\n")')
 # printf '%s\n' "${kmd_coins[@]}"
 
+if [[ ${#kmd_coins[@]} -eq 0 ]]; then
+  echo "Failed to fetch assetchains or no assetchains found." >&2
+  exit 1
+fi
+
 source ~/pubkey.txt
 WIF=
 TO=
