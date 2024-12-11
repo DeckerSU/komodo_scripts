@@ -13,6 +13,7 @@
 
 set -euo pipefail
 IFS=$'\n\t'
+export LC_ALL=C
 
 # Configuration
 LOG_FILE="$HOME/litecoin_tx.log"
@@ -95,7 +96,7 @@ log "$INPUTS"
 log "Total Amount of Selected UTXOs: $TOTAL_AMOUNT LTC"
 
 # Calculate amount to send
-AMOUNT_TO_SEND=$(echo "$TOTAL_AMOUNT - $FEE" | bc -l)
+AMOUNT_TO_SEND=$(echo "$TOTAL_AMOUNT - $FEE" | bc -l | tr -d '\n')
 AMOUNT_TO_SEND=$(printf "%.8f" "$AMOUNT_TO_SEND")
 
 # Check if amount to send is positive
