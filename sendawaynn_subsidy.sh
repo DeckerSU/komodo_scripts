@@ -114,16 +114,26 @@ log "$RAW_TX"
 
 # Sign the transaction
 log "Signing the transaction..."
-SIGNED_TX=$("$LITECOIN_CLI" signrawtransaction "$RAW_TX")
+SIGNED_TX=$("$LITECOIN_CLI" signrawtransaction "$RAW_TX" 2>/dev/null || true)
+
+# Determine signing command
+if ! echo "$SIGNED_TX" | jq -e '.complete' >/dev/null; then
+  log "signrawtransaction failed, falling back to signrawtransactionwithwallet..."
+  SIGNED_TX=$("$LITECOIN_CLI" signrawtransactionwithwallet "$RAW_TX")
+  SIGN_CMD="signrawtransactionwithwallet"
+else
+  SIGN_CMD="signrawtransaction"
+fi
+
+log "Signing command used: $SIGN_CMD"
+log "Signed Transaction:"
+log "$SIGNED_TX"
 
 # Verify if signing was complete
 if ! echo "$SIGNED_TX" | jq -e '.complete' >/dev/null; then
   echo "Error: Transaction signing incomplete."
   exit 1
 fi
-
-log "Signed Transaction:"
-log "$SIGNED_TX"
 
 # Prompt for confirmation
 read -p "Do you want to send this transaction? (yes/no): " CONFIRMATION
