@@ -131,4 +131,4 @@ Werkzeug==3.0.1
 wrapt==1.14.1
 xdg==5
 xkit==0.0.0
-zipp==1.0.0
+zipp==3.19.1
