@@ -124,7 +124,7 @@ unattended-upgrades==0.1
 urllib3==1.26.5
 usb-creator==0.3.7
 vboxapi==1.0
-virtualenv==20.17.1
+virtualenv==20.26.6
 wadllib==1.3.6
 webencodings==0.5.1
 Werkzeug==3.0.1
