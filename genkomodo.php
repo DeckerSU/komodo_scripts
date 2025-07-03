@@ -162,7 +162,8 @@ class BitcoinECDSADecker extends BitcoinECDSA {
             $Q  = $this->addPoints($P, $tG);
         }
 
-        // force Q.y to even for BIP-340 serialisation
+        // ensure Q.y is even before serialising (BIP-340/BIP-341)
+        // The Taproot address and scriptPubKey contain **only X(Q)**; they do **not** encode the Y coordinate.  Thus ±Q map to the *same* bc1p… address.
         if (gmp_testbit($Q['y'], 0)) {
             $Q['y'] = gmp_sub($this->p, $Q['y']);
         }
@@ -383,6 +384,8 @@ foreach ($coins as $coin) {
         // https://en.bitcoin.it/wiki/BIP_0340
         // https://en.bitcoin.it/wiki/BIP_0341
         // https://bitcoin.stackexchange.com/questions/116384/what-are-the-steps-to-convert-a-private-key-to-a-taproot-address
+        // https://bitcoin.stackexchange.com/questions/99325/how-do-i-construct-a-p2tr-address-if-i-just-want-to-use-the-key-path
+        // https://github.com/bitcoinops/taproot-workshop/blob/master/2.2-taptweak.ipynb
         echo " Taproot Address (P2TR): " . $bitcoinECDSA->getTaprootAddress(). " [untested]" . PHP_EOL;
 
 
