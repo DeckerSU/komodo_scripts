@@ -114,6 +114,66 @@ class BitcoinECDSADecker extends BitcoinECDSA {
 
         return $this->base58_encode($secretKey);
     }
+
+    // AI generated (!), use at your own risk ...
+    //
+    /**
+     * Return a BIP-86 Taproot address (bc1p… / tb1p…)
+     * for the *current* private key held by this object.
+     *
+     *  – Step 0  : derive the internal key P from the private key
+     *              and flip it to even-Y if required (BIP-340 rule);
+     *  – Step 1  : tweak   t = tagged_hash("TapTweak", Px);
+     *  – Step 2  : Q = P + t·G   (elliptic-curve addition);
+     *              again force Q to have an even Y coordinate;
+     *  – Step 3  : witness program = x(Q),
+     *              encode   ver(1)‖program   with Bech32m.
+     *
+     * @param string $hrp  Human-readable part:  'bc' for main-net, 'tb' for test-net.
+     * @return string      Taproot address.
+     */
+    public function getTaprootAddress(string $hrp = 'bc'): string
+    {
+        /* ---------- internal key P (even-Y) -------------------- */
+        $Phex = $this->getPubKeyPoints();                     // ['x'=>hex,'y'=>hex]
+        $P    = [
+            'x' => gmp_init($Phex['x'], 16),
+            'y' => gmp_init($Phex['y'], 16)
+        ];
+
+        // BIP-340 requires the x-only key to correspond to an *even* Y
+        if (gmp_testbit($P['y'], 0)) {                        // odd → negate
+            $P['y'] = gmp_sub($this->p, $P['y']);
+        }
+
+        /* ---------- BIP-86 tweak  t = H_TapTweak(Px) ----------- */
+        $tag   = hash('sha256', 'TapTweak', true);            // tag hash
+        $t     = gmp_init(
+                    bin2hex(hash('sha256', $tag . $tag . hex2bin($Phex['x']), true)),
+                    16
+                );
+        $t     = gmp_mod($t, $this->n);                       // scalar in [0,n)
+
+        /* ---------- Q = P + t·G ------------------------------- */
+        $Q = $P;                                              // t = 0 → no change
+        if (gmp_cmp($t, 0) !== 0) {
+            // mulPoint() gives coordinates as GMP objects already
+            $tG = $this->mulPoint(gmp_strval($t, 16), $this->G);
+            $Q  = $this->addPoints($P, $tG);
+        }
+
+        // force Q.y to even for BIP-340 serialisation
+        if (gmp_testbit($Q['y'], 0)) {
+            $Q['y'] = gmp_sub($this->p, $Q['y']);
+        }
+
+        /* ---------- Bech32m address ---------------------------- */
+        $xHex   = str_pad(gmp_strval($Q['x'], 16), 64, '0', STR_PAD_LEFT);
+        $prog   = convert_bits(array_values(unpack('C*', hex2bin($xHex))), 8, 5);
+        $data   = array_merge([1], $prog);                    // witness-ver || prog
+
+        return bech32m_encode($hrp, $data);
+    }
 }
 
 // bech32 related functions
@@ -195,6 +255,28 @@ function convert_bits($data, $from_bits, $to_bits, $pad = true) {
 
 function bytesArrayToHexString(array $bytes): string {
     return implode('', array_map(fn($byte) => sprintf('%02x', $byte), $bytes));
+}
+
+/* ---------- Bech32m helpers ---------- */
+const BECH32M_CONST = 0x2bc830a3; // https://en.bitcoin.it/wiki/BIP_0350
+
+function bech32m_create_checksum($hrp, $data) {
+    $values   = array_merge(bech32_hrp_expand($hrp), $data, [0,0,0,0,0,0]);
+    $polymod  = bech32_polymod($values) ^ BECH32M_CONST; // instead of 1 in classic Bech32
+    $checksum = [];
+    for ($i = 0; $i < 6; $i++) {
+        $checksum[] = ($polymod >> (5 * (5 - $i))) & 31;
+    }
+    return $checksum;
+}
+
+function bech32m_encode($hrp, $data) {
+    $combined = array_merge($data, bech32m_create_checksum($hrp, $data));
+    $str = $hrp . '1';
+    foreach ($combined as $c) {
+        $str .= BECH32_CHARSET[$c];
+    }
+    return $str;
 }
 
 $bitcoinECDSA = new BitcoinECDSADecker();
@@ -283,6 +365,27 @@ foreach ($coins as $coin) {
         $witness_data = array_merge([$witness_version], convert_bits(array_values(unpack('C*', hex2bin($ripemd160))), 8, 5));
         $bech32_address = bech32_encode($hrp, $witness_data);
         echo "Bech32 Address (P2WPKH): " . $bech32_address . PHP_EOL;
+    }
+
+    /* P2WSH (bech32) */
+    if ($coin["name"] === "BTC") {
+        $redeem_script_p2wsh_hex = hash('sha256',hex2bin("21".$bitcoinECDSA->getPubKey()."ac")); // 0x21 (33 bytes) & Compressed public key & OP_CHECKSIG
+        $witness_data_p2wsh = array_merge([$witness_version], convert_bits(array_values(unpack('C*', hex2bin($redeem_script_p2wsh_hex))), 8, 5));
+        $bech32_address_p2wsh = bech32_encode($hrp, $witness_data_p2wsh);
+        echo " Bech32 Address (P2WSH): " . $bech32_address_p2wsh . " [untested]" . PHP_EOL;
+    }
+
+    /* ---------- Taproot address (P2TR, bc1p…) ---------- */
+    if ($coin["name"] === "BTC") {
+        $compressedPub  = $bitcoinECDSA->getPubKey(); // 02… / 03…
+        // https://learnmeabitcoin.com/technical/upgrades/taproot/#tweaked-public-key
+        // https://secretscan.org/Bech32
+        // https://en.bitcoin.it/wiki/BIP_0340
+        // https://en.bitcoin.it/wiki/BIP_0341
+        // https://bitcoin.stackexchange.com/questions/116384/what-are-the-steps-to-convert-a-private-key-to-a-taproot-address
+        echo " Taproot Address (P2TR): " . $bitcoinECDSA->getTaprootAddress(). " [untested]" . PHP_EOL;
+
+
     }
 }
 
