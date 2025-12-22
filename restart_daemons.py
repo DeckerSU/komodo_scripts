@@ -19,6 +19,7 @@ from typing import List, Dict, Optional
 # ANSI color codes
 YELLOW = '\033[33m'
 GRAY = '\033[90m'
+RED = '\033[31m'
 RESET = '\033[0m'
 
 # Configuration
@@ -89,7 +90,12 @@ def find_komodo_processes() -> List[DaemonInfo]:
                     try:
                         actual_binary = os.readlink(f'/proc/{pid}/exe')
                         if actual_binary:
-                            binary = actual_binary
+                            # Check if binary was deleted
+                            if actual_binary.endswith(' (deleted)'):
+                                binary = actual_binary[:-10]  # Remove " (deleted)"
+                                print(f"{RED}Warning: Binary was deleted for PID {pid}: {binary}{RESET}", file=sys.stderr)
+                            else:
+                                binary = actual_binary
                     except (OSError, FileNotFoundError):
                         # Fallback to parsed binary if /proc/PID/exe is not available
                         pass
