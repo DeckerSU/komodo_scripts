@@ -504,7 +504,12 @@ def main():
         daemon.rpcbind = config['rpcbind']
         
         if not daemon.rpcport:
-            print(f"    Warning: No RPC port found in config for PID {daemon.pid}")
+            # Use default port 7771 for KMD if RPC port is not found in config
+            if not daemon.ac_name or daemon.ac_name == 'KMD':
+                daemon.rpcport = '7771'
+                print(f"    No RPC port found in config for PID {daemon.pid}, using default port 7771 for KMD")
+            else:
+                print(f"    Warning: No RPC port found in config for PID {daemon.pid}")
     
     # Step 3: Ask for confirmation before stopping
     print("\n[Step 3] Confirmation required before stopping daemons...")
