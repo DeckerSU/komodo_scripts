@@ -16,6 +16,19 @@ import sys
 import time
 import urllib.request
 from pathlib import Path
+from typing import Optional, Tuple
+
+GREEN = "\033[32m"
+RED = "\033[31m"
+RESET = "\033[0m"
+
+
+def ok(s: str) -> str:
+    return f"{GREEN}{s}{RESET}"
+
+
+def err(s: str) -> str:
+    return f"{RED}{s}{RESET}"
 
 SEED_NODES_JSON_URL = (
     "https://raw.githubusercontent.com/GLEECBTC/coins/refs/heads/master/seed-nodes.json"
@@ -59,7 +72,7 @@ def is_port_open(host: str, port: int, timeout: float = 3.0) -> bool:
         return False
 
 
-def is_wss_ssl_valid(host: str, port: int, timeout: float = 5.0) -> tuple[bool, str, float | None]:
+def is_wss_ssl_valid(host: str, port: int, timeout: float = 5.0) -> Tuple[bool, str, Optional[float]]:
     """Check WSS port SSL certificate is not expired. Returns (ok, message, days_left or None)."""
     try:
         ctx = ssl.create_default_context()
@@ -110,14 +123,20 @@ def main() -> None:
             dead += 1
             continue
         open_ = is_port_open(host, port, timeout=timeout)
-        port_status = "OK" if open_ else "closed"
-        ssl_ok, ssl_msg, days_left = is_wss_ssl_valid(host, wss_port, timeout=5.0)
-        if ssl_ok and days_left is not None:
-            ssl_status = f"{ssl_msg} ({int(days_left)} days left)"
+        port_status = ok("OK") if open_ else err("closed")
+        check_wss = node.get("wss", True)
+        if check_wss:
+            ssl_ok, ssl_msg, days_left = is_wss_ssl_valid(host, wss_port, timeout=5.0)
+            if ssl_ok and days_left is not None:
+                ssl_status = ok(f"{ssl_msg} ({int(days_left)} days left)")
+            else:
+                ssl_status = ok(ssl_msg) if ssl_ok else err(f"WSS SSL: {ssl_msg}")
+            wss_info = f", wss={wss_port} — {ssl_status}"
         else:
-            ssl_status = ssl_msg if ssl_ok else f"WSS SSL: {ssl_msg}"
+            ssl_ok = True
+            wss_info = f", wss={wss_port} — skipped"
         node_ok = open_ and ssl_ok
-        print(f"{name} ({host}): netid={netid} port={port} — {port_status}, wss={wss_port} — {ssl_status}")
+        print(f"{name} ({host}): netid={netid} port={port} — {port_status}{wss_info}")
         if node_ok:
             working += 1
         else:
