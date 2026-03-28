@@ -9,6 +9,27 @@
 # from FROM_ADDRESS with given FROM_PRIVKEY. Insight explorer API will used for listunspent and 
 # komodod for signing transaction. If somebody will able to modify this script to use openssl for signing
 # tx instead of komodod - it would be nice. PRs are welcome.
+# You must broadcast the signed transaction (sendrawtransaction)
+# Options:
+
+NN_ADDRESS=RDeckerSubnU8QVgrhj27apzUvbVK3pnTk
+NN_PUBKEY=0249eee7a3ad854f1d22c467b42dc73db94af7ce7837e15bfcf82f195cd5490d76
+NN_HASH160=2fedd5f73d46db8db8625eb5816dfb21f94529e2
+# To convert Raddress to hash160, https://bitcoinvalued.com/tools.php
+
+FROM_ADDRESS=RD6GgnrMpPaTSMn8vai6yiGA7mN4QGPVMY
+FROM_HASH160=29cfc6376255a78451eeb4b129ed8eacffa2feef
+FROM_PUBKEY=000000000000000000000000000000000000000000000000000000000000000000
+FROM_PRIVKEY=Up1YVLk7uuErCHVQyFCtfinZngmdwfyfc47WCQ8oJxgowEbuo6t4
+
+CHANGE_HASH160=29cfc6376255a78451eeb4b129ed8eacffa2feef
+
+# Replace with values of rpcuser, rpcpassword and rpcport from komodo.conf
+curluser=user
+curlpass=pass
+curlport=7771
+
+# end of options
 
 RESET="\033[0m"
 BLACK="\033[30m"    
@@ -19,15 +40,6 @@ BLUE="\033[34m"
 MAGENTA="\033[35m"  
 CYAN="\033[36m"     
 WHITE="\033[37m"    
-
-NN_ADDRESS=RDeckerSubnU8QVgrhj27apzUvbVK3pnTk
-NN_PUBKEY=0249eee7a3ad854f1d22c467b42dc73db94af7ce7837e15bfcf82f195cd5490d76
-NN_HASH160=2fedd5f73d46db8db8625eb5816dfb21f94529e2
-
-FROM_ADDRESS=RD6GgnrMpPaTSMn8vai6yiGA7mN4QGPVMY
-FROM_HASH160=29cfc6376255a78451eeb4b129ed8eacffa2feef
-FROM_PUBKEY=000000000000000000000000000000000000000000000000000000000000000000
-FROM_PRIVKEY=Up1YVLk7uuErCHVQyFCtfinZngmdwfyfc47WCQ8oJxgowEbuo6t4
 
 SPLIT_VALUE=0.0001
 SPLIT_VALUE_SATOSHI=$(jq -n "$SPLIT_VALUE*100000000")
@@ -81,7 +93,7 @@ if [[ $utxo != "null" ]]; then
 	echo "Change:" $change "("$change_satoshis")"
 	value=$(printf "%016x" $change_satoshis | dd conv=swab 2> /dev/null | rev)
 	rawtx=$rawtx$value
-	rawtx=$rawtx"1976a914"$FROM_HASH160"88ac" # len OP_DUP OP_HASH160 len hash OP_EQUALVERIFY OP_CHECKSIG
+	rawtx=$rawtx"1976a914"$CHANGE_HASH160"88ac" # len OP_DUP OP_HASH160 len hash OP_EQUALVERIFY OP_CHECKSIG
   else
 	# more than 252 outputs not handled now (!) TODO
 	echo -e $RED"Error!"$RESET" More than 252 outputs not handled now!"
@@ -101,9 +113,6 @@ fi
 # signrawtransaction hex "[]" "[\"privkey\"]"
 
 curdir=$(pwd)
-curluser=user
-curlpass=pass
-curlport=7771
 signed=$(curl -s --user $curluser:$curlpass --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "signrawtransaction", "params": ["'$rawtx'", [], ["'$FROM_PRIVKEY'"]]}' -H 'content-type: text/plain;' http://127.0.0.1:$curlport/ | jq -r .result.hex)
 
 echo -e '\n'
