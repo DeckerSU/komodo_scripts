@@ -581,6 +581,100 @@ def print_results_group(title: str, results: List[TestResult]) -> None:
             print(f"  Error    : {r.error}")
 
 
+# ── Current tip ───────────────────────────────────────────────────────────────
+
+async def _tip_via_tcp(server: Server) -> Tuple[int, str]:
+    """Return (height, block_hash) for the chain tip using a TCP/SSL connection."""
+    ctx = _make_ssl_ctx() if server.protocol == Protocol.SSL else None
+    reader, writer = await asyncio.wait_for(
+        asyncio.open_connection(server.host, server.port, ssl=ctx),
+        timeout=TIMEOUT,
+    )
+    try:
+        # mandatory handshake
+        r0 = await _tcp_call(reader, writer, "server.version",
+                             [CLIENT_NAME, PROTOCOL_VERSION], 1)
+        if r0.get("error"):
+            raise RuntimeError(f"server.version: {r0['error']}")
+
+        resp = await _tcp_call(reader, writer, "blockchain.headers.subscribe", [], 2)
+        if resp.get("error"):
+            raise RuntimeError(f"blockchain.headers.subscribe: {resp['error']}")
+        result = resp.get("result", {})
+        height: int = int(result["height"])
+        blk_hash = _block_hash_from_header_hex(result.get("hex", "")) or "?"
+        return height, blk_hash
+    finally:
+        writer.close()
+        try:
+            await writer.wait_closed()
+        except Exception:
+            pass
+
+
+async def _tip_via_wss(server: Server) -> Tuple[int, str]:
+    """Return (height, block_hash) for the chain tip using a WSS connection."""
+    if not HAS_WEBSOCKETS:
+        raise RuntimeError("websockets not installed")
+    ctx = _make_ssl_ctx()
+    uri = f"wss://{server.host}:{server.port}"
+    async with websockets.connect(uri, ssl=ctx, open_timeout=TIMEOUT) as ws:
+        # mandatory handshake
+        await ws.send(json.dumps({"id": 1, "method": "server.version",
+                                  "params": [CLIENT_NAME, PROTOCOL_VERSION]}))
+        r0 = json.loads(await asyncio.wait_for(ws.recv(), timeout=TIMEOUT))
+        if r0.get("error"):
+            raise RuntimeError(f"server.version: {r0['error']}")
+
+        await ws.send(json.dumps({"id": 2, "method": "blockchain.headers.subscribe", "params": []}))
+        resp = json.loads(await asyncio.wait_for(ws.recv(), timeout=TIMEOUT))
+        if resp.get("error"):
+            raise RuntimeError(f"blockchain.headers.subscribe: {resp['error']}")
+        result = resp.get("result", {})
+        height: int = int(result["height"])
+        blk_hash = _block_hash_from_header_hex(result.get("hex", "")) or "?"
+        return height, blk_hash
+
+
+async def fetch_current_tip(server: Server) -> Optional[Tuple[int, str]]:
+    """Query the chain tip from *server*; return (height, hash) or None on error."""
+    try:
+        if server.protocol in (Protocol.TCP, Protocol.SSL):
+            return await _tip_via_tcp(server)
+        if server.protocol == Protocol.WSS:
+            return await _tip_via_wss(server)
+    except Exception:
+        pass
+    return None
+
+
+async def print_current_tip(results: List[TestResult]) -> None:
+    """Pick the first passing server (SSL preferred) and display the current tip."""
+    order = [Protocol.SSL, Protocol.TCP, Protocol.WSS]
+    candidates: List[TestResult] = []
+    for proto in order:
+        candidates += [r for r in results if r.ok and r.server.protocol == proto]
+    candidates += [r for r in results if r.ok and r.server.protocol not in order]
+
+    tip = None
+    source: Optional[Server] = None
+    for r in candidates:
+        tip = await fetch_current_tip(r.server)
+        if tip is not None:
+            source = r.server
+            break
+
+    print(f"\n{'─' * 64}")
+    if tip is not None:
+        height, blk_hash = tip
+        print(f"  {C_BOLD}Current tip{C_RESET}  (via {source}  [{_proto_label(source.protocol)}])")
+        print(f"  Height : {C_BOLD}{height}{C_RESET}")
+        print(f"  Hash   : {blk_hash}")
+    else:
+        print(f"  {C_YELLOW}Current tip: could not retrieve (no reachable server){C_RESET}")
+    print()
+
+
 # ── Entry point ────────────────────────────────────────────────────────────────
 
 async def main(coin: str) -> None:
@@ -637,6 +731,8 @@ async def main(coin: str) -> None:
     print(f"\n{'─' * 64}")
     print(f"  Total: {ok_col}{total_ok}/{len(results)}{C_RESET} passed")
     print()
+
+    await print_current_tip(results)
 
 
 def _parse_args() -> argparse.Namespace:
