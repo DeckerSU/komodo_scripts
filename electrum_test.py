@@ -366,7 +366,7 @@ async def test_tcp(server: Server) -> TestResult:
 
     except Exception as exc:
         return TestResult(server=server, ok=False,
-                          error=str(exc),
+                          error=str(exc) or type(exc).__name__,
                           elapsed_ms=(time.monotonic() - t0) * 1000)
 
 
@@ -425,7 +425,7 @@ async def test_ssl(server: Server) -> TestResult:
 
     except Exception as exc:
         return TestResult(server=server, ok=False,
-                          error=str(exc),
+                          error=str(exc) or type(exc).__name__,
                           elapsed_ms=(time.monotonic() - t0) * 1000)
 
 
@@ -498,7 +498,7 @@ async def test_wss(server: Server) -> TestResult:
 
     except Exception as exc:
         return TestResult(server=server, ok=False,
-                          error=str(exc),
+                          error=str(exc) or type(exc).__name__,
                           elapsed_ms=(time.monotonic() - t0) * 1000)
 
 
