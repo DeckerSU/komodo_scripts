@@ -121,7 +121,7 @@ ubuntu-pro-client==8001
 ufw==0.36.1
 ujson==1.35
 unattended-upgrades==0.1
-urllib3==1.26.5
+urllib3==1.26.19
 usb-creator==0.3.7
 vboxapi==1.0
 virtualenv==20.17.1
