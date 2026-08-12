@@ -1,5 +1,5 @@
 ansible==9.4.0
-ansible-core==2.16.6
+ansible-core==2.17.7
 apturl==0.5.2
 base58==1.0.3
 bcrypt==3.2.0
